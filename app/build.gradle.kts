@@ -1,9 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-parcelize")
     kotlin("plugin.serialization") version "1.9.0"
     alias(libs.plugins.safeargs)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+
 
 }
 
@@ -59,4 +61,11 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.converter.kotlinx.serialization)
     implementation(libs.kotlinx.serialization.json)
+
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+}
+kapt {
+    correctErrorTypes =  true
 }
