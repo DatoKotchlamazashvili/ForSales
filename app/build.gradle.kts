@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.safeargs)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 
 
 }
@@ -24,7 +25,13 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField("String","BASE_URL","\"http://192.168.100.249:8080/api/\"")
+        }
+
         release {
+            buildConfigField("String","BASE_URL","\"http://192.168.100.249:8080/api/\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -41,6 +48,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -56,11 +64,23 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.converter.kotlinx.serialization)
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.room.paging)
+
+    implementation(libs.androidx.swiperefreshlayout)
+
+    implementation(libs.glide)
 
 
     implementation(libs.hilt.android)
