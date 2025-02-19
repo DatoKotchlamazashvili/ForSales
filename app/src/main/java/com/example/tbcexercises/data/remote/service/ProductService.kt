@@ -4,6 +4,7 @@ import com.example.tbcexercises.data.remote.response.HomePaginatedResponse
 import com.example.tbcexercises.data.remote.response.ProductResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ProductService {
@@ -14,5 +15,5 @@ interface ProductService {
     ): HomePaginatedResponse
 
     @GET("products/{id}")
-    suspend fun getProductById(@Query("id") id : Int) : Response<List<ProductResponse>>
+    suspend fun getProductById(@Path("id") id : Int) : Response<List<ProductResponse>>
 }

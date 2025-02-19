@@ -9,15 +9,28 @@
         android:id="@+id/homeFragment"
         android:name="com.example.tbcexercises.presentation.home_screen.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.example.tbcexercises.presentation.detail_screen.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.example.tbcexercises.presentation.favourite_screen.FavouriteFragment"
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.tbcexercises.presentation.cart_screen.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
+    <dialog
+        android:id="@+id/detailFragment"
+        android:name="com.example.tbcexercises.presentation.detail_screen.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="productID"
+            app:argType="integer" />
+    </dialog>
 </navigation>

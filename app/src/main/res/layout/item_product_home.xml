@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_margin="8dp"
+    android:background="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgProduct"
@@ -20,8 +19,8 @@
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
 
@@ -30,12 +29,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:maxLines="2"
             android:ellipsize="end"
-            app:layout_constraintStart_toStartOf="parent"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgProduct"
             tools:text="ფარში დიდგორი 900 გრ" />
 
@@ -44,12 +44,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            android:textColor="#666666"
-            android:maxLines="1"
             android:ellipsize="end"
-            app:layout_constraintStart_toStartOf="parent"
+            android:maxLines="1"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtProductName"
             tools:text="ხორცი  ნახევარფაბრიკატები" />
 
@@ -57,10 +57,10 @@
             android:id="@+id/txtPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/green"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="#4CAF50"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtCategory"
             tools:text="₾8.87" />
@@ -68,14 +68,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCompanies"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintStart_toEndOf="@id/txtPrice"
+            app:layout_constraintBottom_toBottomOf="@id/txtPrice"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/txtPrice"
-            app:layout_constraintBottom_toBottomOf="@id/txtPrice" />
+            app:layout_constraintStart_toEndOf="@id/txtPrice"
+            app:layout_constraintTop_toTopOf="@id/txtPrice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

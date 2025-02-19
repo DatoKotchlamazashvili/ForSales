@@ -3,15 +3,18 @@ package com.example.tbcexercises.presentation.home_screen.product_list_adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionScene.Transition.TransitionOnClick
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductHomeBinding
+import com.example.tbcexercises.domain.model.ProductDetail
 import com.example.tbcexercises.domain.model.ProductHome
 import com.example.tbcexercises.presentation.home_screen.company_list_adapter.CompanyListAdapter
 
-class ProductHomeAdapter :
+class ProductHomeAdapter(val onClick: (Int) -> Unit) :
     PagingDataAdapter<ProductHome, ProductHomeAdapter.ProductHomeViewHolder>(ProductHomeDiffUtil) {
 
 
@@ -28,25 +31,39 @@ class ProductHomeAdapter :
     inner class ProductHomeViewHolder(private val binding: ItemProductHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind() {
+            //will have null pointer problem
+            val product = getItem(bindingAdapterPosition)
 
-            val product = getItem(bindingAdapterPosition)!!
-            Glide.with(binding.imgProduct.context)
-                .load(product.productImgUrl)
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_error)
-                .into(binding.imgProduct)
+            product?.let {
+
+                Glide.with(binding.imgProduct.context)
+                    .load(product.productImgUrl)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_error)
+                    .into(binding.imgProduct)
 
 
-            binding.apply {
-                txtProductName.text = product.productName
-                txtPrice.text = "₾" + product.productPrice.toString()
-                txtCategory.text = product.productCategory
+                binding.apply {
+                    txtProductName.text = product.productName
+                    txtPrice.text = "₾" + product.productPrice.toString()
+                    txtCategory.text = product.productCategory
+
+                    root.setOnClickListener {
+                        onClick(product.productId)
+                        Log.d("productIDhomeadapter",product.productId.toString())
+                    }
+
+                }
+                Log.d("product", product.toString())
+
+                val companyAdapter = CompanyListAdapter()
+                binding.rvCompanies.layoutManager =
+                    LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                binding.rvCompanies.adapter = companyAdapter
+                companyAdapter.submitList(product.company)
+
 
             }
-            Log.d("product",product.toString())
-
-            val companyAdapter = CompanyListAdapter()
-            companyAdapter.submitList(product.company)
         }
     }
 }
