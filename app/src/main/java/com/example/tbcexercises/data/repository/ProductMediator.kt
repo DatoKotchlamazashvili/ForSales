@@ -64,7 +64,7 @@ class ProductMediator @Inject constructor(
                 // clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
                     appDatabase.remoteKeysDao().clearRemoteKeys()
-                    appDatabase.productsDao().clearUsers()
+                    appDatabase.productsDao().clearProducts()
                 }
                 val prevKey = if (page == PRODUCT_STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -89,14 +89,14 @@ class ProductMediator @Inject constructor(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, ProductHomeEntity>): RemoteKeyEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { product ->
-                appDatabase.remoteKeysDao().remoteKeyByUserId(product.productId)
+                appDatabase.remoteKeysDao().remoteKeyByProductId(product.productId)
             }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, ProductHomeEntity>): RemoteKeyEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { product ->
-                appDatabase.remoteKeysDao().remoteKeyByUserId(product.productId)
+                appDatabase.remoteKeysDao().remoteKeyByProductId(product.productId)
             }
     }
 
@@ -105,7 +105,7 @@ class ProductMediator @Inject constructor(
     ): RemoteKeyEntity? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.productId?.let { productId ->
-                appDatabase.remoteKeysDao().remoteKeyByUserId(productId)
+                appDatabase.remoteKeysDao().remoteKeyByProductId(productId)
             }
         }
     }

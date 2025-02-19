@@ -16,5 +16,5 @@ interface ProductDao {
     fun getProducts(): PagingSource<Int, ProductHomeEntity>
 
     @Query("DELETE FROM product_home_entity")
-    suspend fun clearUsers()
+    suspend fun clearProducts()
 }

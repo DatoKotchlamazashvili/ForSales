@@ -82,6 +82,8 @@ dependencies {
 
     implementation(libs.glide)
 
+    implementation(libs.androidx.datastore.preferences)
+
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

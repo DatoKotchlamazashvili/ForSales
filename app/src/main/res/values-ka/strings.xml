@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TbcExercises</string>
+    <string name="retry">ხელახლა ცდა</string>
+    <string name="timeout">დრო გავიდა</string>
+    <string name="cart">კალათა</string>
+    <string name="home">სახლი</string>
+    <string name="favourites">ფავორიტები</string>
+
+
+</resources>
