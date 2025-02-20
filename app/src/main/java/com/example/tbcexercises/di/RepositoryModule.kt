@@ -5,12 +5,14 @@ import com.example.tbcexercises.data.repository.SignInRepositoryImpl
 import com.example.tbcexercises.data.repository.SignOutRepositoryImpl
 import com.example.tbcexercises.data.repository.SignUpRepositoryImpl
 import com.example.tbcexercises.data.repository.UserPreferencesRepositoryImpl
+import com.example.tbcexercises.data.repository.UserRepositoryImpl
 import com.example.tbcexercises.domain.image_loader.ImageLoader
 import com.example.tbcexercises.domain.repository.ProductRepository
 import com.example.tbcexercises.domain.repository.SignInRepository
 import com.example.tbcexercises.domain.repository.SignOutRepository
 import com.example.tbcexercises.domain.repository.SignUpRepository
 import com.example.tbcexercises.domain.repository.UserPreferencesRepository
+import com.example.tbcexercises.domain.repository.UserRepository
 import com.example.tbcexercises.utils.GlideImageLoader
 import dagger.Binds
 import dagger.Module
@@ -41,5 +43,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindSignUpRepository(impl: SignUpRepositoryImpl): SignUpRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
 
 }

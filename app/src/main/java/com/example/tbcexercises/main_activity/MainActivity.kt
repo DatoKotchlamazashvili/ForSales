@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observers(navController: NavController) {
-        lifecycleScope.launch {
+        runBlocking{
             val rememberMe = viewModel.rememberMe.first()
             delay(1000L)
             if (rememberMe) {
