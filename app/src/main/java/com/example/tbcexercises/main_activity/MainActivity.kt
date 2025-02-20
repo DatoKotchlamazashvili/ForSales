@@ -1,24 +1,26 @@
 package com.example.tbcexercises.main_activity
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ActivityMainBinding
-import com.example.tbcexercises.domain.model.Language
+import com.example.tbcexercises.utils.Constants.languages
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -30,7 +32,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
+    private var keepSplash = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { keepSplash }
+
         super.onCreate(savedInstanceState)
         applySavedLocale()
 
@@ -43,12 +50,30 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fvcNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-        binding.bottomNavigationView.setupWithNavController(navController)
+
+        observers(navController)
+        setUpBottomBarAndAppBar(navController)
 
         setupLanguageSpinner()
+
+
+    }
+
+    private fun observers(navController: NavController) {
+        lifecycleScope.launch {
+            val rememberMe = viewModel.rememberMe.first()
+            delay(1000L)
+            if (rememberMe) {
+                navController.navigate(R.id.homeFragment)
+            } else {
+                navController.navigate(R.id.navigation)
+            }
+            keepSplash = false
+        }
 
         lifecycleScope.launch {
             viewModel.languagePreference.collectLatest { language ->
@@ -57,14 +82,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showViews(bottomNav: Boolean, appBar: Boolean = true) {
+        binding.apply {
+            bottomNavigationView.isVisible = bottomNav
+            topAppBar.isVisible = appBar
+        }
+    }
+
+    private fun setUpBottomBarAndAppBar(navController: NavController) {
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.loginFragment -> showViews(bottomNav = false)
+                R.id.registerFragment -> showViews(bottomNav = false)
+                else -> showViews(bottomNav = true)
+            }
+        }
+    }
+
     private fun setupLanguageSpinner() {
-        val languages = listOf(
-            Language("en", R.drawable.ic_flag_english),
-            Language("ka", R.drawable.iic_flag_georgia)
-        )
+
 
         val adapter = LanguageSpinnerAdapter(this, languages)
         binding.languageSpinner.adapter = adapter
+
+        lifecycleScope.launch {
+            val savedLanguage = viewModel.languagePreference.first()
+            val selectedIndex = languages.indexOfFirst { it.name == savedLanguage }
+            if (selectedIndex >= 0) {
+                binding.languageSpinner.setSelection(selectedIndex)
+            }
+        }
 
         binding.languageSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -76,14 +125,14 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     val selectedLanguage = languages[position].name
                     Log.d("languageSelected", selectedLanguage)
-
-                    viewModel.setSession(selectedLanguage)
+                    if (resources.configuration.locales[0].language != selectedLanguage) {
+                        viewModel.setSession(selectedLanguage, null)
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
     }
-
 
     private fun loadLocale(language: String) {
         val currentLanguage = resources.configuration.locales[0].language
@@ -97,11 +146,8 @@ class MainActivity : AppCompatActivity() {
             config.setLocale(locale)
             resources.updateConfiguration(config, resources.displayMetrics)
 
-            //createConfigurationContext(config)
-            viewModel.setSession(language)
-
+            viewModel.setSession(language, null)
             recreate()
-
         }
     }
 
@@ -112,14 +158,13 @@ class MainActivity : AppCompatActivity() {
 
         val locale = Locale(language)
         Locale.setDefault(locale)
-
         val config = Configuration()
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
-
-        //createConfigurationContext(config)
     }
 
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.logout()
+    }
 }

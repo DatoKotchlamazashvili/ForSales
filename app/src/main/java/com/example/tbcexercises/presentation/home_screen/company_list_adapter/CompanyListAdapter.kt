@@ -4,14 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemCompanyBinding
 import com.example.tbcexercises.domain.model.Company
+import com.example.tbcexercises.utils.GlideImageLoader
 
 class CompanyListAdapter :
     ListAdapter<Company, CompanyListAdapter.CompanyListViewHolder>(CompanyDiffUtil) {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyListViewHolder {
         val binding = ItemCompanyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,13 +25,7 @@ class CompanyListAdapter :
         fun onBind() {
             val company = getItem(bindingAdapterPosition)
 
-            Glide.with(binding.imgCompanyLogo)
-                .load(company.companyImgUrl)
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_error)
-                .into(binding.imgCompanyLogo)
-
-
+            GlideImageLoader.loadImage(binding.imgCompanyLogo, company.companyImgUrl)
         }
     }
 

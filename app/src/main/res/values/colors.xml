@@ -5,5 +5,9 @@
     <color name="slightlyDarkerWhite">#EEEEEE</color>
     <color name="green">#0DD717</color>
     <color name="gray">#757575</color>
-
+    <color name="red">#E00A0A</color>
+    <color name="cyan">#018B9B</color>
+    <color name="light_cyan">#00E0FD</color>
+    <color name="background_start">#FFFFFF</color>
+    <color name="background_end">#F5F5F5</color>
 </resources>

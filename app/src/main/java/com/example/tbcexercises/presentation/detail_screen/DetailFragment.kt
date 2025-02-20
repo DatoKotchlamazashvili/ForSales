@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.tbcexercises.databinding.FragmentDetailBinding
+import com.example.tbcexercises.domain.image_loader.ImageLoader
 import com.example.tbcexercises.presentation.detail_screen.company_prices_adapter.CompanyPricesListAdapter
+import com.example.tbcexercises.utils.GlideImageLoader
 import com.example.tbcexercises.utils.Resource
 import com.example.tbcexercises.utils.collectLastState
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailFragment : DialogFragment() {
@@ -22,6 +24,7 @@ class DetailFragment : DialogFragment() {
     private val viewModel: DetailViewModel by viewModels()
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+
 
     private val companyPricesListAdapter by lazy {
         CompanyPricesListAdapter()
@@ -41,8 +44,7 @@ class DetailFragment : DialogFragment() {
 
     override fun onStart() {
         dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
         super.onStart()
     }
@@ -50,9 +52,10 @@ class DetailFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvCompanyPrices.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvCompanyPrices.adapter = companyPricesListAdapter
-
+        binding.rvCompanyPrices.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = companyPricesListAdapter
+        }
         collectLastState(viewModel.productDetailState) { resource ->
             when (resource) {
                 is Resource.Loading -> {
@@ -65,9 +68,8 @@ class DetailFragment : DialogFragment() {
                     if (resource.data.isNotEmpty()) {
                         val product = resource.data.first()
                         binding.txtProductName.text = product.productName
-                        Glide.with(this).load(product.productImgUrl).into(binding.imgProduct)
+                        GlideImageLoader.loadImage(binding.imgProduct, product.productImgUrl)
                         companyPricesListAdapter.submitList(resource.data)
-
                     }
                 }
 

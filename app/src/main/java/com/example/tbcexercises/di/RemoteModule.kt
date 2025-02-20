@@ -2,6 +2,7 @@ package com.example.tbcexercises.di
 
 import com.example.tbcexercises.BuildConfig
 import com.example.tbcexercises.data.remote.service.ProductService
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,5 +54,8 @@ object RemoteModule {
     fun provideProductService(retrofit: Retrofit): ProductService {
         return retrofit.create(ProductService::class.java)
     }
+
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
 }

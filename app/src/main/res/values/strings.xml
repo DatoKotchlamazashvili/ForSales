@@ -9,4 +9,24 @@
 
     <string name="english">English</string>
     <string name="georgian">ქართული</string>
+
+    <string name="error_empty_name">Name cannot be empty</string>
+    <string name="error_empty_email">Email cannot be empty</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
+    <string name="error_weak_password">Password must be at least 6 characters</string>
+    <string name="register">register</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="repeat_password">repeat password</string>
+    <string name="username">Username</string>
+    <string name="don_t_have_account_sign_up">Don\'t Have Account? <u>Sign up</u> </string>
+    <string name="login">Login</string>
+    <string name="remember_me">remember me</string>
+    <string name="error_password_mismatch">passwords should be same</string>
+    <string name="app_nickname">For Sale</string>
+    <string name="save_money">save money</string>
+    <string name="logout">Logout</string>
+    <string name="account">Account</string>
+    <string name="money_format">₾  %1$s</string>
+
 </resources>

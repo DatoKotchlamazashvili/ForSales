@@ -11,9 +11,12 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val productRepository: ProductRepository) :
+class HomeViewModel @Inject constructor(
+    private val productRepository: ProductRepository,
+) :
     ViewModel() {
     val usersFlow = productRepository.getProductsPager().map { pagingData ->
         pagingData.map { it.toProduct() }
     }.cachedIn(viewModelScope)
+
 }

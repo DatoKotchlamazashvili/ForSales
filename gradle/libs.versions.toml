@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.1"
+coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.2"
 glide = "4.16.0"
 hiltAndroid = "2.51.1"
@@ -22,11 +23,14 @@ kotlinxSerializationJson = "1.5.1"
 converterKotlinxSerialization = "2.11.0"
 roomRuntime = "2.6.1"
 swiperefreshlayout = "1.2.0-alpha01"
+googleGmsGoogleServices = "4.4.2"
+firebaseAuth = "22.3.1"
 
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
@@ -51,6 +55,7 @@ converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-k
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
 
 
@@ -58,5 +63,6 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeArgsVersion" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 
 

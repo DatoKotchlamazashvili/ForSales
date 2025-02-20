@@ -11,7 +11,7 @@ import com.example.tbcexercises.domain.model.Language
 
 class LanguageSpinnerAdapter(
     context: Context,
-    private val languages: List<Language>
+    languages: List<Language>
 ) : ArrayAdapter<Language>(context, 0, languages) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

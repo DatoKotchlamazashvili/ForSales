@@ -7,5 +7,19 @@
     <string name="home">სახლი</string>
     <string name="favourites">ფავორიტები</string>
 
+    <string name="error_empty_name">სახელის ველი ცარიელი არ შეიძლება იყოს</string>
+    <string name="error_empty_email">ემაილის ველი ცარიელი არ შეიძლება იყოს</string>
+    <string name="error_invalid_email">არასწორი ემაილი</string>
+    <string name="error_weak_password">პაროლის სიგრძე მინიმუმ 6 უნდა იყოს</string>
+
+    <string name="register">დარეგისტრირდი</string>
+    <string name="email">იმეილი</string>
+    <string name="password">პაროლი</string>
+    <string name="repeat_password">გაიმეორეთ პაროლი</string>
+    <string name="username">სახელი</string>
+    <string name="don_t_have_account_sign_up">არ გქვთ ანგარში? <u>დარეგისტრირდით</u> </string>
+    <string name="login">დალოგინდი</string>
+    <string name="remember_me">დაიმახსოვრე</string>
+    <string name="error_password_mismatch">პაროლები უნდა იყოს ერთნაირი</string>
 
 </resources>

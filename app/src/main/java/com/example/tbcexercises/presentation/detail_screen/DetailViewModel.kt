@@ -2,12 +2,10 @@ package com.example.tbcexercises.presentation.detail_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.data.remote.response.ProductResponse
 import com.example.tbcexercises.domain.model.ProductDetail
 import com.example.tbcexercises.domain.repository.ProductRepository
 import com.example.tbcexercises.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest

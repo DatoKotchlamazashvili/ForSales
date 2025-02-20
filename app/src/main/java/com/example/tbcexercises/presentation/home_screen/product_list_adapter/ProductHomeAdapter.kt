@@ -1,20 +1,19 @@
 package com.example.tbcexercises.presentation.home_screen.product_list_adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.constraintlayout.motion.widget.MotionScene.Transition.TransitionOnClick
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductHomeBinding
-import com.example.tbcexercises.domain.model.ProductDetail
 import com.example.tbcexercises.domain.model.ProductHome
 import com.example.tbcexercises.presentation.home_screen.company_list_adapter.CompanyListAdapter
+import com.example.tbcexercises.utils.GlideImageLoader
 
-class ProductHomeAdapter(val onClick: (Int) -> Unit) :
+class ProductHomeAdapter(
+    val onClick: (Int) -> Unit,
+) :
     PagingDataAdapter<ProductHome, ProductHomeAdapter.ProductHomeViewHolder>(ProductHomeDiffUtil) {
 
 
@@ -36,33 +35,31 @@ class ProductHomeAdapter(val onClick: (Int) -> Unit) :
 
             product?.let {
 
-                Glide.with(binding.imgProduct.context)
-                    .load(product.productImgUrl)
-                    .placeholder(R.drawable.loading)
-                    .error(R.drawable.ic_error)
-                    .into(binding.imgProduct)
+                GlideImageLoader.loadImage(binding.imgProduct, url = product.productImgUrl)
+                val companyAdapter = CompanyListAdapter()
 
 
                 binding.apply {
                     txtProductName.text = product.productName
-                    txtPrice.text = "₾" + product.productPrice.toString()
+                    txtPrice.text = root.context.getString(
+                        R.string.money_format,
+                        product.productPrice.toString()
+                    )
                     txtCategory.text = product.productCategory
 
                     root.setOnClickListener {
                         onClick(product.productId)
-                        Log.d("productIDhomeadapter",product.productId.toString())
                     }
+                    rvCompanies.layoutManager =
+                        LinearLayoutManager(
+                            binding.root.context,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
 
+                    rvCompanies.adapter = companyAdapter
                 }
-                Log.d("product", product.toString())
-
-                val companyAdapter = CompanyListAdapter()
-                binding.rvCompanies.layoutManager =
-                    LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-                binding.rvCompanies.adapter = companyAdapter
                 companyAdapter.submitList(product.company)
-
-
             }
         }
     }
