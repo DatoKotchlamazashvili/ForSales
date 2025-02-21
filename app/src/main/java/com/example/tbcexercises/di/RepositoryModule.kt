@@ -1,5 +1,6 @@
 package com.example.tbcexercises.di
 
+import com.example.tbcexercises.data.repository.FavouriteProductRepositoryImpl
 import com.example.tbcexercises.data.repository.ProductRepositoryImpl
 import com.example.tbcexercises.data.repository.SignInRepositoryImpl
 import com.example.tbcexercises.data.repository.SignOutRepositoryImpl
@@ -7,6 +8,7 @@ import com.example.tbcexercises.data.repository.SignUpRepositoryImpl
 import com.example.tbcexercises.data.repository.UserPreferencesRepositoryImpl
 import com.example.tbcexercises.data.repository.UserRepositoryImpl
 import com.example.tbcexercises.domain.image_loader.ImageLoader
+import com.example.tbcexercises.domain.repository.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.ProductRepository
 import com.example.tbcexercises.domain.repository.SignInRepository
 import com.example.tbcexercises.domain.repository.SignOutRepository
@@ -47,5 +49,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavouriteProductRepository(impl: FavouriteProductRepositoryImpl): FavouriteProductRepository
+
 
 }

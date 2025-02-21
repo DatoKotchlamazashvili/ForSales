@@ -5,18 +5,56 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProduct
+import com.example.tbcexercises.domain.model.ProductHome
+import com.example.tbcexercises.domain.repository.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val productRepository: ProductRepository,
+    private val favouriteProductRepository: FavouriteProductRepository
 ) :
     ViewModel() {
-    val usersFlow = productRepository.getProductsPager().map { pagingData ->
-        pagingData.map { it.toProduct() }
+    private val favouriteIdsFlow = favouriteProductRepository
+        .getAllFavouriteProductIds()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    val basePagingFlow = productRepository.getProductsPager().cachedIn(viewModelScope)
+    val productFlow = combine(
+        basePagingFlow,
+        favouriteIdsFlow
+    ) { pagingData, favouriteIds ->
+        pagingData.map { product ->
+            product.toProduct().copy(
+                isFavourite = product.productId in favouriteIds
+            )
+        }
     }.cachedIn(viewModelScope)
 
+
+    fun setFavouriteStrategy(product: ProductHome) {
+        viewModelScope.launch {
+            val isFavourite = favouriteProductRepository.getAllFavouriteProductIds()
+                .first()
+                .contains(product.productId)
+
+            if (isFavourite) {
+                favouriteProductRepository.deleteFavouriteProduct(product.toFavouriteProduct())
+            } else {
+                favouriteProductRepository.insertFavouriteProduct(product.toFavouriteProduct())
+            }
+        }
+    }
 }

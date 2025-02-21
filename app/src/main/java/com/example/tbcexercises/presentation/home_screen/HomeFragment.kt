@@ -1,6 +1,5 @@
 package com.example.tbcexercises.presentation.home_screen
 
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,13 +21,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val productHomeAdapter by lazy {
         ProductHomeAdapter(onClick = {
             onClickProduct(it)
-        })
+        }, onFavouriteClick = { viewModel.setFavouriteStrategy(it) })
     }
 
     override fun start() {
         setUpRecycleView()
 
-        collectLastState(viewModel.usersFlow) {
+        collectLastState(viewModel.productFlow) {
             productHomeAdapter.submitData(it)
         }
 

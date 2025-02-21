@@ -16,4 +16,6 @@ interface ProductService {
 
     @GET("products/{id}")
     suspend fun getProductById(@Path("id") id : Int) : Response<List<ProductResponse>>
+
+
 }

@@ -12,6 +12,7 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(products: List<ProductHomeEntity>)
 
+
     @Query("SELECT * FROM product_home_entity")
     fun getProducts(): PagingSource<Int, ProductHomeEntity>
 

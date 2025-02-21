@@ -10,10 +10,13 @@ import com.example.tbcexercises.databinding.ItemProductHomeBinding
 import com.example.tbcexercises.domain.model.ProductHome
 import com.example.tbcexercises.presentation.home_screen.company_list_adapter.CompanyListAdapter
 import com.example.tbcexercises.utils.GlideImageLoader
+import com.example.tbcexercises.utils.setTint
 
 class ProductHomeAdapter(
     val onClick: (Int) -> Unit,
-) :
+    val onFavouriteClick: (ProductHome) -> Unit,
+
+    ) :
     PagingDataAdapter<ProductHome, ProductHomeAdapter.ProductHomeViewHolder>(ProductHomeDiffUtil) {
 
 
@@ -58,6 +61,15 @@ class ProductHomeAdapter(
                         )
 
                     rvCompanies.adapter = companyAdapter
+
+                    imgFavourite.setOnClickListener {
+                        onFavouriteClick(product)
+                    }
+                    if (product.isFavourite) {
+                        imgFavourite.setTint(R.color.red)
+                    } else {
+                        imgFavourite.setTint(R.color.gray)
+                    }
                 }
                 companyAdapter.submitList(product.company)
             }

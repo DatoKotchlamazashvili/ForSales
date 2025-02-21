@@ -7,7 +7,6 @@ import androidx.paging.PagingData
 import com.example.tbcexercises.data.local.AppDatabase
 import com.example.tbcexercises.data.local.entity.ProductHomeEntity
 import com.example.tbcexercises.data.mappers.remote_to_presentation.toProductDetail
-import com.example.tbcexercises.data.remote.response.ProductResponse
 import com.example.tbcexercises.data.remote.service.ProductService
 import com.example.tbcexercises.domain.model.ProductDetail
 import com.example.tbcexercises.domain.repository.ProductRepository
