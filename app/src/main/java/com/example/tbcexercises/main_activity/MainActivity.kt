@@ -3,11 +3,11 @@ package com.example.tbcexercises.main_activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ActivityMainBinding
 import com.example.tbcexercises.utils.Constants.languages
+import com.example.tbcexercises.utils.popUpMenuHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -58,13 +59,13 @@ class MainActivity : AppCompatActivity() {
         observers(navController)
         setUpBottomBarAndAppBar(navController)
 
-        setupLanguageSpinner()
+        setupLanguageMenu()
 
 
     }
 
     private fun observers(navController: NavController) {
-        runBlocking{
+        runBlocking {
             val rememberMe = viewModel.rememberMe.first()
             delay(1000L)
             if (rememberMe) {
@@ -78,15 +79,24 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.languagePreference.collectLatest { language ->
                 loadLocale(language)
+                binding.languageIcon.setImageResource(languages.first {
+                    it.name == language
+                }.flag)
             }
         }
     }
 
-    private fun showViews(bottomNav: Boolean, appBar: Boolean = true) {
+    private fun showViews(
+        bottomNav: Boolean,
+        appBar: Boolean = true,
+        appBarTitle: String = getString(R.string.app_nickname)
+    ) {
         binding.apply {
             bottomNavigationView.isVisible = bottomNav
             topAppBar.isVisible = appBar
+            topAppBar.title = appBarTitle
         }
+
     }
 
     private fun setUpBottomBarAndAppBar(navController: NavController) {
@@ -94,44 +104,40 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment -> showViews(bottomNav = false)
-                R.id.registerFragment -> showViews(bottomNav = false)
+                R.id.loginFragment -> showViews(
+                    bottomNav = false,
+                    appBarTitle = getString(R.string.login)
+                )
+
+                R.id.registerFragment -> showViews(
+                    bottomNav = false,
+                    appBarTitle = getString(R.string.register)
+                )
+
                 else -> showViews(bottomNav = true)
             }
         }
     }
 
-    private fun setupLanguageSpinner() {
-
-
-        val adapter = LanguageSpinnerAdapter(this, languages)
-        binding.languageSpinner.adapter = adapter
-
-        lifecycleScope.launch {
-            val savedLanguage = viewModel.languagePreference.first()
-            val selectedIndex = languages.indexOfFirst { it.name == savedLanguage }
-            if (selectedIndex >= 0) {
-                binding.languageSpinner.setSelection(selectedIndex)
+    private fun setupLanguageMenu() {
+        binding.languageIcon.setOnClickListener { view ->
+            val popup = PopupMenu(ContextThemeWrapper(this, R.style.CustomPopupMenu), view)
+            languages.forEachIndexed { index, language ->
+                popup.menu.add(0, index, index, language.name).setIcon(language.flag)
             }
-        }
+            popUpMenuHelper(popup)
 
-        binding.languageSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedLanguage = languages[position].name
-                    Log.d("languageSelected", selectedLanguage)
-                    if (resources.configuration.locales[0].language != selectedLanguage) {
-                        viewModel.setSession(selectedLanguage, null)
-                    }
+            popup.setOnMenuItemClickListener { item ->
+                val selectedLanguage = languages[item.itemId].name
+                Log.d("languageSelected", selectedLanguage)
+                if (resources.configuration.locales[0].language != selectedLanguage) {
+                    viewModel.setSession(selectedLanguage, null)
                 }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                true
             }
+            popup.show()
+
+        }
     }
 
     private fun loadLocale(language: String) {

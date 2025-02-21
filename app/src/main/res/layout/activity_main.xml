@@ -12,22 +12,22 @@
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
+        android:background="@color/cyan"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/app_nickname">
+        app:title="@string/app_nickname"
+        app:titleTextColor="@color/white">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/languageSpinner"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/languageIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@android:color/holo_blue_light"
+            android:background="@android:color/transparent"
             android:padding="8dp"
-            android:popupBackground="@android:color/holo_blue_light"
-            android:spinnerMode="dropdown" />
+            android:src="@drawable/ic_flag_english" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.fragment.app.FragmentContainerView

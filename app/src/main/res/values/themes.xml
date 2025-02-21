@@ -1,12 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.TbcExercises" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:itemBackground">@color/white</item>
     </style>
 
-    <style name="Theme.TbcExercises" parent="Base.Theme.TbcExercises" />
+    <style name="Theme.TbcExercises" parent="Base.Theme.TbcExercises" >
+        <item name="android:itemBackground">@color/white</item>
+
+    </style>
 
     <style name="Theme.TbcExercises.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_app_welcome</item>
         <item name="windowSplashScreenBackground">@color/white</item>
         <item name="postSplashScreenTheme">@style/Theme.TbcExercises</item>
+        <item name="android:itemBackground">@color/white</item>
     </style>
 </resources>
