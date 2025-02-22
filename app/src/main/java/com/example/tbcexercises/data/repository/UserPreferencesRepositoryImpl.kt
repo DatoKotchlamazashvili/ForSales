@@ -24,7 +24,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
             if (rememberMe != null) {
                 preferences[REMEMBER_LANGUAGE] = rememberMe
             }
-
+            Log.d("executed","executed")
             Log.d("remembermerepo",preferences[REMEMBER_LANGUAGE].toString())
         }
     }

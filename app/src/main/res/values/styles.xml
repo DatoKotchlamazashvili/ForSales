@@ -5,5 +5,9 @@
         <item name="android:popupBackground">@color/white</item>
         <item name="background">@color/white</item>
     </style>
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 
 </resources>

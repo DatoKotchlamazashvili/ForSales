@@ -2,10 +2,14 @@ package com.example.tbcexercises.presentation.profile_screen
 
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.tbcexercises.databinding.FragmentProfileBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
@@ -17,10 +21,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     override fun listeners() {
-
         binding.btnLogout.setOnClickListener {
-            viewModel.signOut()
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToNavigation())
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.signOut()
+                    findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToNavigation())
+                }
+            }
         }
     }
 }

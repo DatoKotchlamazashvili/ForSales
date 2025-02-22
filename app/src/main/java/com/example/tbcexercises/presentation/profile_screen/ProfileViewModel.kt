@@ -6,23 +6,24 @@ import com.example.tbcexercises.domain.repository.SignOutRepository
 import com.example.tbcexercises.domain.repository.UserPreferencesRepository
 import com.example.tbcexercises.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    userRepository: UserRepository,
     private val signOutRepository: SignOutRepository,
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     val user = userRepository.getUser()
 
-    fun signOut() {
-        viewModelScope.launch {
-            signOutRepository.logout()
-
+    suspend fun signOut() {
+        withContext(NonCancellable) {
             userPreferencesRepository.setSession(language = null, rememberMe = false)
+            signOutRepository.logout()
         }
     }
 

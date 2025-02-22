@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
     private fun observers(navController: NavController) {
         runBlocking {
             val rememberMe = viewModel.rememberMe.first()
+            Log.d("rememberME",rememberMe.toString())
             delay(1000L)
             if (rememberMe) {
                 navController.navigate(R.id.homeFragment)
@@ -154,6 +155,7 @@ class MainActivity : AppCompatActivity() {
 
             viewModel.setSession(language, null)
             recreate()
+
         }
     }
 
