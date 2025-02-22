@@ -10,8 +10,8 @@ import com.example.tbcexercises.data.mappers.remote_to_presentation.toProductDet
 import com.example.tbcexercises.data.remote.service.ProductService
 import com.example.tbcexercises.domain.model.ProductDetail
 import com.example.tbcexercises.domain.repository.ProductRepository
-import com.example.tbcexercises.utils.Resource
-import com.example.tbcexercises.utils.handleNetworkRequest
+import com.example.tbcexercises.utils.network_helper.Resource
+import com.example.tbcexercises.utils.network_helper.handleNetworkRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

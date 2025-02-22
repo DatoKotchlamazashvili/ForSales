@@ -1,4 +1,4 @@
-package com.example.tbcexercises.utils
+package com.example.tbcexercises.utils.extension
 
 import android.content.res.ColorStateList
 import android.widget.ImageView

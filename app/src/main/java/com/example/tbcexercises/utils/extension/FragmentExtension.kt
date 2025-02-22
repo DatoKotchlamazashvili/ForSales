@@ -1,4 +1,4 @@
-package com.example.tbcexercises.utils
+package com.example.tbcexercises.utils.extension
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment

@@ -11,7 +11,6 @@ import com.example.tbcexercises.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val productRepository: ProductRepository,
+    productRepository: ProductRepository,
     private val favouriteProductRepository: FavouriteProductRepository
 ) :
     ViewModel() {
@@ -31,7 +30,7 @@ class HomeViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    val basePagingFlow = productRepository.getProductsPager().cachedIn(viewModelScope)
+    private val basePagingFlow = productRepository.getProductsPager().cachedIn(viewModelScope)
     val productFlow = combine(
         basePagingFlow,
         favouriteIdsFlow

@@ -28,5 +28,7 @@
     <string name="logout">Logout</string>
     <string name="account">Account</string>
     <string name="money_format">₾  %1$s</string>
+    <string name="successfully_deleted_item">Successfully deleted item</string>
+    <string name="undo">Undo</string>
 
 </resources>

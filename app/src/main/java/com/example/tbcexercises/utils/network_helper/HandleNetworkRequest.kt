@@ -1,4 +1,4 @@
-package com.example.tbcexercises.utils
+package com.example.tbcexercises.utils.network_helper
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

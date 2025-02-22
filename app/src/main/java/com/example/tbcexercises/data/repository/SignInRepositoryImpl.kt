@@ -1,7 +1,7 @@
 package com.example.tbcexercises.data.repository
 
 import com.example.tbcexercises.domain.repository.SignInRepository
-import com.example.tbcexercises.utils.Resource
+import com.example.tbcexercises.utils.network_helper.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers

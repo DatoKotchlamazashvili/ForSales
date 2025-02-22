@@ -7,9 +7,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.FragmentLoginBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
-import com.example.tbcexercises.utils.Resource
-import com.example.tbcexercises.utils.collectLastState
-import com.example.tbcexercises.utils.toast
+import com.example.tbcexercises.utils.network_helper.Resource
+import com.example.tbcexercises.utils.extension.collectLastState
+import com.example.tbcexercises.utils.extension.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

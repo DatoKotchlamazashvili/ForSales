@@ -9,13 +9,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tbcexercises.databinding.FragmentDetailBinding
-import com.example.tbcexercises.domain.image_loader.ImageLoader
 import com.example.tbcexercises.presentation.detail_screen.company_prices_adapter.CompanyPricesListAdapter
 import com.example.tbcexercises.utils.GlideImageLoader
-import com.example.tbcexercises.utils.Resource
-import com.example.tbcexercises.utils.collectLastState
+import com.example.tbcexercises.utils.network_helper.Resource
+import com.example.tbcexercises.utils.extension.collectLastState
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailFragment : DialogFragment() {

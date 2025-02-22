@@ -10,7 +10,7 @@ import com.example.tbcexercises.databinding.ItemProductHomeBinding
 import com.example.tbcexercises.domain.model.ProductHome
 import com.example.tbcexercises.presentation.home_screen.company_list_adapter.CompanyListAdapter
 import com.example.tbcexercises.utils.GlideImageLoader
-import com.example.tbcexercises.utils.setTint
+import com.example.tbcexercises.utils.extension.setTint
 
 class ProductHomeAdapter(
     val onClick: (Int) -> Unit,

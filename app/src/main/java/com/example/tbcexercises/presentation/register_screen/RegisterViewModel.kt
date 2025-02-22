@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tbcexercises.R
 import com.example.tbcexercises.domain.repository.SignUpRepository
-import com.example.tbcexercises.utils.Resource
+import com.example.tbcexercises.utils.network_helper.Resource
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

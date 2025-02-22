@@ -10,8 +10,8 @@ import com.example.tbcexercises.databinding.FragmentHomeBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
 import com.example.tbcexercises.presentation.home_screen.product_list_adapter.ProductHomeAdapter
 import com.example.tbcexercises.presentation.home_screen.product_load_adapter.ProductLoadStateAdapter
-import com.example.tbcexercises.utils.collectLastState
-import com.example.tbcexercises.utils.toast
+import com.example.tbcexercises.utils.extension.collectLastState
+import com.example.tbcexercises.utils.extension.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
