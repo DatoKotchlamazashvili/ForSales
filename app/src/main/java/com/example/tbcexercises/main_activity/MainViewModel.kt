@@ -20,7 +20,7 @@ class MainViewModel @Inject constructor(
 
     val languagePreference = userPreferencesRepository.getLanguageFlow()
 
-    val rememberMe = userPreferencesRepository.getRememberMe()
+    private val rememberMe = userPreferencesRepository.getRememberMe()
 
     fun setSession(language: String?, rememberMe: Boolean?) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -13,8 +13,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ActivityMainBinding
@@ -33,12 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
-    private var keepSplash = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
-        splashScreen.setKeepOnScreenCondition { keepSplash }
-
         super.onCreate(savedInstanceState)
         applySavedLocale()
 
@@ -56,25 +53,28 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fvcNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        observers(navController)
-        setUpBottomBarAndAppBar(navController)
 
-        setupLanguageMenu()
+        binding.bottomNavigationView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.loginFragment -> showViews(
+                    bottomNav = false,
+                    appBarTitle = getString(R.string.login),
+                    languageIconIsVisible = true
+                )
 
-    }
+                R.id.registerFragment -> showViews(
+                    bottomNav = false,
+                    appBarTitle = getString(R.string.register),
+                    languageIconIsVisible = true
+                )
 
-    private fun observers(navController: NavController) {
-        runBlocking {
-            val rememberMe = viewModel.rememberMe.first()
-            Log.d("rememberME",rememberMe.toString())
-            delay(1000L)
-            if (rememberMe) {
-                navController.navigate(R.id.homeFragment)
-            } else {
-                navController.navigate(R.id.navigation)
+                R.id.launcherFragment -> showViews(bottomNav = false, appBar = false)
+                R.id.profileFragment -> showViews(bottomNav = true, languageIconIsVisible = true)
+
+                else -> showViews(bottomNav = true)
             }
-            keepSplash = false
         }
 
         lifecycleScope.launch {
@@ -85,39 +85,26 @@ class MainActivity : AppCompatActivity() {
                 }.flag)
             }
         }
+
+        setupLanguageMenu()
+
+
     }
+
 
     private fun showViews(
         bottomNav: Boolean,
         appBar: Boolean = true,
-        appBarTitle: String = getString(R.string.app_nickname)
+        appBarTitle: String = getString(R.string.app_nickname),
+        languageIconIsVisible: Boolean = false
     ) {
         binding.apply {
             bottomNavigationView.isVisible = bottomNav
             topAppBar.isVisible = appBar
             topAppBar.title = appBarTitle
+            languageIcon.isVisible = languageIconIsVisible
         }
 
-    }
-
-    private fun setUpBottomBarAndAppBar(navController: NavController) {
-        binding.bottomNavigationView.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.loginFragment -> showViews(
-                    bottomNav = false,
-                    appBarTitle = getString(R.string.login)
-                )
-
-                R.id.registerFragment -> showViews(
-                    bottomNav = false,
-                    appBarTitle = getString(R.string.register)
-                )
-
-                else -> showViews(bottomNav = true)
-            }
-        }
     }
 
     private fun setupLanguageMenu() {

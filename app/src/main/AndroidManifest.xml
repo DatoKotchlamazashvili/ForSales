@@ -17,7 +17,6 @@
         tools:targetApi="31">
         <activity
             android:name=".main_activity.MainActivity"
-            android:theme="@style/Theme.TbcExercises.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
