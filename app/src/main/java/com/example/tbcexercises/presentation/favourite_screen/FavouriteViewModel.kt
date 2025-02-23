@@ -34,13 +34,13 @@ class FavouriteViewModel @Inject constructor(private val favouriteProductReposit
 
     fun deleteFavouriteProduct(productFavourite: ProductFavourite) {
         viewModelScope.launch {
-            favouriteProductRepository.deleteFavouriteProduct(productFavourite.toProductEntity())
+            favouriteProductRepository.deleteFavouriteProduct(productFavourite)
         }
     }
 
     fun insertFavouriteProduct(productFavourite: ProductFavourite) {
         viewModelScope.launch {
-            favouriteProductRepository.insertFavouriteProduct(productFavourite.toProductEntity())
+            favouriteProductRepository.insertFavouriteProduct(productFavourite)
         }
     }
 }

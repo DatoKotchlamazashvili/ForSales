@@ -12,7 +12,7 @@ data class ProductHome(
     val productPrice: Double,
     val isFavourite: Boolean = false
 ) {
-    fun toFavouriteProduct(): FavouriteProductEntity {
+    fun toFavouriteProductEntity(): FavouriteProductEntity {
         return FavouriteProductEntity(
             productId = productId,
             productName = productName,

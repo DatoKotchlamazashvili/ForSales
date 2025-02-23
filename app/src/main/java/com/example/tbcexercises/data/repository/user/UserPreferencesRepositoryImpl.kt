@@ -1,6 +1,5 @@
 package com.example.tbcexercises.data.repository.user
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -21,11 +20,10 @@ class UserPreferencesRepositoryImpl @Inject constructor(
             language?.let {
                 preferences[USER_LANGUAGE] = it
             }
-            if (rememberMe != null) {
-                preferences[REMEMBER_LANGUAGE] = rememberMe
+
+            rememberMe?.let {
+                preferences[REMEMBER_LANGUAGE] = it
             }
-            Log.d("executed", "executed")
-            Log.d("remembermerepo", preferences[REMEMBER_LANGUAGE].toString())
         }
     }
 

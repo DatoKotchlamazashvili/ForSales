@@ -2,6 +2,7 @@ package com.example.tbcexercises.di
 
 import com.example.tbcexercises.BuildConfig
 import com.example.tbcexercises.data.remote.service.ProductService
+import com.example.tbcexercises.data.remote.service.SearchProductService
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -39,7 +40,7 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(json: Json,client: OkHttpClient): Retrofit {
+    fun provideRetrofit(json: Json, client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(client)
@@ -53,6 +54,12 @@ object RemoteModule {
     @Singleton
     fun provideProductService(retrofit: Retrofit): ProductService {
         return retrofit.create(ProductService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchProductService(retrofit: Retrofit): SearchProductService {
+        return retrofit.create(SearchProductService::class.java)
     }
 
     @Provides

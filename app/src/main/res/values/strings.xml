@@ -30,5 +30,7 @@
     <string name="money_format">₾  %1$s</string>
     <string name="successfully_deleted_item">Successfully deleted item</string>
     <string name="undo">Undo</string>
+    <string name="search">Search</string>
+    <string name="search_here">Search here...</string>
 
 </resources>

@@ -16,4 +16,7 @@ interface RemoteKeysDao {
 
     @Query("DELETE FROM remote_keys")
     suspend fun clearRemoteKeys()
+
+    @Query("DELETE FROM remote_keys WHERE productId IN (SELECT productId FROM product_home_entity ORDER BY productId ASC LIMIT :limit)")
+    suspend fun deleteOldestRemoteKeys(limit :Int)
 }

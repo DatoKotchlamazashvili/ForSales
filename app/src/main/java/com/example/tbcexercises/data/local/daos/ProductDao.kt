@@ -18,4 +18,14 @@ interface ProductDao {
 
     @Query("DELETE FROM product_home_entity")
     suspend fun clearProducts()
+
+    @Query("SELECT COUNT(*) FROM product_home_entity")
+    suspend fun getProductCount(): Int
+
+    @Query("DELETE FROM product_home_entity WHERE productId IN (SELECT productId FROM product_home_entity ORDER BY productId ASC LIMIT :limit)")
+    suspend fun deleteOldestProducts(limit: Int)
+
+    @Query("SELECT max(createdAt) FROM product_home_entity")
+    suspend fun getLastUpdatedTime(): Long?
+
 }

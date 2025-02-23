@@ -1,16 +1,15 @@
 package com.example.tbcexercises.data.repository.product
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.tbcexercises.data.local.AppDatabase
-import com.example.tbcexercises.data.local.entity.ProductHomeEntity
-import com.example.tbcexercises.data.local.entity.RemoteKeyEntity
-import com.example.tbcexercises.data.mappers.remote_to_local.toProductHomeEntity
-import com.example.tbcexercises.data.remote.service.ProductService
+import com.example.tbcexercises.data.local.entity.SearchProductEntity
+import com.example.tbcexercises.data.local.entity.SearchRemoteKeyEntity
+import com.example.tbcexercises.data.mappers.remote_to_local.toSearchProductEntity
+import com.example.tbcexercises.data.remote.service.SearchProductService
 import com.example.tbcexercises.utils.Constants.DURATION_BEFORE_FETCH
 import com.example.tbcexercises.utils.Constants.MAX_PRODUCTS_IN_DATABASE
 import com.example.tbcexercises.utils.Constants.PER_PAGE_PRODUCT
@@ -19,16 +18,17 @@ import com.example.tbcexercises.utils.network_helper.ConnectivityObserver
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-
 @OptIn(ExperimentalPagingApi::class)
-class ProductMediator @Inject constructor(
-    private val productService: ProductService,
+class SearchProductMediator @Inject constructor(
+    private val searchProductService: SearchProductService,//
     private val appDatabase: AppDatabase,
-    private val connectivityObserver: ConnectivityObserver
-) : RemoteMediator<Int, ProductHomeEntity>() {
+    private val connectivityObserver: ConnectivityObserver,
+    val query: String
+) : RemoteMediator<Int, SearchProductEntity>() {
+
 
     override suspend fun initialize(): InitializeAction {
-        val lastUpdated = appDatabase.productsDao().getLastUpdatedTime() ?: 0
+        val lastUpdated = appDatabase.searchProductsDao().getLastUpdatedTime() ?: 0
         val currentTime = System.currentTimeMillis()
 
         return if (currentTime - lastUpdated > DURATION_BEFORE_FETCH) {
@@ -40,7 +40,7 @@ class ProductMediator @Inject constructor(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, ProductHomeEntity>
+        state: PagingState<Int, SearchProductEntity>
     ): MediatorResult {
         val isConnected = connectivityObserver.isConnected.first()
 
@@ -70,32 +70,37 @@ class ProductMediator @Inject constructor(
         }
 
         try {
-            val apiResponse = productService.getHomeProducts(page, PER_PAGE_PRODUCT)
-            val products = apiResponse.data.map { it.toProductHomeEntity() }
+            val apiResponse =
+                searchProductService.getSearchedProducts(query, page, PER_PAGE_PRODUCT)
+            val products = apiResponse.data.map { it.toSearchProductEntity() }
             val endOfPaginationReached = products.isEmpty()
 
             appDatabase.withTransaction {
-                val lastUpdated = appDatabase.productsDao().getLastUpdatedTime() ?: 0
+                val lastUpdated = appDatabase.searchProductsDao().getLastUpdatedTime() ?: 0
                 val currentTime = System.currentTimeMillis()
 
                 if (loadType == LoadType.REFRESH && currentTime - lastUpdated > DURATION_BEFORE_FETCH) {
                     appDatabase.remoteKeysDao().clearRemoteKeys()
-                    appDatabase.productsDao().clearProducts()
+                    appDatabase.searchProductsDao().clearProducts()
                 }
 
-                val totalProducts = appDatabase.productsDao().getProductCount()
+                val totalProducts = appDatabase.searchProductsDao().getProductCount()
                 if (totalProducts >= MAX_PRODUCTS_IN_DATABASE) {
-                    appDatabase.productsDao().deleteOldestProducts(PER_PAGE_PRODUCT)
+                    appDatabase.searchProductsDao().deleteOldestProducts(PER_PAGE_PRODUCT)
                     appDatabase.remoteKeysDao().deleteOldestRemoteKeys(PER_PAGE_PRODUCT)
                 }
 
                 val prevKey = if (page == PRODUCT_STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = products.map {
-                    RemoteKeyEntity(productId = it.productId, prevKey = prevKey, nextKey = nextKey)
+                    SearchRemoteKeyEntity(
+                        productId = it.productId,
+                        prevKey = prevKey,
+                        nextKey = nextKey
+                    )
                 }
-                appDatabase.remoteKeysDao().insertAll(keys)
-                appDatabase.productsDao().insertAll(products)
+                appDatabase.searchRemoteKeysDao().insertAll(keys)
+                appDatabase.searchProductsDao().insertAll(products)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
@@ -103,26 +108,26 @@ class ProductMediator @Inject constructor(
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, ProductHomeEntity>): RemoteKeyEntity? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, SearchProductEntity>): SearchRemoteKeyEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { product ->
-                appDatabase.remoteKeysDao().remoteKeyByProductId(product.productId)
+                appDatabase.searchRemoteKeysDao().remoteKeyByProductId(product.productId)
             }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, ProductHomeEntity>): RemoteKeyEntity? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, SearchProductEntity>): SearchRemoteKeyEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { product ->
-                appDatabase.remoteKeysDao().remoteKeyByProductId(product.productId)
+                appDatabase.searchRemoteKeysDao().remoteKeyByProductId(product.productId)
             }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, ProductHomeEntity>
-    ): RemoteKeyEntity? {
+        state: PagingState<Int, SearchProductEntity>
+    ): SearchRemoteKeyEntity? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.productId?.let { productId ->
-                appDatabase.remoteKeysDao().remoteKeyByProductId(productId)
+                appDatabase.searchRemoteKeysDao().remoteKeyByProductId(productId)
             }
         }
     }

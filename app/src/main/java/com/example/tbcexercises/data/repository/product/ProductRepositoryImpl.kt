@@ -10,6 +10,7 @@ import com.example.tbcexercises.data.mappers.remote_to_presentation.toProductDet
 import com.example.tbcexercises.data.remote.service.ProductService
 import com.example.tbcexercises.domain.model.ProductDetail
 import com.example.tbcexercises.domain.repository.product.ProductRepository
+import com.example.tbcexercises.utils.network_helper.ConnectivityObserver
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
     private val productService: ProductService,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
+    private val connectivityObserver: ConnectivityObserver
 ) :
     ProductRepository {
     @OptIn(ExperimentalPagingApi::class)
@@ -28,7 +30,7 @@ class ProductRepositoryImpl @Inject constructor(
                 pageSize = 20,
                 prefetchDistance = 1
             ),
-            remoteMediator = ProductMediator(productService, appDatabase),
+            remoteMediator = ProductMediator(productService, appDatabase, connectivityObserver),
             pagingSourceFactory = { appDatabase.productsDao().getProducts() }
         ).flow
     }

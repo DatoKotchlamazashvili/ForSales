@@ -9,6 +9,7 @@ import com.example.tbcexercises.data.local.AppDatabase
 import com.example.tbcexercises.data.local.daos.FavouriteProductDao
 import com.example.tbcexercises.data.local.daos.ProductDao
 import com.example.tbcexercises.data.local.daos.RemoteKeysDao
+import com.example.tbcexercises.data.local.daos.SearchProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +49,13 @@ object LocalModule {
     @Singleton
     fun provideFavouriteProductsDao(database: AppDatabase): FavouriteProductDao {
         return database.favouriteProductsDao()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideSearchProductsDao(database: AppDatabase): SearchProductDao {
+        return database.searchProductsDao()
     }
 
     @Provides

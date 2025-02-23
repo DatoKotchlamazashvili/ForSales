@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProduct
+import com.example.tbcexercises.data.mappers.local_to_presentation.toProductFavouriteEntity
 import com.example.tbcexercises.domain.model.ProductHome
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.product.ProductRepository
@@ -50,9 +51,13 @@ class HomeViewModel @Inject constructor(
                 .contains(product.productId)
 
             if (isFavourite) {
-                favouriteProductRepository.deleteFavouriteProduct(product)
+                favouriteProductRepository.deleteFavouriteProduct(
+                    product.toFavouriteProductEntity().toProductFavouriteEntity()
+                )
             } else {
-                favouriteProductRepository.insertFavouriteProduct(product)
+                favouriteProductRepository.insertFavouriteProduct(
+                    product.toFavouriteProductEntity().toProductFavouriteEntity()
+                )
             }
         }
     }
