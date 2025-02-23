@@ -1,10 +1,10 @@
-package com.example.tbcexercises.data.repository
+package com.example.tbcexercises.data.repository.product
 
 import com.example.tbcexercises.data.local.daos.FavouriteProductDao
-import com.example.tbcexercises.data.local.entity.FavouriteProductEntity
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProductFavourite
 import com.example.tbcexercises.domain.model.ProductFavourite
-import com.example.tbcexercises.domain.repository.FavouriteProductRepository
+import com.example.tbcexercises.domain.model.ProductHome
+import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,12 +14,12 @@ class FavouriteProductRepositoryImpl @Inject constructor(
     private val favouriteProductDao: FavouriteProductDao
 ) : FavouriteProductRepository {
 
-    override suspend fun insertFavouriteProduct(product: FavouriteProductEntity) {
-        favouriteProductDao.insertFavouriteProduct(product)
+    override suspend fun insertFavouriteProduct(product: ProductHome) {
+        favouriteProductDao.insertFavouriteProduct(product.toFavouriteProduct())
     }
 
-    override suspend fun deleteFavouriteProduct(product: FavouriteProductEntity) {
-        favouriteProductDao.deleteFavouriteProduct(product)
+    override suspend fun deleteFavouriteProduct(product: ProductHome) {
+        favouriteProductDao.deleteFavouriteProduct(product.toFavouriteProduct())
     }
 
     override fun getAllFavouriteProducts(): Flow<Resource<List<ProductFavourite>>> = flow {

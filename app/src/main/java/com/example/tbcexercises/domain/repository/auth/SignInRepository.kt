@@ -1,4 +1,4 @@
-package com.example.tbcexercises.domain.repository
+package com.example.tbcexercises.domain.repository.auth
 
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.google.firebase.auth.FirebaseUser

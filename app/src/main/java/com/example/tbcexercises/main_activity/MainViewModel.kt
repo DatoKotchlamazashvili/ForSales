@@ -2,8 +2,8 @@ package com.example.tbcexercises.main_activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.domain.repository.SignOutRepository
-import com.example.tbcexercises.domain.repository.UserPreferencesRepository
+import com.example.tbcexercises.domain.repository.auth.SignOutRepository
+import com.example.tbcexercises.domain.repository.user.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest

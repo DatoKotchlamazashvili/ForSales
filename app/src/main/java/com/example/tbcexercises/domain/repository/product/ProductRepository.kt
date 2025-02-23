@@ -1,4 +1,4 @@
-package com.example.tbcexercises.domain.repository
+package com.example.tbcexercises.domain.repository.product
 
 import androidx.paging.PagingData
 import com.example.tbcexercises.data.local.entity.ProductHomeEntity

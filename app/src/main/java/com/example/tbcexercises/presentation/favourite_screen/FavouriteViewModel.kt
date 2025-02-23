@@ -3,7 +3,7 @@ package com.example.tbcexercises.presentation.favourite_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tbcexercises.domain.model.ProductFavourite
-import com.example.tbcexercises.domain.repository.FavouriteProductRepository
+import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,6 +1,6 @@
-package com.example.tbcexercises.data.repository
+package com.example.tbcexercises.data.repository.auth
 
-import com.example.tbcexercises.domain.repository.SignOutRepository
+import com.example.tbcexercises.domain.repository.auth.SignOutRepository
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 

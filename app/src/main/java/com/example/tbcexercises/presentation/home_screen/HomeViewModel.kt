@@ -6,8 +6,8 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProduct
 import com.example.tbcexercises.domain.model.ProductHome
-import com.example.tbcexercises.domain.repository.FavouriteProductRepository
-import com.example.tbcexercises.domain.repository.ProductRepository
+import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
+import com.example.tbcexercises.domain.repository.product.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -50,9 +50,9 @@ class HomeViewModel @Inject constructor(
                 .contains(product.productId)
 
             if (isFavourite) {
-                favouriteProductRepository.deleteFavouriteProduct(product.toFavouriteProduct())
+                favouriteProductRepository.deleteFavouriteProduct(product)
             } else {
-                favouriteProductRepository.insertFavouriteProduct(product.toFavouriteProduct())
+                favouriteProductRepository.insertFavouriteProduct(product)
             }
         }
     }

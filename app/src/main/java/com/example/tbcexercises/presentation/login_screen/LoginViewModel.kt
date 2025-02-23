@@ -3,8 +3,8 @@ package com.example.tbcexercises.presentation.login_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.domain.repository.SignInRepository
-import com.example.tbcexercises.domain.repository.UserPreferencesRepository
+import com.example.tbcexercises.domain.repository.auth.SignInRepository
+import com.example.tbcexercises.domain.repository.user.UserPreferencesRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel

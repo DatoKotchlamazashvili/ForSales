@@ -1,4 +1,4 @@
-package com.example.tbcexercises.data.repository
+package com.example.tbcexercises.data.repository.product
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -9,7 +9,7 @@ import com.example.tbcexercises.data.local.entity.ProductHomeEntity
 import com.example.tbcexercises.data.mappers.remote_to_presentation.toProductDetail
 import com.example.tbcexercises.data.remote.service.ProductService
 import com.example.tbcexercises.domain.model.ProductDetail
-import com.example.tbcexercises.domain.repository.ProductRepository
+import com.example.tbcexercises.domain.repository.product.ProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest
 import kotlinx.coroutines.flow.Flow

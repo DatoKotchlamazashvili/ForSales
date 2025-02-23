@@ -1,4 +1,4 @@
-package com.example.tbcexercises.data.repository
+package com.example.tbcexercises.data.repository.product
 
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
@@ -11,10 +11,9 @@ import com.example.tbcexercises.data.local.entity.ProductHomeEntity
 import com.example.tbcexercises.data.local.entity.RemoteKeyEntity
 import com.example.tbcexercises.data.mappers.remote_to_local.toProductHomeEntity
 import com.example.tbcexercises.data.remote.service.ProductService
+import com.example.tbcexercises.utils.Constants.PRODUCT_STARTING_PAGE_INDEX
 import javax.inject.Inject
 
-
-private const val PRODUCT_STARTING_PAGE_INDEX = 1
 
 @OptIn(ExperimentalPagingApi::class)
 class ProductMediator @Inject constructor(
@@ -57,11 +56,8 @@ class ProductMediator @Inject constructor(
             val apiResponse = productService.getHomeProducts(page, 20)
 
             val products = apiResponse.data.map { it.toProductHomeEntity() }
-
-            Log.d("productsmediator",products.toString())
             val endOfPaginationReached = products.isEmpty()
             appDatabase.withTransaction {
-                // clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
                     appDatabase.remoteKeysDao().clearRemoteKeys()
                     appDatabase.productsDao().clearProducts()
@@ -72,16 +68,13 @@ class ProductMediator @Inject constructor(
                     RemoteKeyEntity(productId = it.productId, prevKey = prevKey, nextKey = nextKey)
                 }
                 appDatabase.remoteKeysDao().insertAll(keys)
-                Log.d("productbeforeinsert",products.toString())
 
                 appDatabase.productsDao().insertAll(products)
-                Log.d("productafterinsert",products.toString())
 
 
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
-            Log.d("exception",exception.message.toString())
             return MediatorResult.Error(exception)
         }
     }

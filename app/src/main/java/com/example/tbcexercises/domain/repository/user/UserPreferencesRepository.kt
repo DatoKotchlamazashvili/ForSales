@@ -1,4 +1,4 @@
-package com.example.tbcexercises.domain.repository
+package com.example.tbcexercises.domain.repository.user
 
 import kotlinx.coroutines.flow.Flow
 

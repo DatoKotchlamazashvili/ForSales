@@ -1,6 +1,6 @@
-package com.example.tbcexercises.data.repository
+package com.example.tbcexercises.data.repository.auth
 
-import com.example.tbcexercises.domain.repository.SignInRepository
+import com.example.tbcexercises.domain.repository.auth.SignInRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

@@ -1,13 +1,11 @@
 package com.example.tbcexercises.presentation.profile_screen
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.domain.repository.SignOutRepository
-import com.example.tbcexercises.domain.repository.UserPreferencesRepository
-import com.example.tbcexercises.domain.repository.UserRepository
+import com.example.tbcexercises.domain.repository.auth.SignOutRepository
+import com.example.tbcexercises.domain.repository.user.UserPreferencesRepository
+import com.example.tbcexercises.domain.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
