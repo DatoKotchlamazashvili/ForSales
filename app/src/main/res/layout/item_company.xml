@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/imgCompanyLogo"
-    android:layout_width="42dp"
-    android:layout_height="42dp"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
     android:layout_marginStart="4dp"
     android:scaleType="centerCrop" />
 

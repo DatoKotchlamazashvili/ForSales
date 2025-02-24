@@ -1,14 +1,14 @@
 package com.example.tbcexercises.presentation.detail_screen.company_prices_adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.tbcexercises.domain.model.ProductDetail
+import com.example.tbcexercises.domain.model.DetailProduct
 
-object CompanyPricesDiffUtil : DiffUtil.ItemCallback<ProductDetail>() {
-    override fun areItemsTheSame(oldItem: ProductDetail, newItem: ProductDetail): Boolean {
+object CompanyPricesDiffUtil : DiffUtil.ItemCallback<DetailProduct>() {
+    override fun areItemsTheSame(oldItem: DetailProduct, newItem: DetailProduct): Boolean {
         return oldItem.productId == newItem.productId
     }
 
-    override fun areContentsTheSame(oldItem: ProductDetail, newItem: ProductDetail): Boolean {
+    override fun areContentsTheSame(oldItem: DetailProduct, newItem: DetailProduct): Boolean {
         return oldItem == newItem
     }
 }

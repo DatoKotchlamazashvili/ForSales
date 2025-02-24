@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProduct
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProductFavouriteEntity
-import com.example.tbcexercises.domain.model.ProductHome
+import com.example.tbcexercises.domain.model.HomeProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
 
-    fun setFavouriteStrategy(product: ProductHome) {
+    fun setFavouriteStrategy(product: HomeProduct) {
         viewModelScope.launch {
             val isFavourite = favouriteProductRepository.getAllFavouriteProductIds()
                 .first()

@@ -2,7 +2,7 @@ package com.example.tbcexercises.domain.model
 
 import com.example.tbcexercises.data.local.entity.favourite.FavouriteProductEntity
 
-data class ProductFavourite(
+data class FavouriteProduct(
     val productId: Int,
     val productName: String,
     val productImgUrl: String,

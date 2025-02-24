@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductFavouriteBinding
-import com.example.tbcexercises.domain.model.ProductFavourite
+import com.example.tbcexercises.domain.model.FavouriteProduct
 import com.example.tbcexercises.utils.GlideImageLoader
 
 class FavouriteProductAdapter :
-    ListAdapter<ProductFavourite, FavouriteProductAdapter.FavouriteProductViewHolder>(
+    ListAdapter<FavouriteProduct, FavouriteProductAdapter.FavouriteProductViewHolder>(
         FavouriteProductDiffUtil
     ) {
 

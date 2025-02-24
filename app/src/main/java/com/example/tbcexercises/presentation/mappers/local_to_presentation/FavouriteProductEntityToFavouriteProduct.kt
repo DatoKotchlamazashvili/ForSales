@@ -1,11 +1,11 @@
 package com.example.tbcexercises.data.mappers.local_to_presentation
 
 import com.example.tbcexercises.data.local.entity.favourite.FavouriteProductEntity
-import com.example.tbcexercises.domain.model.ProductFavourite
+import com.example.tbcexercises.domain.model.FavouriteProduct
 
 
-fun FavouriteProductEntity.toProductFavouriteEntity(): ProductFavourite {
-    return ProductFavourite(
+fun FavouriteProductEntity.toProductFavouriteEntity(): FavouriteProduct {
+    return FavouriteProduct(
         productId = productId,
         productName = productName,
         productImgUrl = productImgUrl,

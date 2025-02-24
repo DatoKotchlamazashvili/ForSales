@@ -19,7 +19,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModels()
 
     private val searchAdapter by lazy {
-        SearchProductAdapter(onFavouriteClick = {})
+        SearchProductAdapter(onFavouriteClick = { viewModel.setFavourite(it) })
     }
 
 
@@ -39,7 +39,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     private fun observeSearchResults() {
 
 
-        collectLastState(viewModel.searchResults) { pagingData ->
+        collectLastState(viewModel.searchResultsFlow) { pagingData ->
             searchAdapter.submitData(pagingData)
 
         }
@@ -57,7 +57,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             override fun onQueryTextChange(newText: String?): Boolean {
                 searchJob?.cancel()
                 searchJob = viewLifecycleOwner.lifecycleScope.launch {
-                    delay(1500)
+                    delay(1000)
                     newText?.let { viewModel.updateQuery(it) }
                 }
                 return true

@@ -1,14 +1,14 @@
 package com.example.tbcexercises.presentation.favourite_screen.favorute_product_adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.tbcexercises.domain.model.ProductFavourite
+import com.example.tbcexercises.domain.model.FavouriteProduct
 
-object FavouriteProductDiffUtil : DiffUtil.ItemCallback<ProductFavourite>() {
-    override fun areItemsTheSame(oldItem: ProductFavourite, newItem: ProductFavourite): Boolean {
+object FavouriteProductDiffUtil : DiffUtil.ItemCallback<FavouriteProduct>() {
+    override fun areItemsTheSame(oldItem: FavouriteProduct, newItem: FavouriteProduct): Boolean {
         return oldItem.productId == newItem.productId
     }
 
-    override fun areContentsTheSame(oldItem: ProductFavourite, newItem: ProductFavourite): Boolean {
+    override fun areContentsTheSame(oldItem: FavouriteProduct, newItem: FavouriteProduct): Boolean {
         return oldItem == newItem
     }
 }

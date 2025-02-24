@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemCompanyPricesBinding
-import com.example.tbcexercises.domain.model.ProductDetail
+import com.example.tbcexercises.domain.model.DetailProduct
 
 class CompanyPricesListAdapter :
-    ListAdapter<ProductDetail, CompanyPricesListAdapter.CompanyPricesViewHolder>(
+    ListAdapter<DetailProduct, CompanyPricesListAdapter.CompanyPricesViewHolder>(
         CompanyPricesDiffUtil
     ) {
 

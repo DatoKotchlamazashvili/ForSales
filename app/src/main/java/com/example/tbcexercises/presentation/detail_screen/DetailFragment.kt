@@ -54,7 +54,7 @@ class DetailFragment : DialogFragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = companyPricesListAdapter
         }
-        collectLastState(viewModel.productDetailState) { resource ->
+        collectLastState(viewModel.detailProductState) { resource ->
             when (resource) {
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE

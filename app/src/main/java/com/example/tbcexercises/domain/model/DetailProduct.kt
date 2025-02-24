@@ -1,7 +1,7 @@
 package com.example.tbcexercises.domain.model
 
 
-data class ProductDetail(
+data class DetailProduct(
     val productId: Int,
     val productName: String,
     val productImgUrl: String,

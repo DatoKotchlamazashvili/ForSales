@@ -9,7 +9,7 @@ import com.example.tbcexercises.data.local.entity.home.HomeProductEntity
 import com.example.tbcexercises.data.mappers.remote_to_presentation.toProductDetail
 import com.example.tbcexercises.data.paging.HomeProductMediator
 import com.example.tbcexercises.data.remote.service.ProductService
-import com.example.tbcexercises.domain.model.ProductDetail
+import com.example.tbcexercises.domain.model.DetailProduct
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import com.example.tbcexercises.utils.network_helper.ConnectivityObserver
 import com.example.tbcexercises.utils.network_helper.Resource
@@ -36,7 +36,7 @@ class HomeProductRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getProductById(id: Int): Flow<Resource<List<ProductDetail>>> {
+    override fun getProductById(id: Int): Flow<Resource<List<DetailProduct>>> {
         return handleNetworkRequest { productService.getProductById(id) }.map { resource ->
             when (resource) {
                 is Resource.Success -> Resource.Success(resource.data.map { it.toProductDetail() })

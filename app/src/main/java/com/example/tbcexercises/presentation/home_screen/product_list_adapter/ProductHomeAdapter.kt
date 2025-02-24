@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductHomeBinding
-import com.example.tbcexercises.domain.model.ProductHome
+import com.example.tbcexercises.domain.model.HomeProduct
 import com.example.tbcexercises.presentation.home_screen.company_list_adapter.CompanyListAdapter
 import com.example.tbcexercises.utils.GlideImageLoader
 import com.example.tbcexercises.utils.extension.setTint
 
 class ProductHomeAdapter(
     val onClick: (Int) -> Unit,
-    val onFavouriteClick: (ProductHome) -> Unit,
+    val onFavouriteClick: (HomeProduct) -> Unit,
 
     ) :
-    PagingDataAdapter<ProductHome, ProductHomeAdapter.ProductHomeViewHolder>(ProductHomeDiffUtil) {
+    PagingDataAdapter<HomeProduct, ProductHomeAdapter.ProductHomeViewHolder>(ProductHomeDiffUtil) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductHomeViewHolder {

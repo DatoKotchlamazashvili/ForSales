@@ -2,7 +2,7 @@ package com.example.tbcexercises.presentation.detail_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.domain.model.ProductDetail
+import com.example.tbcexercises.domain.model.DetailProduct
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,16 +17,16 @@ class DetailViewModel @Inject constructor(private val productRepository: HomePro
     ViewModel() {
 
 
-    private val _productDetailState =
-        MutableStateFlow<Resource<List<ProductDetail>>>(Resource.Loading)
+    private val _DetailProductState =
+        MutableStateFlow<Resource<List<DetailProduct>>>(Resource.Loading)
 
-    val productDetailState: StateFlow<Resource<List<ProductDetail>>> =
-        _productDetailState
+    val detailProductState: StateFlow<Resource<List<DetailProduct>>> =
+        _DetailProductState
 
     fun getProduct(id: Int) {
         viewModelScope.launch {
             productRepository.getProductById(id).collectLatest { state ->
-                _productDetailState.value = state
+                _DetailProductState.value = state
             }
         }
     }

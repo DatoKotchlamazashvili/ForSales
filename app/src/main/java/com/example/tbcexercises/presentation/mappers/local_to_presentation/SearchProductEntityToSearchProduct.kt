@@ -1,6 +1,7 @@
-package com.example.tbcexercises.data.mappers.local_to_presentation
+package com.example.tbcexercises.presentation.mappers.local_to_presentation
 
 import com.example.tbcexercises.data.local.entity.search.SearchProductEntity
+import com.example.tbcexercises.data.mappers.local_to_presentation.toSearchCompany
 import com.example.tbcexercises.domain.model.SearchProduct
 
 
@@ -11,7 +12,6 @@ fun SearchProductEntity.toSearchProduct(): SearchProduct {
             it.toSearchCompany()
         },
         productImgUrl = this.productImgUrl,
-        productCategory = this.productCategory,
         productName = this.productName
     )
 }
