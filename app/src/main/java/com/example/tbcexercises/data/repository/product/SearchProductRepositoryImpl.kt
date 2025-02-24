@@ -32,7 +32,7 @@ class SearchProductRepositoryImpl @Inject constructor(
                 connectivityObserver,
                 query
             ),
-            pagingSourceFactory = { appDatabase.searchProductsDao().getProducts() }
+            pagingSourceFactory = { appDatabase.searchProductsDao().getProducts(query) }
         ).flow
     }
 }

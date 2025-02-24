@@ -64,14 +64,14 @@ class SearchProductMediator @Inject constructor(
 
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    appDatabase.remoteKeysDao().clearRemoteKeys()
+                    appDatabase.searchRemoteKeysDao().clearRemoteKeys()
                     appDatabase.searchProductsDao().clearProducts()
                 }
 
                 val totalProducts = appDatabase.searchProductsDao().getProductCount()
                 if (totalProducts >= MAX_PRODUCTS_IN_DATABASE) {
                     appDatabase.searchProductsDao().deleteOldestProducts(PER_PAGE_PRODUCT)
-                    appDatabase.remoteKeysDao().deleteOldestRemoteKeys(PER_PAGE_PRODUCT)
+                    appDatabase.searchRemoteKeysDao().deleteOldestRemoteKeys(PER_PAGE_PRODUCT)
                 }
 
                 val prevKey = if (page == PRODUCT_STARTING_PAGE_INDEX) null else page - 1

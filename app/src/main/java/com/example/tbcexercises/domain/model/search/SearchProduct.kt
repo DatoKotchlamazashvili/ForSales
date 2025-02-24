@@ -1,5 +1,6 @@
-package com.example.tbcexercises.domain.model
+package com.example.tbcexercises.domain.model.search
 
+import com.example.tbcexercises.domain.model.FavouriteProduct
 import com.example.tbcexercises.utils.extension.companiesWithLowestPrice
 import com.example.tbcexercises.utils.extension.getLowestPrice
 

@@ -1,7 +1,7 @@
 package com.example.tbcexercises.utils.extension
 
 import android.util.Log
-import com.example.tbcexercises.domain.model.SearchCompany
+import com.example.tbcexercises.domain.model.search.SearchCompany
 
 fun List<SearchCompany>.getLowestPrice(): Double {
     return this.mapNotNull { it.productPrice.toDoubleOrNull() }.minOrNull() ?: 0.0

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.databinding.ItemCompanyPricesBinding
-import com.example.tbcexercises.domain.model.SearchCompany
+import com.example.tbcexercises.domain.model.search.SearchCompany
 import com.example.tbcexercises.utils.GlideImageLoader
 
 class SearchCompanyAdapter :

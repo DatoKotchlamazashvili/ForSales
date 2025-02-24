@@ -2,7 +2,7 @@ package com.example.tbcexercises.presentation.mappers.local_to_presentation
 
 import com.example.tbcexercises.data.local.entity.search.SearchProductEntity
 import com.example.tbcexercises.data.mappers.local_to_presentation.toSearchCompany
-import com.example.tbcexercises.domain.model.SearchProduct
+import com.example.tbcexercises.domain.model.search.SearchProduct
 
 
 fun SearchProductEntity.toSearchProduct(): SearchProduct {

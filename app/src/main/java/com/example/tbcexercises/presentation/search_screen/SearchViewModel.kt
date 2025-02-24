@@ -2,9 +2,10 @@ package com.example.tbcexercises.presentation.search_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.tbcexercises.domain.model.SearchProduct
+import com.example.tbcexercises.domain.model.search.SearchProduct
 import com.example.tbcexercises.presentation.mappers.local_to_presentation.toSearchProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.product.SearchProductRepository
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -33,10 +35,13 @@ class SearchViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val baseSearchResults = searchQuery
-        .filter { it.length >= 3 }
         .flatMapLatest { query ->
-            searchProductRepository.getSearchedProductsPager(query)
-                .map { pagingData -> pagingData.map { it.toSearchProduct() } }
+            if (query.length >= 3) {
+                searchProductRepository.getSearchedProductsPager(query)
+                    .map { pagingData -> pagingData.map { it.toSearchProduct() } }
+            } else {
+                flowOf(PagingData.empty())
+            }
         }
         .cachedIn(viewModelScope)
 

@@ -1,4 +1,4 @@
-package com.example.tbcexercises.domain.model
+package com.example.tbcexercises.domain.model.search
 
 data class SearchCompany(
     val name: String,

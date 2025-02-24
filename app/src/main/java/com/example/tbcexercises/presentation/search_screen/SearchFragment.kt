@@ -2,7 +2,9 @@ package com.example.tbcexercises.presentation.search_screen
 
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tbcexercises.databinding.FragmentSearchBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
@@ -57,8 +59,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             override fun onQueryTextChange(newText: String?): Boolean {
                 searchJob?.cancel()
                 searchJob = viewLifecycleOwner.lifecycleScope.launch {
-                    delay(1000)
-                    newText?.let { viewModel.updateQuery(it) }
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        delay(1000)
+                        newText?.let { viewModel.updateQuery(it) }
+                    }
                 }
                 return true
             }

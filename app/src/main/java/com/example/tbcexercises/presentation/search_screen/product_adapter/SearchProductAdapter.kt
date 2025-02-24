@@ -1,5 +1,6 @@
 package com.example.tbcexercises.presentation.search_screen.product_adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductSearchBinding
-import com.example.tbcexercises.domain.model.SearchProduct
+import com.example.tbcexercises.domain.model.search.SearchProduct
 import com.example.tbcexercises.presentation.search_screen.company_adapter.SearchCompanyAdapter
 import com.example.tbcexercises.utils.GlideImageLoader
 import com.example.tbcexercises.utils.extension.setTint
@@ -36,6 +37,7 @@ class SearchProductAdapter(val onFavouriteClick: (SearchProduct) -> Unit) :
 
     inner class SearchProductViewHolder(val binding: ItemProductSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ClickableViewAccessibility")
         fun onBind() {
             val product = getItem(bindingAdapterPosition)
 

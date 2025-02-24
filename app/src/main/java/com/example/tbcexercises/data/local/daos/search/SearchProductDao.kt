@@ -14,8 +14,8 @@ interface SearchProductDao {
     suspend fun insertAll(products: List<SearchProductEntity>)
 
 
-    @Query("SELECT * FROM search_product_entity")
-    fun getProducts(): PagingSource<Int, SearchProductEntity>
+    @Query("SELECT * FROM search_product_entity where productName  LIKE '%' || :query || '%' ")
+    fun getProducts(query: String): PagingSource<Int, SearchProductEntity>
 
     @Query("DELETE FROM search_product_entity")
     suspend fun clearProducts()
