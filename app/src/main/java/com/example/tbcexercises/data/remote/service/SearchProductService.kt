@@ -1,6 +1,6 @@
 package com.example.tbcexercises.data.remote.service
 
-import com.example.tbcexercises.data.remote.response.SearchPaginatedResponse
+import com.example.tbcexercises.data.remote.response.search.SearchPaginatedResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -1,8 +1,8 @@
 package com.example.tbcexercises.data.local.converter
 
 import androidx.room.TypeConverter
-import com.example.tbcexercises.data.local.entity.CompanyEntity
-import com.example.tbcexercises.data.local.entity.SearchCompanyEntity
+import com.example.tbcexercises.data.local.entity.home.CompanyEntity
+import com.example.tbcexercises.data.local.entity.search.SearchCompanyEntity
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

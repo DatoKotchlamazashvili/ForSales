@@ -8,7 +8,7 @@ import com.example.tbcexercises.data.mappers.local_to_presentation.toProduct
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProductFavouriteEntity
 import com.example.tbcexercises.domain.model.ProductHome
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
-import com.example.tbcexercises.domain.repository.product.ProductRepository
+import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    productRepository: ProductRepository,
+    productRepository: HomeProductRepository,
     private val favouriteProductRepository: FavouriteProductRepository
 ) :
     ViewModel() {

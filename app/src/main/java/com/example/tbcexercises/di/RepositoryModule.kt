@@ -1,7 +1,7 @@
 package com.example.tbcexercises.di
 
 import com.example.tbcexercises.data.repository.product.FavouriteProductRepositoryImpl
-import com.example.tbcexercises.data.repository.product.ProductRepositoryImpl
+import com.example.tbcexercises.data.repository.product.HomeProductRepositoryImpl
 import com.example.tbcexercises.data.repository.auth.SignInRepositoryImpl
 import com.example.tbcexercises.data.repository.auth.SignOutRepositoryImpl
 import com.example.tbcexercises.data.repository.auth.SignUpRepositoryImpl
@@ -9,7 +9,7 @@ import com.example.tbcexercises.data.repository.product.SearchProductRepositoryI
 import com.example.tbcexercises.data.repository.user.UserPreferencesRepositoryImpl
 import com.example.tbcexercises.data.repository.user.UserRepositoryImpl
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
-import com.example.tbcexercises.domain.repository.product.ProductRepository
+import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import com.example.tbcexercises.domain.repository.auth.SignInRepository
 import com.example.tbcexercises.domain.repository.auth.SignOutRepository
 import com.example.tbcexercises.domain.repository.auth.SignUpRepository
@@ -28,7 +28,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindProductRepository(impl: ProductRepositoryImpl): ProductRepository
+    abstract fun bindProductRepository(impl: HomeProductRepositoryImpl): HomeProductRepository
 
     @Binds
     @Singleton

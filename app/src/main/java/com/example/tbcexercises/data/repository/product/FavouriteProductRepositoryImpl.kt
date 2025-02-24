@@ -1,6 +1,6 @@
 package com.example.tbcexercises.data.repository.product
 
-import com.example.tbcexercises.data.local.daos.FavouriteProductDao
+import com.example.tbcexercises.data.local.daos.favourite.FavouriteProductDao
 import com.example.tbcexercises.data.mappers.local_to_presentation.toProductFavouriteEntity
 import com.example.tbcexercises.domain.model.ProductFavourite
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository

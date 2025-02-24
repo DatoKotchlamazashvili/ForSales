@@ -5,7 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.tbcexercises.data.local.AppDatabase
-import com.example.tbcexercises.data.local.entity.SearchProductEntity
+import com.example.tbcexercises.data.local.entity.search.SearchProductEntity
+import com.example.tbcexercises.data.paging.SearchProductMediator
 import com.example.tbcexercises.data.remote.service.SearchProductService
 import com.example.tbcexercises.domain.repository.product.SearchProductRepository
 import com.example.tbcexercises.utils.Constants.PER_PAGE_PRODUCT

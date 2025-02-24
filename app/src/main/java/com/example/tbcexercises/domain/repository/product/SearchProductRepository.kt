@@ -1,7 +1,7 @@
 package com.example.tbcexercises.domain.repository.product
 
 import androidx.paging.PagingData
-import com.example.tbcexercises.data.local.entity.SearchProductEntity
+import com.example.tbcexercises.data.local.entity.search.SearchProductEntity
 import kotlinx.coroutines.flow.Flow
 
 interface SearchProductRepository {

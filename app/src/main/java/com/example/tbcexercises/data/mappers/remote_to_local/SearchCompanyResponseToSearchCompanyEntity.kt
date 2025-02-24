@@ -1,7 +1,7 @@
 package com.example.tbcexercises.data.mappers.remote_to_local
 
-import com.example.tbcexercises.data.local.entity.SearchCompanyEntity
-import com.example.tbcexercises.data.remote.response.SearchCompanyResponse
+import com.example.tbcexercises.data.local.entity.search.SearchCompanyEntity
+import com.example.tbcexercises.data.remote.response.search.SearchCompanyResponse
 
 
 fun SearchCompanyResponse.toSearchCompanyEntity(): SearchCompanyEntity {

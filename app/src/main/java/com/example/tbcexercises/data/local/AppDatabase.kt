@@ -4,19 +4,19 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.tbcexercises.data.local.converter.Converter
-import com.example.tbcexercises.data.local.daos.FavouriteProductDao
-import com.example.tbcexercises.data.local.daos.ProductDao
-import com.example.tbcexercises.data.local.daos.RemoteKeysDao
-import com.example.tbcexercises.data.local.daos.SearchProductDao
-import com.example.tbcexercises.data.local.daos.SearchRemoteKeysDao
-import com.example.tbcexercises.data.local.entity.FavouriteProductEntity
-import com.example.tbcexercises.data.local.entity.ProductHomeEntity
-import com.example.tbcexercises.data.local.entity.RemoteKeyEntity
-import com.example.tbcexercises.data.local.entity.SearchProductEntity
-import com.example.tbcexercises.data.local.entity.SearchRemoteKeyEntity
+import com.example.tbcexercises.data.local.daos.favourite.FavouriteProductDao
+import com.example.tbcexercises.data.local.daos.home.HomeProductDao
+import com.example.tbcexercises.data.local.daos.home.RemoteKeysDao
+import com.example.tbcexercises.data.local.daos.search.SearchProductDao
+import com.example.tbcexercises.data.local.daos.search.SearchRemoteKeysDao
+import com.example.tbcexercises.data.local.entity.favourite.FavouriteProductEntity
+import com.example.tbcexercises.data.local.entity.home.HomeProductEntity
+import com.example.tbcexercises.data.local.entity.home.RemoteKeyEntity
+import com.example.tbcexercises.data.local.entity.search.SearchProductEntity
+import com.example.tbcexercises.data.local.entity.search.SearchRemoteKeyEntity
 
 @Database(
-    entities = [ProductHomeEntity::class,
+    entities = [HomeProductEntity::class,
         RemoteKeyEntity::class,
         FavouriteProductEntity::class,
         SearchProductEntity::class,
@@ -26,7 +26,7 @@ import com.example.tbcexercises.data.local.entity.SearchRemoteKeyEntity
 )
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun productsDao(): ProductDao
+    abstract fun productsDao(): HomeProductDao
     abstract fun remoteKeysDao(): RemoteKeysDao
     abstract fun favouriteProductsDao(): FavouriteProductDao
     abstract fun searchProductsDao(): SearchProductDao

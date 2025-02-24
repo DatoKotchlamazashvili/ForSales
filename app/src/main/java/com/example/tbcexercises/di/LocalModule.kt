@@ -6,10 +6,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.example.tbcexercises.data.local.AppDatabase
-import com.example.tbcexercises.data.local.daos.FavouriteProductDao
-import com.example.tbcexercises.data.local.daos.ProductDao
-import com.example.tbcexercises.data.local.daos.RemoteKeysDao
-import com.example.tbcexercises.data.local.daos.SearchProductDao
+import com.example.tbcexercises.data.local.daos.favourite.FavouriteProductDao
+import com.example.tbcexercises.data.local.daos.home.HomeProductDao
+import com.example.tbcexercises.data.local.daos.home.RemoteKeysDao
+import com.example.tbcexercises.data.local.daos.search.SearchProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +35,7 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun provideUserDao(database: AppDatabase): ProductDao {
+    fun provideUserDao(database: AppDatabase): HomeProductDao {
         return database.productsDao()
     }
 
