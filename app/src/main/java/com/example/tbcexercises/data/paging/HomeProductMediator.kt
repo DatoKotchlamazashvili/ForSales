@@ -14,7 +14,7 @@ import com.example.tbcexercises.utils.Constants.DURATION_BEFORE_FETCH
 import com.example.tbcexercises.utils.Constants.MAX_PRODUCTS_IN_DATABASE
 import com.example.tbcexercises.utils.Constants.PER_PAGE_PRODUCT
 import com.example.tbcexercises.utils.Constants.PRODUCT_STARTING_PAGE_INDEX
-import com.example.tbcexercises.utils.network_helper.ConnectivityObserver
+import com.example.tbcexercises.data.connectivity.ConnectivityObserver
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 

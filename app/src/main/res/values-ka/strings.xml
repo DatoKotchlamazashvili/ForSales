@@ -21,5 +21,14 @@
     <string name="login">დალოგინდი</string>
     <string name="remember_me">დაიმახსოვრე</string>
     <string name="error_password_mismatch">პაროლები უნდა იყოს ერთნაირი</string>
+    <string name="app_nickname">ForSales</string>
+    <string name="save_money">დაზოგე ფული</string>
+    <string name="logout">გამოდი</string>
+    <string name="account">პროფილი</string>
+    <string name="money_format">₾  %1$s</string>
+    <string name="successfully_deleted_item">წარმატებით  წაიშალა პროდუქტი</string>
+    <string name="undo">დააბრუნე</string>
+    <string name="search">მოძებნე</string>
+    <string name="search_here">რას ეძებ…</string>
 
 </resources>

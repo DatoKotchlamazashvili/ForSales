@@ -23,7 +23,7 @@
     <string name="login">Login</string>
     <string name="remember_me">remember me</string>
     <string name="error_password_mismatch">passwords should be same</string>
-    <string name="app_nickname">For Sale</string>
+    <string name="app_nickname">ForSales</string>
     <string name="save_money">save money</string>
     <string name="logout">Logout</string>
     <string name="account">Account</string>
@@ -31,6 +31,6 @@
     <string name="successfully_deleted_item">Successfully deleted item</string>
     <string name="undo">Undo</string>
     <string name="search">Search</string>
-    <string name="search_here">Search here...</string>
+    <string name="search_here">Search here…</string>
 
 </resources>

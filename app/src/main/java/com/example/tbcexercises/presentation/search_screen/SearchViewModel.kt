@@ -64,6 +64,7 @@ class SearchViewModel @Inject constructor(
         }
     }.cachedIn(viewModelScope)
 
+
     fun updateQuery(newQuery: String) {
         _searchQuery.value = newQuery
     }

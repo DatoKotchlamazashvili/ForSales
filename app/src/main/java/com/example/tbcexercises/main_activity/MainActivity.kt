@@ -13,8 +13,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tbcexercises.R
@@ -33,6 +35,8 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +53,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fvcNavHostFragment) as NavHostFragment
-        val navController = navHostFragment.navController
-
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fvcNavHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
+
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -63,16 +66,13 @@ class MainActivity : AppCompatActivity() {
                     appBarTitle = getString(R.string.login),
                     languageIconIsVisible = true
                 )
-
                 R.id.registerFragment -> showViews(
                     bottomNav = false,
                     appBarTitle = getString(R.string.register),
                     languageIconIsVisible = true
                 )
-
                 R.id.launcherFragment -> showViews(bottomNav = false, appBar = false)
                 R.id.profileFragment -> showViews(bottomNav = true, languageIconIsVisible = true)
-
                 else -> showViews(bottomNav = true)
             }
         }
@@ -130,10 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadLocale(language: String) {
         val currentLanguage = resources.configuration.locales[0].language
-        Log.d("languagold", currentLanguage)
-        Log.d("languageNew", language)
         if (currentLanguage != language) {
-            Log.d("language", "executed")
             val locale = Locale(language)
             Locale.setDefault(locale)
             val config = Configuration()
@@ -156,6 +153,10 @@ class MainActivity : AppCompatActivity() {
         val config = Configuration()
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration)
     }
 
     override fun onDestroy() {

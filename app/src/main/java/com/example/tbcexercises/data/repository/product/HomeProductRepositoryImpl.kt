@@ -11,7 +11,7 @@ import com.example.tbcexercises.data.paging.HomeProductMediator
 import com.example.tbcexercises.data.remote.service.ProductService
 import com.example.tbcexercises.domain.model.DetailProduct
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
-import com.example.tbcexercises.utils.network_helper.ConnectivityObserver
+import com.example.tbcexercises.data.connectivity.ConnectivityObserver
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest
 import kotlinx.coroutines.flow.Flow

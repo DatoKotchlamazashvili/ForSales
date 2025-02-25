@@ -53,15 +53,15 @@ class ProductHomeAdapter(
                     root.setOnClickListener {
                         onClick(product.productId)
                     }
+
                     rvCompanies.layoutManager =
                         LinearLayoutManager(
                             binding.root.context,
                             LinearLayoutManager.HORIZONTAL,
-                            false
+                            true
                         )
 
                     rvCompanies.adapter = companyAdapter
-
                     imgFavourite.setOnClickListener {
                         onFavouriteClick(product)
                     }

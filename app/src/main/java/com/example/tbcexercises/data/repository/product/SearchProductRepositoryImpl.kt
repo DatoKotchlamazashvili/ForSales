@@ -10,7 +10,7 @@ import com.example.tbcexercises.data.paging.SearchProductMediator
 import com.example.tbcexercises.data.remote.service.SearchProductService
 import com.example.tbcexercises.domain.repository.product.SearchProductRepository
 import com.example.tbcexercises.utils.Constants.PER_PAGE_PRODUCT
-import com.example.tbcexercises.utils.network_helper.ConnectivityObserver
+import com.example.tbcexercises.data.connectivity.ConnectivityObserver
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

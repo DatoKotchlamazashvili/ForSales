@@ -1,7 +1,7 @@
 package com.example.tbcexercises.di
 
-import com.example.tbcexercises.utils.network_helper.ConnectivityObserver
-import com.example.tbcexercises.utils.network_helper.ConnectivityObserverImpl
+import com.example.tbcexercises.data.connectivity.ConnectivityObserver
+import com.example.tbcexercises.data.connectivity.ConnectivityObserverImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

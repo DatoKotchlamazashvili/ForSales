@@ -1,4 +1,4 @@
-package com.example.tbcexercises.utils.network_helper
+package com.example.tbcexercises.data.connectivity
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,7 +10,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class ConnectivityObserverImpl @Inject constructor(
 @ApplicationContext    private  val context: Context
