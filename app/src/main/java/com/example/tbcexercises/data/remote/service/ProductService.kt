@@ -1,7 +1,7 @@
 package com.example.tbcexercises.data.remote.service
 
 import com.example.tbcexercises.data.remote.response.home.HomePaginatedResponse
-import com.example.tbcexercises.data.remote.response.ProductResponse
+import com.example.tbcexercises.data.remote.response.DetailProductResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,7 +15,7 @@ interface ProductService {
     ): HomePaginatedResponse
 
     @GET("products/{id}")
-    suspend fun getProductById(@Path("id") id : Int) : Response<List<ProductResponse>>
+    suspend fun getProductById(@Path("id") id : Int) : Response<List<DetailProductResponse>>
 
 
 }

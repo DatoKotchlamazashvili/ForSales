@@ -26,6 +26,8 @@ class FavouriteFragment :
     }
 
     override fun start() {
+
+        viewModel.getFavouriteProducts()
         setUpAdapter()
         collectLastState(viewModel.favouriteProducts) { state ->
             when (state) {
@@ -43,6 +45,7 @@ class FavouriteFragment :
                     favouriteProductAdapter.submitList(state.data.toList())
 
                 }
+
                 null -> {
                 }
             }
@@ -81,14 +84,14 @@ class FavouriteFragment :
                 viewModel.deleteFavouriteProduct(item)
                 Snackbar.make(
                     requireView(),
-                    getString(R.string.successfully_deleted_item), Snackbar.LENGTH_LONG
-                )
-                    .apply {
-                        setAction(getString(R.string.undo)) {
-                            viewModel.insertFavouriteProduct(item)
-                        }
-                        show()
+                    getString(R.string.successfully_deleted_item),
+                    Snackbar.LENGTH_LONG
+                ).apply {
+                    setAction(getString(R.string.undo)) {
+                        viewModel.insertFavouriteProduct(item)
                     }
+                    show()
+                }
             }
         }
 

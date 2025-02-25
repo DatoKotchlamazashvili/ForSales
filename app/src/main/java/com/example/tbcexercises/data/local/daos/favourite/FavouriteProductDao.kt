@@ -13,6 +13,10 @@ interface FavouriteProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavouriteProduct(product: FavouriteProductEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavouriteProducts(product: List<FavouriteProductEntity>)
+
+
     @Delete
     suspend fun deleteFavouriteProduct(product: FavouriteProductEntity)
 
