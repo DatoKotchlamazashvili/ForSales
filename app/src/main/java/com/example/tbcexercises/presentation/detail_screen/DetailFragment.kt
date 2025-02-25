@@ -10,9 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tbcexercises.databinding.FragmentDetailBinding
 import com.example.tbcexercises.presentation.detail_screen.company_prices_adapter.CompanyPricesListAdapter
-import com.example.tbcexercises.utils.GlideImageLoader
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.extension.collectLastState
+import com.example.tbcexercises.utils.extension.loadImg
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,7 +66,7 @@ class DetailFragment : DialogFragment() {
                     if (resource.data.isNotEmpty()) {
                         val product = resource.data.first()
                         binding.txtProductName.text = product.productName
-                        GlideImageLoader.loadImage(binding.imgProduct, product.productImgUrl)
+                        binding.imgProduct.loadImg(product.productImgUrl)
                         companyPricesListAdapter.submitList(resource.data)
                     }
                 }

@@ -9,7 +9,7 @@ import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductHomeBinding
 import com.example.tbcexercises.domain.model.HomeProduct
 import com.example.tbcexercises.presentation.home_screen.company_list_adapter.CompanyListAdapter
-import com.example.tbcexercises.utils.GlideImageLoader
+import com.example.tbcexercises.utils.extension.loadImg
 import com.example.tbcexercises.utils.extension.setTint
 
 class ProductHomeAdapter(
@@ -38,9 +38,7 @@ class ProductHomeAdapter(
 
             product?.let {
 
-                GlideImageLoader.loadImage(binding.imgProduct, url = product.productImgUrl)
                 val companyAdapter = CompanyListAdapter()
-
 
                 binding.apply {
                     txtProductName.text = product.productName
@@ -49,6 +47,8 @@ class ProductHomeAdapter(
                         product.productPrice.toString()
                     )
                     txtCategory.text = product.productCategory
+
+                    imgProduct.loadImg(product.productImgUrl)
 
                     root.setOnClickListener {
                         onClick(product.productId)

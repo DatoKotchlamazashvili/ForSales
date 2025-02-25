@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductFavouriteBinding
 import com.example.tbcexercises.domain.model.FavouriteProduct
-import com.example.tbcexercises.utils.GlideImageLoader
+import com.example.tbcexercises.utils.extension.loadImg
 
 class FavouriteProductAdapter :
     ListAdapter<FavouriteProduct, FavouriteProductAdapter.FavouriteProductViewHolder>(
@@ -38,7 +38,7 @@ class FavouriteProductAdapter :
                     favouriteProduct.productPrice.toString()
                 )
 
-                GlideImageLoader.loadImage(imgProduct, favouriteProduct.productImgUrl)
+                imgProduct.loadImg(favouriteProduct.productImgUrl)
             }
         }
     }

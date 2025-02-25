@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.databinding.ItemCompanyBinding
 import com.example.tbcexercises.domain.model.Company
-import com.example.tbcexercises.utils.GlideImageLoader
+import com.example.tbcexercises.utils.extension.loadImg
 
 class CompanyListAdapter :
     ListAdapter<Company, CompanyListAdapter.CompanyListViewHolder>(CompanyDiffUtil) {
@@ -25,7 +25,7 @@ class CompanyListAdapter :
         fun onBind() {
             val company = getItem(bindingAdapterPosition)
 
-            GlideImageLoader.loadImage(binding.imgCompanyLogo, company.companyImgUrl)
+            binding.imgCompanyLogo.loadImg(company.companyImgUrl)
         }
     }
 

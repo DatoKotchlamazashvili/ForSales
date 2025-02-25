@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.databinding.ItemCompanyPricesBinding
 import com.example.tbcexercises.domain.model.search.SearchCompany
-import com.example.tbcexercises.utils.GlideImageLoader
+import com.example.tbcexercises.utils.extension.loadImg
 
 class SearchCompanyAdapter :
     ListAdapter<SearchCompany, SearchCompanyAdapter.SearchCompanyViewHolder>(SearchCompanyDiffUtil) {
@@ -30,7 +30,7 @@ class SearchCompanyAdapter :
                 txtCompanyName.text = company.name
                 txtCompanyPrice.text = company.productPrice
 
-                GlideImageLoader.loadImage(imgCompanyLogo, company.companyImgUrl)
+                imgCompanyLogo.loadImg(company.companyImgUrl)
             }
         }
     }

@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemCompanyPricesBinding
 import com.example.tbcexercises.domain.model.DetailProduct
+import com.example.tbcexercises.utils.extension.loadImg
 
 class CompanyPricesListAdapter :
     ListAdapter<DetailProduct, CompanyPricesListAdapter.CompanyPricesViewHolder>(
@@ -33,13 +32,8 @@ class CompanyPricesListAdapter :
                 txtCompanyPrice.text = companyPrices.productPrice.toString()
                 txtCompanyName.text = companyPrices.company
 
+                imgCompanyLogo.loadImg(companyPrices.companyImgUrl)
             }
-            Glide.with(binding.imgCompanyLogo.context)
-                .load(companyPrices.companyImgUrl)
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_error)
-                .into(binding.imgCompanyLogo)
-
         }
     }
 

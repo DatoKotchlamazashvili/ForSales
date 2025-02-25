@@ -10,7 +10,7 @@ import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductSearchBinding
 import com.example.tbcexercises.domain.model.search.SearchProduct
 import com.example.tbcexercises.presentation.search_screen.company_adapter.SearchCompanyAdapter
-import com.example.tbcexercises.utils.GlideImageLoader
+import com.example.tbcexercises.utils.extension.loadImg
 import com.example.tbcexercises.utils.extension.setTint
 
 class SearchProductAdapter(val onFavouriteClick: (SearchProduct) -> Unit) :
@@ -45,7 +45,7 @@ class SearchProductAdapter(val onFavouriteClick: (SearchProduct) -> Unit) :
             product?.let {
                 binding.apply {
                     txtProductName.text = it.productName
-                    GlideImageLoader.loadImage(imgProduct, it.productImgUrl)
+                    imgProduct.loadImg(it.productImgUrl)
 
                     rvCompanyPrices.adapter = companyAdapter
                     rvCompanyPrices.layoutManager = LinearLayoutManager(root.context)
