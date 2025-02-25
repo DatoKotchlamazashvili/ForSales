@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -58,6 +59,19 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setupWithNavController(navController)
 
+        binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            if (menuItem.itemId == navController.currentDestination?.id) {
+                return@setOnItemSelectedListener false
+            }
+
+            val navOptions = NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setPopUpTo(menuItem.itemId, inclusive = true)
+                .build()
+
+            navController.navigate(menuItem.itemId, null, navOptions)
+            true
+        }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -75,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.profileFragment -> showViews(bottomNav = true, languageIconIsVisible = true)
                 else -> showViews(bottomNav = true)
             }
+            binding.bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
         }
 
         lifecycleScope.launch {
