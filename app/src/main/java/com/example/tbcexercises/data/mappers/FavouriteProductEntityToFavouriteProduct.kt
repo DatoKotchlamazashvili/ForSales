@@ -1,6 +1,6 @@
-package com.example.tbcexercises.data.mappers.local_to_presentation
+package com.example.tbcexercises.data.mappers
 
-import com.example.tbcexercises.data.local.entity.favourite.FavouriteProductEntity
+import com.example.tbcexercises.data.local.entity.FavouriteProductEntity
 import com.example.tbcexercises.domain.model.FavouriteProduct
 
 

@@ -2,27 +2,35 @@ package com.example.tbcexercises.presentation.home_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.tbcexercises.data.mappers.local_to_presentation.toFavouriteProduct
-import com.example.tbcexercises.data.mappers.local_to_presentation.toProduct
+import com.example.tbcexercises.data.mappers.toFavouriteProduct
+import com.example.tbcexercises.data.mappers.toHomeProduct
 import com.example.tbcexercises.domain.model.HomeProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    productRepository: HomeProductRepository,
+    private val productRepository: HomeProductRepository,
     private val favouriteProductRepository: FavouriteProductRepository
-) :
-    ViewModel() {
+) : ViewModel() {
+
+    private val _searchQuery = MutableStateFlow<String?>(null)
+    private val _category = MutableStateFlow<String?>(null)
+
     private val favouriteIdsFlow = favouriteProductRepository
         .getAllFavouriteProductIds()
         .stateIn(
@@ -31,24 +39,27 @@ class HomeViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    private val basePagingFlow = productRepository.getProductsPager().cachedIn(viewModelScope)
-    val productFlow = combine(
-        basePagingFlow,
-        favouriteIdsFlow
-    ) { pagingData, favouriteIds ->
-        pagingData.map { product ->
-            product.toProduct().copy(
-                isFavourite = product.productId in favouriteIds
-            )
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val productFlow = combine(_searchQuery, _category, favouriteIdsFlow) { search, category, _ ->
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { productRepository.getProductsPagerSource(category, search) }
+        ).flow.map { pagingData ->
+            pagingData.map { product ->
+                product.toHomeProduct().copy(
+                    isFavourite = product.productId in favouriteIdsFlow.value
+                )
+            }
         }
-    }.cachedIn(viewModelScope)
-
+    }.flatMapLatest { it }
+        .cachedIn(viewModelScope)
 
     fun setFavouriteStrategy(product: HomeProduct) {
         viewModelScope.launch {
-            val isFavourite = favouriteProductRepository.getAllFavouriteProductIds()
-                .first()
-                .contains(product.productId)
+            val isFavourite = favouriteIdsFlow.value.contains(product.productId)
 
             if (isFavourite) {
                 favouriteProductRepository.deleteFavouriteProduct(
@@ -60,5 +71,13 @@ class HomeViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun updateSearchQuery(query: String?) {
+        _searchQuery.value = query
+    }
+
+    fun updateCategory(category: String?) {
+        _category.value = category
     }
 }

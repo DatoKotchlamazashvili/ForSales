@@ -1,4 +1,4 @@
-package com.example.tbcexercises.data.local.entity.favourite
+package com.example.tbcexercises.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

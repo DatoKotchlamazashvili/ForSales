@@ -83,9 +83,4 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.tbcexercises.presentation.search_screen.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
 </navigation>

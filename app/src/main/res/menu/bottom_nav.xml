@@ -12,12 +12,6 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/searchFragment"
-        android:icon="@drawable/search"
-        android:title="@string/search" />
-
-
-    <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/person"
         android:title="@string/account" />

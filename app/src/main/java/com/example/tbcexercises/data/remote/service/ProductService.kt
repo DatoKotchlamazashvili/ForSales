@@ -10,12 +10,15 @@ import retrofit2.http.Query
 interface ProductService {
 
     @GET("products/lowest_priced")
-    suspend fun getHomeProducts(
-        @Query("page") page: Int, @Query("perPage") perPage: Int
+    suspend fun getProducts(
+        @Query("page") page: Int,
+        @Query("perPage") perPage: Int,
+        @Query("search") search: String?,
+        @Query("category") category: String?
     ): HomePaginatedResponse
 
     @GET("products/{id}")
-    suspend fun getProductById(@Path("id") id : Int) : Response<List<DetailProductResponse>>
+    suspend fun getProductById(@Path("id") id: Int): Response<List<DetailProductResponse>>
 
 
 }

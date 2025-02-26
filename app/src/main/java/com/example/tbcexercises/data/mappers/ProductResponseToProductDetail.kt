@@ -1,4 +1,4 @@
-package com.example.tbcexercises.data.mappers.remote_to_presentation
+package com.example.tbcexercises.data.mappers
 
 import com.example.tbcexercises.data.remote.response.DetailProductResponse
 import com.example.tbcexercises.domain.model.DetailProduct

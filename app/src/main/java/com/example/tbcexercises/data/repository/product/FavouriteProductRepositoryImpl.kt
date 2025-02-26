@@ -1,16 +1,15 @@
 package com.example.tbcexercises.data.repository.product
 
-import android.util.Log
-import com.example.tbcexercises.data.local.daos.favourite.FavouriteProductDao
-import com.example.tbcexercises.data.mappers.local_to_presentation.toFavouriteProduct
-import com.example.tbcexercises.data.mappers.remote_to_local.toFavouriteProductEntity
+
+import com.example.tbcexercises.data.local.daos.FavouriteProductDao
+import com.example.tbcexercises.data.mappers.toFavouriteProduct
+import com.example.tbcexercises.data.mappers.toFavouriteProductEntity
 import com.example.tbcexercises.data.remote.response.FavouriteProductResponse
 import com.example.tbcexercises.data.remote.service.FavouriteProductService
 import com.example.tbcexercises.domain.model.FavouriteProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
