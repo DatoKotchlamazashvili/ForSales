@@ -11,4 +11,5 @@
     <color name="background_start">#FFFFFF</color>
     <color name="background_end">#F5F5F5</color>
     <color name="search_view_white">#E0E0E0</color>
+    <color name="light_gray" >#A2A2A2</color>
 </resources>

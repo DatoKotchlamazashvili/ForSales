@@ -10,12 +10,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tbcexercises.databinding.FragmentHomeBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
+import com.example.tbcexercises.presentation.home_screen.category_list_adapter.CategoryListAdapter
 import com.example.tbcexercises.presentation.home_screen.product_list_adapter.ProductHomeAdapter
 import com.example.tbcexercises.presentation.home_screen.product_load_adapter.ProductLoadStateAdapter
 import com.example.tbcexercises.utils.extension.collectLastState
 import com.example.tbcexercises.utils.extension.toast
+import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -31,13 +34,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }, onFavouriteClick = { viewModel.setFavouriteStrategy(it) })
     }
 
+    private val categoryAdapter by lazy {
+        CategoryListAdapter(onClick = {
+            viewModel.updateCategory(it)
+        })
+    }
+
     override fun start() {
-        setUpRecycleView()
+        setUpProductsRecycleView()
         setupSearchView()
+        setUpCategoryRecycleView()
         collectLastState(viewModel.productFlow) {
             productHomeAdapter.submitData(it)
         }
-
     }
 
     override fun listeners() {
@@ -63,7 +72,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
-    private fun setUpRecycleView() {
+    private fun setUpProductsRecycleView() {
         binding.rvProducts.apply {
             layoutManager =
                 GridLayoutManager(requireContext(), 2)
@@ -80,6 +89,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         errorState?.let {
             toast(it.error.toString())
+        }
+    }
+
+    private fun setUpCategoryRecycleView() {
+        binding.rvCategories.apply {
+            adapter = categoryAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        collectLastState(viewModel.categories) { state ->
+            when (state) {
+                is Resource.Error -> {
+                    toast(message = state.message)
+                    binding.categoryProgressBar.isVisible = false
+                }
+
+                Resource.Loading -> {
+                    binding.categoryProgressBar.isVisible = true
+                }
+
+                is Resource.Success -> {
+                    categoryAdapter.submitList(state.data.toList())
+                    binding.categoryProgressBar.isVisible = false
+
+                }
+
+                null -> {}
+            }
         }
     }
 
