@@ -1,7 +1,9 @@
 package com.example.tbcexercises.di
 
 import com.example.tbcexercises.BuildConfig
+import com.example.tbcexercises.data.remote.service.CartProductService
 import com.example.tbcexercises.data.remote.service.CategoryService
+import com.example.tbcexercises.data.remote.service.CompanyService
 import com.example.tbcexercises.data.remote.service.FavouriteProductService
 import com.example.tbcexercises.data.remote.service.ProductService
 import com.google.firebase.auth.FirebaseAuth
@@ -67,6 +69,18 @@ object RemoteModule {
     @Singleton
     fun provideCategoryService(retrofit: Retrofit): CategoryService {
         return retrofit.create(CategoryService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCompanyService(retrofit: Retrofit): CompanyService {
+        return retrofit.create(CompanyService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartProductService(retrofit: Retrofit): CartProductService {
+        return retrofit.create(CartProductService::class.java)
     }
 
     @Provides

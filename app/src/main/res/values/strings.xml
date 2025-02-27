@@ -32,5 +32,6 @@
     <string name="undo">Undo</string>
     <string name="search">Search</string>
     <string name="search_here">Search here…</string>
+    <string name="total">Total :</string>
 
 </resources>

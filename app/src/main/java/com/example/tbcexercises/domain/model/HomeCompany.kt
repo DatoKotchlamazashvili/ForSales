@@ -1,7 +1,6 @@
 package com.example.tbcexercises.domain.model
 
-data class Company(
-    val id: Int,
-    val company: String,
+data class HomeCompany(
+    val name: String,
     val companyImgUrl: String
 )

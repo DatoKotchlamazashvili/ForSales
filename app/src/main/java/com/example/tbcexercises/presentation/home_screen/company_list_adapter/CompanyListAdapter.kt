@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.databinding.ItemCompanyBinding
-import com.example.tbcexercises.domain.model.Company
+import com.example.tbcexercises.domain.model.HomeCompany
 import com.example.tbcexercises.utils.extension.loadImg
 
 class CompanyListAdapter :
-    ListAdapter<Company, CompanyListAdapter.CompanyListViewHolder>(CompanyDiffUtil) {
+    ListAdapter<HomeCompany, CompanyListAdapter.CompanyListViewHolder>(CompanyDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyListViewHolder {
         val binding = ItemCompanyBinding.inflate(LayoutInflater.from(parent.context), parent, false)

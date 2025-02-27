@@ -7,7 +7,7 @@ data class HomeResponse(
     val productId: Int,
     val productName: String,
     val productImgUrl: String,
-    val company: List<CompanyResponse>,
+    val company: List<HomeCompanyResponse>,
     val productCategory: String,
     val productPrice: Double
 )
