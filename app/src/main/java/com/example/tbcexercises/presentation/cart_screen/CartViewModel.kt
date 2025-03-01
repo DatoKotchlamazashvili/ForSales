@@ -1,59 +1,66 @@
 package com.example.tbcexercises.presentation.cart_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tbcexercises.domain.model.CartProduct
-import com.example.tbcexercises.domain.model.Company
 import com.example.tbcexercises.domain.repository.company.CompanyRepository
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val cartProductRepository: CartProductRepository,
     private val companyRepository: CompanyRepository
 ) : ViewModel() {
 
-    private val _cartProducts =
-        MutableStateFlow<Resource<List<CartProduct>>?>(null)
-    val cartProducts: StateFlow<Resource<List<CartProduct>>?> = _cartProducts
+    private val _uiState = MutableStateFlow(CartScreenUiState())
+    val uiState: StateFlow<CartScreenUiState> = _uiState
 
-    private val _companies =
-        MutableStateFlow<Resource<List<Company>>?>(null)
-    val companies: StateFlow<Resource<List<Company>>?> = _companies
+    private var currentProductsJob: Job? = null
 
     init {
         updateCachedData()
         getCompanies()
-
-        viewModelScope.launch {
-            _companies.filterNotNull().collectLatest { resource ->
-                if (resource is Resource.Success && resource.data.isNotEmpty()) {
-                    val selectedCompany = resource.data.find { it.isClicked }?.company
-                        ?: resource.data.first().company
-                    getCartProducts(selectedCompany)
-                }
-            }
-        }
     }
 
-    fun getCompanies() {
+    private fun getCompanies() {
         viewModelScope.launch {
-            companyRepository.getCompanies().collectLatest {
-                _companies.value = it
+            _uiState.update { it.copy(isLoading = true) }
 
-                if (it is Resource.Success && it.data.isNotEmpty()) {
-                    val selectedCompany = it.data.find { company -> company.isClicked }
-                    selectedCompany?.let { company ->
-                        getCartProducts(company.company)
+            companyRepository.getCompanies().collectLatest { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        val companies = resource.data
+                        val selectedCompany = companies.find { it.isClicked } ?: companies.firstOrNull()
+
+                        _uiState.update {
+                            it.copy(
+                                companies = companies,
+                                selectedCompanyName = selectedCompany?.company,
+                                isLoading = false
+                            )
+                        }
+                        selectedCompany?.let { getCartProducts(selectedCompany.company) }
+                    }
+                    is Resource.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                error = resource.message,
+                                isLoading = false
+                            )
+                        }
+                    }
+                    Resource.Loading -> {
+                        _uiState.update { it.copy(isLoading = true) }
                     }
                 }
             }
@@ -66,20 +73,50 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun getCartProducts(company: String? = null) {
-        viewModelScope.launch {
-            val selectedCompany = company ?: _companies.value?.let { resource ->
-                if (resource is Resource.Success) {
-                    val clickedCompany = resource.data.find { it.isClicked }
-                    clickedCompany?.company
-                } else null
-            }
+    private fun getCartProducts(companyName: String? = null) {
+        currentProductsJob?.cancel()
 
-            selectedCompany?.let {
-                cartProductRepository.getAllCartProducts(it).collectLatest { result ->
-                    _cartProducts.value = result
+        val targetCompany = companyName ?: _uiState.value.selectedCompanyName
+        if (targetCompany == null) return
+
+        Log.d("getCartProducts", "Getting products for: $targetCompany")
+
+        currentProductsJob = viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+
+            cartProductRepository.getAllCartProducts(targetCompany)
+                .collect { result ->
+                    val currentSelectedCompany = _uiState.value.selectedCompanyName
+                    if (currentSelectedCompany == targetCompany) {
+                        when (result) {
+                            is Resource.Success -> {
+                                val products = result.data
+                                Log.d("products for $targetCompany", products.toString())
+
+                                _uiState.update { state ->
+                                    state.copy(
+                                        cartProducts = products,
+                                        totalPrice = products.sumOf { it.totalPrice }.toFloat(),
+                                        isLoading = false
+                                    )
+                                }
+                            }
+                            is Resource.Error -> {
+                                _uiState.update {
+                                    it.copy(
+                                        error = result.message,
+                                        isLoading = false
+                                    )
+                                }
+                            }
+                            Resource.Loading -> {
+                                _uiState.update { it.copy(isLoading = true) }
+                            }
+                        }
+                    } else {
+                        Log.d("Ignored update", "Ignoring update for $targetCompany, current is $currentSelectedCompany")
+                    }
                 }
-            }
         }
     }
 
@@ -102,20 +139,21 @@ class CartViewModel @Inject constructor(
             }
         }
     }
-    fun selectCompany(companyId: Int) {
-        val currentCompanies = _companies.value
-        if (currentCompanies is Resource.Success) {
-            val updatedCompanies = currentCompanies.data.map { company ->
-                company.copy(isClicked = company.id == companyId)
-            }
 
-            _companies.value = Resource.Success(updatedCompanies)
-
-            val selectedCompany = updatedCompanies.find { it.isClicked }
-            selectedCompany?.let {
-                getCartProducts(it.company)
+    fun selectCompany(companyName: String) {
+        // Update UI state immediately
+        _uiState.update { currentState ->
+            val updatedCompanies = currentState.companies.map { company ->
+                company.copy(isClicked = company.company == companyName)
             }
+            currentState.copy(
+                companies = updatedCompanies,
+                selectedCompanyName = companyName
+            )
         }
+
+        getCartProducts(companyName)
     }
 }
+
 

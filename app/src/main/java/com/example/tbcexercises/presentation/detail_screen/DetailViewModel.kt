@@ -17,16 +17,15 @@ class DetailViewModel @Inject constructor(private val productRepository: HomePro
     ViewModel() {
 
 
-    private val _DetailProductState =
+    private val _detailProductState =
         MutableStateFlow<Resource<List<DetailProduct>>>(Resource.Loading)
 
-    val detailProductState: StateFlow<Resource<List<DetailProduct>>> =
-        _DetailProductState
+    val detailProductState: StateFlow<Resource<List<DetailProduct>>> = _detailProductState
 
     fun getProduct(id: Int) {
         viewModelScope.launch {
             productRepository.getProductById(id).collectLatest { state ->
-                _DetailProductState.value = state
+                _detailProductState.value = state
             }
         }
     }

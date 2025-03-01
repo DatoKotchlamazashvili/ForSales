@@ -139,7 +139,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 searchJob?.cancel()
                 searchJob = viewLifecycleOwner.lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        delay(1000)
+                        delay(1500)
                         newText?.let { viewModel.updateSearchQuery(it) }
                     }
                 }
