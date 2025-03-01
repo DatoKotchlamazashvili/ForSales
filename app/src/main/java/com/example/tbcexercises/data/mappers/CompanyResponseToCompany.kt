@@ -3,10 +3,11 @@ package com.example.tbcexercises.data.mappers
 import com.example.tbcexercises.data.remote.response.CompanyResponse
 import com.example.tbcexercises.domain.model.Company
 
-fun CompanyResponse.toCompany(): Company {
+fun CompanyResponse.toCompany(isClicked: Boolean = false): Company {
     return Company(
-        id = this.id,
-        company = this.company,
-        companyImgUrl = this.companyImgUrl
+        id = id,
+        company = company,
+        companyImgUrl = companyImgUrl,
+        isClicked = isClicked
     )
 }

@@ -1,6 +1,5 @@
 package com.example.tbcexercises.presentation.home_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -12,6 +11,7 @@ import com.example.tbcexercises.data.mappers.toHomeProduct
 import com.example.tbcexercises.domain.model.Category
 import com.example.tbcexercises.domain.model.HomeProduct
 import com.example.tbcexercises.domain.repository.category.CategoryRepository
+import com.example.tbcexercises.domain.repository.product.CartProductRepository
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
@@ -33,7 +33,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val productRepository: HomeProductRepository,
     private val favouriteProductRepository: FavouriteProductRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val cartProductRepository: CartProductRepository
 ) : ViewModel() {
 
     init {
@@ -107,7 +108,6 @@ class HomeViewModel @Inject constructor(
     fun updateCategory(category: String?) {
 
         if (_category.value != category) {
-
             _category.value = category
             _categories.value?.let { resource ->
                 if (resource is Resource.Success) {
@@ -127,6 +127,12 @@ class HomeViewModel @Inject constructor(
                     _categories.value = Resource.Success(updatedCategories)
                 }
             }
+        }
+    }
+
+    fun insertCartProduct(homeProduct: HomeProduct) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartProductRepository.upsertCartProduct(homeProduct.toCartProduct())
         }
     }
 }

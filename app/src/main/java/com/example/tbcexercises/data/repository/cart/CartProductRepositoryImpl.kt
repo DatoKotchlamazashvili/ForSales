@@ -1,5 +1,6 @@
 package com.example.tbcexercises.data.repository.cart
 
+import android.util.Log
 import com.example.tbcexercises.data.local.daos.CartProductDao
 import com.example.tbcexercises.data.mappers.toCartProduct
 import com.example.tbcexercises.data.mappers.toCartProductEntity
@@ -18,25 +19,34 @@ class CartProductRepositoryImpl @Inject constructor(
     private val cartProductDao: CartProductDao,
     private val cartProductService: CartProductService
 ) : CartProductRepository {
-    override suspend fun insertCartProduct(cartProduct: CartProduct) {
-        cartProductDao.insertCartProduct(cartProduct.toCartProductEntity())
+    override suspend fun upsertCartProduct(cartProduct: CartProduct) {
+        cartProductDao.upsertCartProduct(cartProduct.toCartProductEntity())
     }
 
-    override suspend fun insertCartProducts(cartProduct: List<CartProduct>) {
-        cartProductDao.insertCartProducts(cartProduct.map { it.toCartProductEntity() })
+    override suspend fun upsertCartProducts(cartProduct: List<CartProduct>) {
+        cartProductDao.upsertCartProducts(cartProduct.map { it.toCartProductEntity() })
     }
 
     override suspend fun deleteCartProduct(cartProduct: CartProduct) {
         cartProductDao.deleteCartProductById(cartProduct.productId)
     }
 
-    override fun getAllCartProducts(): Flow<Resource<List<CartProduct>>> = flow {
+    override suspend fun incrementCartProductQuantity(cartProduct: CartProduct) {
+        cartProductDao.incrementCartProductQuantity(cartProduct.productId)
+    }
+
+    override suspend fun decrementCartProductQuantity(cartProduct: CartProduct) {
+        cartProductDao.decrementCartProductQuantity(cartProduct.productId)
+    }
+
+    override fun getAllCartProducts(company: String): Flow<Resource<List<CartProduct>>> = flow {
         emit(Resource.Loading)
         try {
-            cartProductDao.getAllCartProducts().collect { products ->
+            cartProductDao.getAllCartProducts(company).collect { products ->
                 emit(Resource.Success(products.map { it.toCartProduct() }))
             }
         } catch (e: Exception) {
+            Log.d("error", e.localizedMessage.toString())
             emit(Resource.Error(e.localizedMessage ?: ""))
         }
     }
@@ -51,14 +61,14 @@ class CartProductRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveCartProducts() {
-        val existingIds = getAllCartProductIds().first()
+        val existingIds = getAllCartProductIds().first().distinct()
 
         if (existingIds.isNotEmpty()) {
             getCartProductsFromServer(existingIds.joinToString(",") { it.toString() }).collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
 
-                        insertCartProducts(resource.data.map {
+                        upsertCartProducts(resource.data.map {
                             it.toCartProductEntity().toCartProduct()
                         })
                     }

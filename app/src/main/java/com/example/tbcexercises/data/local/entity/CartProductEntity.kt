@@ -1,9 +1,12 @@
 package com.example.tbcexercises.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "cart_product_entity")
+@Entity(tableName = "cart_product_entity",
+    indices = [Index(value = ["productId", "company"], unique = true)]
+)
 data class CartProductEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

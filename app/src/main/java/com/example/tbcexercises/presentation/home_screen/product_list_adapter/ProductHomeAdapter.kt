@@ -15,8 +15,9 @@ import com.example.tbcexercises.utils.extension.setTint
 class ProductHomeAdapter(
     val onClick: (Int) -> Unit,
     val onFavouriteClick: (HomeProduct) -> Unit,
+    val onCartClick: (HomeProduct) -> Unit
 
-    ) :
+) :
     PagingDataAdapter<HomeProduct, ProductHomeAdapter.ProductHomeViewHolder>(ProductHomeDiffUtil) {
 
 
@@ -69,6 +70,10 @@ class ProductHomeAdapter(
                         imgFavourite.setTint(R.color.red)
                     } else {
                         imgFavourite.setTint(R.color.gray)
+                    }
+
+                    binding.imgAddToCart.setOnClickListener {
+                        onCartClick(product)
                     }
                 }
                 companyAdapter.submitList(product.company)

@@ -31,7 +31,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val productHomeAdapter by lazy {
         ProductHomeAdapter(onClick = {
             onClickProduct(it)
-        }, onFavouriteClick = { viewModel.setFavouriteStrategy(it) })
+        }, onFavouriteClick = { viewModel.setFavouriteStrategy(it) },
+            onCartClick = { viewModel.insertCartProduct(it) })
     }
 
     private val categoryAdapter by lazy {

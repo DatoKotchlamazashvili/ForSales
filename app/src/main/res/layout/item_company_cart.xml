@@ -19,7 +19,7 @@
         android:src="@drawable/person" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtCategory"
+        android:id="@+id/txtCompany"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

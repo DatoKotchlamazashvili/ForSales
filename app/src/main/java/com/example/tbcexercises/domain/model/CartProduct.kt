@@ -10,6 +10,9 @@ data class CartProduct(
     val productPrice: Double? = null,
     val quantity: Int
 ) {
+
+    val totalPrice: Double = productPrice?.let { it * quantity } ?: 0.0
+
     fun toCartProductEntity(): CartProductEntity {
         return CartProductEntity(
             productId = this.productId,
@@ -18,7 +21,6 @@ data class CartProduct(
             productImgUrl = this.productImgUrl,
             productQuantity = this.quantity,
             productPrice = this.productPrice
-
         )
     }
 }

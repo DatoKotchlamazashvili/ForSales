@@ -1,5 +1,6 @@
 package com.example.tbcexercises.data.repository.company
 
+import android.util.Log
 import com.example.tbcexercises.data.mappers.toCompany
 import com.example.tbcexercises.data.remote.service.CompanyService
 import com.example.tbcexercises.domain.model.Company
@@ -15,8 +16,18 @@ class CompanyRepositoryImpl @Inject constructor(private val companyService: Comp
     override fun getCompanies(): Flow<Resource<List<Company>>> {
         return handleNetworkRequest { companyService.getCompanies() }.map { response ->
             when (response) {
-                is Resource.Success -> Resource.Success(response.data.map { it.toCompany() })
-                is Resource.Error -> Resource.Error(response.message)
+                is Resource.Success -> {
+                    val companies = response.data.mapIndexed { index, company ->
+                        company.toCompany(isClicked = index == 0)
+                    }
+                    Resource.Success(companies)
+                }
+
+                is Resource.Error -> {
+                    Log.d("error", response.message)
+                    Resource.Error(response.message)
+                }
+
                 is Resource.Loading -> Resource.Loading
             }
         }

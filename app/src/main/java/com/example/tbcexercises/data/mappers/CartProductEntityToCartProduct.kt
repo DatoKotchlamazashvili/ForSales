@@ -10,6 +10,7 @@ fun CartProductEntity.toCartProduct(): CartProduct {
         company = this.company,
         productImgUrl = this.productImgUrl,
         productName = this.productName,
-        quantity = this.productQuantity
+        quantity = this.productQuantity ?: 1,
+        productPrice = this.productPrice
     )
 }

@@ -21,4 +21,16 @@ data class HomeProduct(
             productPrice = productPrice
         )
     }
+
+
+    fun toCartProduct(): CartProduct {
+        return CartProduct(
+            productId = this.productId,
+            productImgUrl = this.productImgUrl,
+            productPrice = this.productPrice,
+            productName = this.productName,
+            quantity = 1,
+            company = ""
+        )
+    }
 }

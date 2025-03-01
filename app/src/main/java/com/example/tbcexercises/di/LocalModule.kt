@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.example.tbcexercises.data.local.AppDatabase
+import com.example.tbcexercises.data.local.daos.CartProductDao
 import com.example.tbcexercises.data.local.daos.FavouriteProductDao
 import dagger.Module
 import dagger.Provides
@@ -34,6 +35,12 @@ object LocalModule {
     @Singleton
     fun provideFavouriteProductsDao(database: AppDatabase): FavouriteProductDao {
         return database.favouriteProductsDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartProductsDao(database: AppDatabase): CartProductDao {
+        return database.cartProductsDao()
     }
 
 
