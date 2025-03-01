@@ -1,18 +1,18 @@
 package com.example.tbcexercises.data.repository.cart
 
-import android.util.Log
+
 import com.example.tbcexercises.data.local.daos.CartProductDao
 import com.example.tbcexercises.data.mappers.toCartProduct
-import com.example.tbcexercises.data.mappers.toCartProductEntity
-import com.example.tbcexercises.data.remote.response.CartProductResponse
 import com.example.tbcexercises.data.remote.service.CartProductService
 import com.example.tbcexercises.domain.model.CartProduct
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
+import com.example.tbcexercises.presentation.mappers.toCartProductEntity
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CartProductRepositoryImpl @Inject constructor(
@@ -46,7 +46,6 @@ class CartProductRepositoryImpl @Inject constructor(
                 emit(Resource.Success(products.map { it.toCartProduct() }))
             }
         } catch (e: Exception) {
-            Log.d("error", e.localizedMessage.toString())
             emit(Resource.Error(e.localizedMessage ?: ""))
         }
     }
@@ -56,8 +55,14 @@ class CartProductRepositoryImpl @Inject constructor(
         return cartProductDao.getAllCartProductsIds()
     }
 
-    override fun getCartProductsFromServer(ids: String): Flow<Resource<List<CartProductResponse>>> {
-        return handleNetworkRequest { cartProductService.getCartProductsByIds(ids) }
+    override fun getCartProductsFromServer(ids: String): Flow<Resource<List<CartProduct>>> {
+        return handleNetworkRequest { cartProductService.getCartProductsByIds(ids) }.map { result ->
+            when (result){
+                is Resource.Error -> Resource.Error(result.message)
+                Resource.Loading -> Resource.Loading
+                is Resource.Success -> Resource.Success(result.data.map { it.toCartProduct() })
+            }
+        }
     }
 
     override suspend fun saveCartProducts() {

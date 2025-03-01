@@ -3,16 +3,16 @@ package com.example.tbcexercises.data.repository.product
 
 import com.example.tbcexercises.data.local.daos.FavouriteProductDao
 import com.example.tbcexercises.data.mappers.toFavouriteProduct
-import com.example.tbcexercises.data.mappers.toFavouriteProductEntity
-import com.example.tbcexercises.data.remote.response.FavouriteProductResponse
 import com.example.tbcexercises.data.remote.service.FavouriteProductService
 import com.example.tbcexercises.domain.model.FavouriteProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
+import com.example.tbcexercises.presentation.mappers.toFavouriteProductEntity
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FavouriteProductRepositoryImpl @Inject constructor(
@@ -21,15 +21,15 @@ class FavouriteProductRepositoryImpl @Inject constructor(
 ) : FavouriteProductRepository {
 
     override suspend fun insertFavouriteProduct(favouriteProduct: FavouriteProduct) {
-        favouriteProductDao.insertFavouriteProduct(favouriteProduct.toProductEntity())
+        favouriteProductDao.insertFavouriteProduct(favouriteProduct.toFavouriteProductEntity())
     }
 
     override suspend fun insertFavouriteProducts(favouriteProduct: List<FavouriteProduct>) {
-        favouriteProductDao.insertFavouriteProducts(favouriteProduct.map { it.toProductEntity() })
+        favouriteProductDao.insertFavouriteProducts(favouriteProduct.map { it.toFavouriteProductEntity() })
     }
 
     override suspend fun deleteFavouriteProduct(favouriteProduct: FavouriteProduct) {
-        favouriteProductDao.deleteFavouriteProduct(favouriteProduct.toProductEntity())
+        favouriteProductDao.deleteFavouriteProduct(favouriteProduct.toFavouriteProductEntity())
     }
 
     override fun getAllFavouriteProducts(): Flow<Resource<List<FavouriteProduct>>> = flow {
@@ -48,8 +48,14 @@ class FavouriteProductRepositoryImpl @Inject constructor(
     }
 
 
-    override fun getFavouriteProductsFromServer(ids: String): Flow<Resource<List<FavouriteProductResponse>>> {
-        return handleNetworkRequest { favouriteProductService.getProductsByIds(ids) }
+    override fun getFavouriteProductsFromServer(ids: String): Flow<Resource<List<FavouriteProduct>>> {
+        return handleNetworkRequest { favouriteProductService.getProductsByIds(ids) }.map { result ->
+            when (result) {
+                is Resource.Error -> Resource.Error(result.message)
+                Resource.Loading -> Resource.Loading
+                is Resource.Success -> Resource.Success(result.data.map { it.toFavouriteProduct() })
+            }
+        }
     }
 
     override suspend fun saveFavouriteProducts() {
@@ -60,9 +66,7 @@ class FavouriteProductRepositoryImpl @Inject constructor(
                 when (resource) {
                     is Resource.Success -> {
 
-                        insertFavouriteProducts(resource.data.map {
-                            it.toFavouriteProductEntity().toFavouriteProduct()
-                        })
+                        insertFavouriteProducts(resource.data)
                     }
 
                     is Resource.Error -> {}

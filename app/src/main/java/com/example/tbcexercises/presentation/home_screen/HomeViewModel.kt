@@ -6,7 +6,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.tbcexercises.data.mappers.toFavouriteProduct
 import com.example.tbcexercises.data.mappers.toHomeProduct
 import com.example.tbcexercises.domain.model.Category
 import com.example.tbcexercises.domain.model.HomeProduct
@@ -14,6 +13,8 @@ import com.example.tbcexercises.domain.repository.category.CategoryRepository
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
+import com.example.tbcexercises.presentation.mappers.toCartProduct
+import com.example.tbcexercises.presentation.mappers.toFavouriteProduct
 import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -91,11 +92,11 @@ class HomeViewModel @Inject constructor(
 
             if (isFavourite) {
                 favouriteProductRepository.deleteFavouriteProduct(
-                    product.toFavouriteProductEntity().toFavouriteProduct()
+                    product.toFavouriteProduct()
                 )
             } else {
                 favouriteProductRepository.insertFavouriteProduct(
-                    product.toFavouriteProductEntity().toFavouriteProduct()
+                    product.toFavouriteProduct()
                 )
             }
         }

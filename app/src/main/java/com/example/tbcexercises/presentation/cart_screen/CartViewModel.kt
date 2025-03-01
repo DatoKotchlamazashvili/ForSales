@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val cartProductRepository: CartProductRepository,
@@ -40,7 +41,8 @@ class CartViewModel @Inject constructor(
                 when (resource) {
                     is Resource.Success -> {
                         val companies = resource.data
-                        val selectedCompany = companies.find { it.isClicked } ?: companies.firstOrNull()
+                        val selectedCompany =
+                            companies.find { it.isClicked } ?: companies.firstOrNull()
 
                         _uiState.update {
                             it.copy(
@@ -51,6 +53,7 @@ class CartViewModel @Inject constructor(
                         }
                         selectedCompany?.let { getCartProducts(selectedCompany.company) }
                     }
+
                     is Resource.Error -> {
                         _uiState.update {
                             it.copy(
@@ -59,6 +62,7 @@ class CartViewModel @Inject constructor(
                             )
                         }
                     }
+
                     Resource.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }
                     }
@@ -73,49 +77,42 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    private fun getCartProducts(companyName: String? = null) {
+    private fun getCartProducts(companyName: String) {
         currentProductsJob?.cancel()
-
-        val targetCompany = companyName ?: _uiState.value.selectedCompanyName
-        if (targetCompany == null) return
-
-        Log.d("getCartProducts", "Getting products for: $targetCompany")
 
         currentProductsJob = viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
-            cartProductRepository.getAllCartProducts(targetCompany)
+            cartProductRepository.getAllCartProducts(companyName)
                 .collect { result ->
-                    val currentSelectedCompany = _uiState.value.selectedCompanyName
-                    if (currentSelectedCompany == targetCompany) {
-                        when (result) {
-                            is Resource.Success -> {
-                                val products = result.data
-                                Log.d("products for $targetCompany", products.toString())
+                    when (result) {
+                        is Resource.Success -> {
+                            val products = result.data
+                            Log.d("products for $companyName", products.toString())
 
-                                _uiState.update { state ->
-                                    state.copy(
-                                        cartProducts = products,
-                                        totalPrice = products.sumOf { it.totalPrice }.toFloat(),
-                                        isLoading = false
-                                    )
-                                }
-                            }
-                            is Resource.Error -> {
-                                _uiState.update {
-                                    it.copy(
-                                        error = result.message,
-                                        isLoading = false
-                                    )
-                                }
-                            }
-                            Resource.Loading -> {
-                                _uiState.update { it.copy(isLoading = true) }
+                            _uiState.update { state ->
+                                state.copy(
+                                    cartProducts = products,
+                                    totalPrice = products.sumOf { it.totalPrice }.toFloat(),
+                                    isLoading = false
+                                )
                             }
                         }
-                    } else {
-                        Log.d("Ignored update", "Ignoring update for $targetCompany, current is $currentSelectedCompany")
+
+                        is Resource.Error -> {
+                            _uiState.update {
+                                it.copy(
+                                    error = result.message,
+                                    isLoading = false
+                                )
+                            }
+                        }
+
+                        Resource.Loading -> {
+                            _uiState.update { it.copy(isLoading = true) }
+                        }
                     }
+
                 }
         }
     }
@@ -141,7 +138,6 @@ class CartViewModel @Inject constructor(
     }
 
     fun selectCompany(companyName: String) {
-        // Update UI state immediately
         _uiState.update { currentState ->
             val updatedCompanies = currentState.companies.map { company ->
                 company.copy(isClicked = company.company == companyName)

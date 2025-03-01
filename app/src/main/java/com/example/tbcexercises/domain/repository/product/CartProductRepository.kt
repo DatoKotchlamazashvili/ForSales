@@ -20,7 +20,7 @@ interface CartProductRepository {
     fun getAllCartProducts(company: String): Flow<Resource<List<CartProduct>>>
     fun getAllCartProductIds(): Flow<List<Int>>
 
-    fun getCartProductsFromServer(ids: String): Flow<Resource<List<CartProductResponse>>>
+    fun getCartProductsFromServer(ids: String): Flow<Resource<List<CartProduct>>>
 
     suspend fun saveCartProducts()
 }
