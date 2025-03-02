@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemCategoryBinding
-import com.example.tbcexercises.domain.model.Category
+import com.example.tbcexercises.domain.model.home.Category
 import com.example.tbcexercises.utils.extension.loadImg
 
 class CategoryListAdapter(val onClick: (String) -> Unit) :

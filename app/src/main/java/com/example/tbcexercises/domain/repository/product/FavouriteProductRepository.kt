@@ -1,6 +1,6 @@
 package com.example.tbcexercises.domain.repository.product
 
-import com.example.tbcexercises.domain.model.FavouriteProduct
+import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 import com.example.tbcexercises.utils.network_helper.Resource
 import kotlinx.coroutines.flow.Flow
 

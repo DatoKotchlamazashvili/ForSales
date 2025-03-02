@@ -3,7 +3,7 @@ package com.example.tbcexercises.presentation.cart_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.domain.model.CartProduct
+import com.example.tbcexercises.domain.model.cart.CartProduct
 import com.example.tbcexercises.domain.repository.company.CompanyRepository
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource

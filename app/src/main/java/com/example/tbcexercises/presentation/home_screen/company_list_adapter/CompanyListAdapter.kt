@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.databinding.ItemCompanyBinding
-import com.example.tbcexercises.domain.model.HomeCompany
+import com.example.tbcexercises.domain.model.home.HomeCompany
 import com.example.tbcexercises.utils.extension.loadImg
 
 class CompanyListAdapter :

@@ -1,6 +1,5 @@
 package com.example.tbcexercises.presentation.cart_screen.companies_adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -8,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemCompanyCartBinding
-import com.example.tbcexercises.domain.model.Company
+import com.example.tbcexercises.domain.model.cart.Company
 import com.example.tbcexercises.utils.extension.loadImg
 
 class CompanyListAdapter(val onCompanyClick: (Company) -> Unit) :
@@ -43,12 +42,12 @@ class CompanyListAdapter(val onCompanyClick: (Company) -> Unit) :
                 if (company.isClicked) {
                     root.background = ContextCompat.getDrawable(
                         root.context,
-                        R.drawable.item_category_background_selected
+                        R.drawable.item_company_cart_selected_background
                     )
                 } else {
                     root.background = ContextCompat.getDrawable(
                         root.context,
-                        R.drawable.item_category_background_unselected
+                        R.drawable.item_company_cart_unselected_background
                     )
                 }
             }

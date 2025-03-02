@@ -1,7 +1,7 @@
 package com.example.tbcexercises.data.mappers.company
 
 import com.example.tbcexercises.data.remote.response.company.CompanyResponse
-import com.example.tbcexercises.domain.model.Company
+import com.example.tbcexercises.domain.model.cart.Company
 
 fun CompanyResponse.toCompany(isClicked: Boolean = false): Company {
     return Company(

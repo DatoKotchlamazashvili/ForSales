@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.databinding.ItemCartBinding
-import com.example.tbcexercises.domain.model.CartProduct
+import com.example.tbcexercises.domain.model.cart.CartProduct
 import com.example.tbcexercises.utils.extension.loadImg
 
 class CartProductListAdapter(

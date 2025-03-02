@@ -1,4 +1,4 @@
-package com.example.tbcexercises.main_activity
+package com.example.tbcexercises.presentation.main_activity
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -15,15 +15,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ActivityMainBinding
 import com.example.tbcexercises.utils.Constants.languages
 import com.example.tbcexercises.utils.popUpMenuHelper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -35,11 +32,8 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var navController: NavController
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applySavedLocale()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
@@ -50,11 +44,24 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        applySavedLocale()
+        setupNavigation()
+        observeLanguageChanges()
+        setupLanguageMenu()
+
+    }
+
+
+    private fun setupNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fvcNavHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
+        setupBottomNavBehavior()
+        setupDestinationChangedListener()
+    }
 
+    private fun setupBottomNavBehavior() {
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             if (menuItem.itemId == navController.currentDestination?.id) {
                 return@setOnItemSelectedListener false
@@ -68,42 +75,45 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(menuItem.itemId, null, navOptions)
             true
         }
+    }
 
+    private fun setupDestinationChangedListener() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment -> showViews(
+                R.id.loginFragment -> configureViewsForDestination(
                     bottomNav = false,
                     appBarTitle = getString(R.string.login),
                     languageIconIsVisible = true
                 )
-                R.id.registerFragment -> showViews(
+                R.id.registerFragment -> configureViewsForDestination(
                     bottomNav = false,
                     appBarTitle = getString(R.string.register),
                     languageIconIsVisible = true
                 )
-                R.id.launcherFragment -> showViews(bottomNav = false, appBar = false)
-                R.id.profileFragment -> showViews(bottomNav = true, languageIconIsVisible = true)
-                else -> showViews(bottomNav = true)
+                R.id.launcherFragment -> configureViewsForDestination(bottomNav = false, appBar = false)
+                R.id.profileFragment -> configureViewsForDestination(bottomNav = true, languageIconIsVisible = true)
+                else -> configureViewsForDestination(bottomNav = true)
             }
             binding.bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
         }
-
-        lifecycleScope.launch {
-            viewModel.languagePreference.collectLatest { language ->
-                loadLocale(language)
-                binding.languageIcon.setImageResource(languages.first {
-                    it.name == language
-                }.flag)
-            }
-        }
-
-        setupLanguageMenu()
-
-
     }
 
+    private fun observeLanguageChanges() {
+        lifecycleScope.launch {
+            viewModel.languagePreference.collect { language ->
+                loadLocale(language)
+                updateLanguageIcon(language)
+            }
+        }
+    }
 
-    private fun showViews(
+    private fun updateLanguageIcon(language: String) {
+        binding.languageIcon.setImageResource(languages.first {
+            it.name == language
+        }.flag)
+    }
+
+    private fun configureViewsForDestination(
         bottomNav: Boolean,
         appBar: Boolean = true,
         appBarTitle: String = getString(R.string.app_nickname),
@@ -115,7 +125,6 @@ class MainActivity : AppCompatActivity() {
             topAppBar.title = appBarTitle
             languageIcon.isVisible = languageIconIsVisible
         }
-
     }
 
     private fun setupLanguageMenu() {
@@ -135,35 +144,31 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             popup.show()
-
         }
     }
 
     private fun loadLocale(language: String) {
         val currentLanguage = resources.configuration.locales[0].language
         if (currentLanguage != language) {
-            val locale = Locale(language)
-            Locale.setDefault(locale)
-            val config = Configuration()
-            config.setLocale(locale)
-            resources.updateConfiguration(config, resources.displayMetrics)
-
+            applyLanguageConfiguration(language)
             viewModel.setSession(language, null)
             recreate()
-
         }
+    }
+
+    private fun applyLanguageConfiguration(language: String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun applySavedLocale() {
         val language = runBlocking {
             viewModel.languagePreference.first()
         }
-
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val config = Configuration()
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
+        applyLanguageConfiguration(language)
     }
 
     override fun onDestroy() {

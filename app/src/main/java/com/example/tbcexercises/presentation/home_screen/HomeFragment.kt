@@ -58,11 +58,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.apply {
             categoryProgressBar.isVisible = state.isLoading
 
-            state.categoryError?.let {
-                toast(message = it)
+            state.error?.let {
+                toast(message = getString(it))
             }
 
-            if (!state.isLoading && state.categoryError == null) {
+            if (!state.isLoading && state.error == null) {
                 categoryAdapter.submitList(state.categories)
             }
         }

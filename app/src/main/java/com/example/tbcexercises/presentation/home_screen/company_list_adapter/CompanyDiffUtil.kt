@@ -1,7 +1,7 @@
 package com.example.tbcexercises.presentation.home_screen.company_list_adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.tbcexercises.domain.model.HomeCompany
+import com.example.tbcexercises.domain.model.home.HomeCompany
 
 
 object CompanyDiffUtil : DiffUtil.ItemCallback<HomeCompany>() {

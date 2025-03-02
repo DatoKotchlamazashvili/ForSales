@@ -4,7 +4,7 @@ package com.example.tbcexercises.data.repository.product
 import com.example.tbcexercises.data.local.daos.FavouriteProductDao
 import com.example.tbcexercises.data.mappers.favourite.toFavouriteProduct
 import com.example.tbcexercises.data.remote.service.FavouriteProductService
-import com.example.tbcexercises.domain.model.FavouriteProduct
+import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.presentation.mappers.toFavouriteProductEntity
 import com.example.tbcexercises.utils.network_helper.Resource
@@ -59,18 +59,15 @@ class FavouriteProductRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveFavouriteProducts() {
-        val existingIds = getAllFavouriteProductIds().first()
+        val localIds = getAllFavouriteProductIds().first()
 
-        if (existingIds.isNotEmpty()) {
-            getFavouriteProductsFromServer(existingIds.joinToString(",") { it.toString() }).collect { resource ->
+        if (localIds.isNotEmpty()) {
+            getFavouriteProductsFromServer(localIds.joinToString(",") { it.toString() }).collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
-
                         insertFavouriteProducts(resource.data)
                     }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                    else -> {}
                 }
             }
         }

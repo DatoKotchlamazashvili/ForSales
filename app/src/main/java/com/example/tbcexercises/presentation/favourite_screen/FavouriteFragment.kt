@@ -29,8 +29,6 @@ class FavouriteFragment :
     }
 
     override fun start() {
-        viewModel.observeCartAndFavourites()
-
         setUpAdapter()
         collectLastState(viewModel.uiState) { state ->
             updateUI(state)
@@ -53,7 +51,7 @@ class FavouriteFragment :
             }
 
             if (!state.isLoading && state.error == null && state.favouriteProducts.isNotEmpty()) {
-                favouriteProductAdapter.submitList(state.favouriteProducts)
+                favouriteProductAdapter.submitList(state.favouriteProducts.toList())
             }
         }
     }

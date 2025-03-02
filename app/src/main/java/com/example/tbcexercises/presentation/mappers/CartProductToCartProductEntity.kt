@@ -1,7 +1,7 @@
 package com.example.tbcexercises.presentation.mappers
 
 import com.example.tbcexercises.data.local.entity.CartProductEntity
-import com.example.tbcexercises.domain.model.CartProduct
+import com.example.tbcexercises.domain.model.cart.CartProduct
 
 fun CartProduct.toCartProductEntity(): CartProductEntity {
     return CartProductEntity(

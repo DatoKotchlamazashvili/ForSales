@@ -2,7 +2,7 @@ package com.example.tbcexercises.data.repository.company
 
 import com.example.tbcexercises.data.mappers.company.toCompany
 import com.example.tbcexercises.data.remote.service.CompanyService
-import com.example.tbcexercises.domain.model.Company
+import com.example.tbcexercises.domain.model.cart.Company
 import com.example.tbcexercises.domain.repository.company.CompanyRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest

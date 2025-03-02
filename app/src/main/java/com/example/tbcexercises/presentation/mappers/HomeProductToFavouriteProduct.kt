@@ -1,7 +1,7 @@
 package com.example.tbcexercises.presentation.mappers
 
-import com.example.tbcexercises.domain.model.FavouriteProduct
-import com.example.tbcexercises.domain.model.HomeProduct
+import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
+import com.example.tbcexercises.domain.model.home.HomeProduct
 
 fun HomeProduct.toFavouriteProduct(): FavouriteProduct {
     return FavouriteProduct(

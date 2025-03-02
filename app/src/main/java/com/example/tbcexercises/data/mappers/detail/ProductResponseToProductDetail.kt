@@ -1,7 +1,7 @@
 package com.example.tbcexercises.data.mappers.detail
 
 import com.example.tbcexercises.data.remote.response.detail.DetailProductResponse
-import com.example.tbcexercises.domain.model.DetailProduct
+import com.example.tbcexercises.domain.model.detail.DetailProduct
 
 
 fun DetailProductResponse.toProductDetail(): DetailProduct {

@@ -4,18 +4,21 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tbcexercises.data.connectivity.ConnectivityObserver
-import com.example.tbcexercises.domain.model.FavouriteProduct
+import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
 import com.example.tbcexercises.presentation.mappers.toCartProduct
 import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -41,16 +44,16 @@ class FavouriteViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
+
     init {
         updateFavouriteProducts()
+        observeCartAndFavourites()
     }
 
     private fun updateFavouriteProducts() {
         viewModelScope.launch(Dispatchers.IO) {
-            isConnected.collectLatest {
-                if (it) {
-                    favouriteProductRepository.saveFavouriteProducts()
-                }
+            if (isConnected.first()) {
+                favouriteProductRepository.saveFavouriteProducts()
             }
         }
     }
@@ -58,12 +61,12 @@ class FavouriteViewModel @Inject constructor(
     fun observeCartAndFavourites() {
         viewModelScope.launch {
             combine(
-                favouriteProductRepository.getAllFavouriteProducts(),
+                favouriteProductRepository.getAllFavouriteProducts()
+                    .distinctUntilChanged(),
                 cartProductIdsFlow
             ) { favouriteProductsResource, cartProductIds ->
                 when (favouriteProductsResource) {
                     is Resource.Error -> {
-                        Log.d("error", favouriteProductsResource.message)
                         _uiState.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
@@ -85,6 +88,7 @@ class FavouriteViewModel @Inject constructor(
                         val updatedProducts = favouriteProductsResource.data.map { product ->
                             product.copy(isAddedToCart = product.productId in cartProductIds)
                         }
+                        Log.d("products", "$updatedProducts")
                         _uiState.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
@@ -108,6 +112,7 @@ class FavouriteViewModel @Inject constructor(
     }
 
     fun deleteFavouriteProduct(favouriteProduct: FavouriteProduct) {
+        Log.d("deleteCalled", "deleteCalled")
         viewModelScope.launch {
             favouriteProductRepository.deleteFavouriteProduct(favouriteProduct)
         }

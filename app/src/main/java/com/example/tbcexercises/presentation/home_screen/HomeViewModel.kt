@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.tbcexercises.data.mappers.home.toHomeProduct
-import com.example.tbcexercises.domain.model.HomeProduct
+import com.example.tbcexercises.domain.model.home.HomeProduct
 import com.example.tbcexercises.domain.repository.category.CategoryRepository
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
@@ -52,9 +52,19 @@ class HomeViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+    private val cartProductIdsFlow = cartProductRepository.getAllCartProductIds()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val productFlow = combine(uiState, favouriteIdsFlow) { state, _ ->
+    val productFlow = combine(
+        uiState,
+        favouriteIdsFlow,
+        cartProductIdsFlow
+    ) { state, favouriteProducts, cartProducts ->
         Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -69,7 +79,8 @@ class HomeViewModel @Inject constructor(
         ).flow.map { pagingData ->
             pagingData.map { product ->
                 product.toHomeProduct().copy(
-                    isFavourite = product.productId in favouriteIdsFlow.value
+                    isFavourite = product.productId in favouriteProducts,
+                    isAddedToCart = product.productId in cartProducts
                 )
             }
         }
@@ -84,24 +95,26 @@ class HomeViewModel @Inject constructor(
                         _uiState.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
-                                categoryError = resource.message
+                                error = null
                             )
                         }
                     }
+
                     Resource.Loading -> {
                         _uiState.update { currentState ->
                             currentState.copy(
                                 isLoading = true,
-                                categoryError = null
+                                error = null
                             )
                         }
                     }
+
                     is Resource.Success -> {
                         _uiState.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
                                 categories = resource.data.toList(),
-                                categoryError = null
+                                error = null
                             )
                         }
                     }
@@ -157,8 +170,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun insertCartProduct(homeProduct: HomeProduct) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cartProductRepository.upsertCartProduct(homeProduct.toCartProduct())
+        if (!homeProduct.isAddedToCart) {
+            viewModelScope.launch(Dispatchers.IO) {
+                cartProductRepository.upsertCartProduct(homeProduct.toCartProduct())
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.tbcexercises.domain.model
+package com.example.tbcexercises.domain.model.detail
 
 
 data class DetailProduct(

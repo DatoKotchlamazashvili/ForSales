@@ -13,4 +13,15 @@
     <color name="background_end">#F5F5F5</color>
     <color name="search_view_white">#E0E0E0</color>
     <color name="light_gray" >#A2A2A2</color>
+
+
+    <color name="cart_company_selected_background">#E3F2FD</color>
+    <color name="cart_company_selected_shadow">#B0BEC5</color>
+    <color name="cart_company_selected_start">#5CB4FB</color>
+    <color name="cart_company_selected_end">#2D92F8</color>
+    <color name="cart_company_selected_border">#0554B8</color>
+
+    <color name="cart_company_unselected_background">#F5F5F5</color>
+    <color name="cart_company_unselected_border">#BDBDBD</color>
+    <color name="cart_company_shadow">#33000000</color>
 </resources>

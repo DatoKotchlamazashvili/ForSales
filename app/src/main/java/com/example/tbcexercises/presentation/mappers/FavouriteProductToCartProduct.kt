@@ -1,7 +1,7 @@
 package com.example.tbcexercises.presentation.mappers
 
-import com.example.tbcexercises.domain.model.CartProduct
-import com.example.tbcexercises.domain.model.FavouriteProduct
+import com.example.tbcexercises.domain.model.cart.CartProduct
+import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 import com.example.tbcexercises.utils.extension.getCompany
 
 

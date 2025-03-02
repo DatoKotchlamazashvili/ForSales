@@ -2,7 +2,7 @@ package com.example.tbcexercises.data.repository.product
 
 import com.example.tbcexercises.data.mappers.detail.toProductDetail
 import com.example.tbcexercises.data.remote.service.DetailProductService
-import com.example.tbcexercises.domain.model.DetailProduct
+import com.example.tbcexercises.domain.model.detail.DetailProduct
 import com.example.tbcexercises.domain.repository.product.DetailProductRepository
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.network_helper.handleNetworkRequest

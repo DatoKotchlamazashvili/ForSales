@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductHomeBinding
-import com.example.tbcexercises.domain.model.HomeProduct
+import com.example.tbcexercises.domain.model.home.HomeProduct
 import com.example.tbcexercises.presentation.home_screen.company_list_adapter.CompanyListAdapter
 import com.example.tbcexercises.utils.extension.loadImg
 import com.example.tbcexercises.utils.extension.setTint
@@ -74,6 +74,12 @@ class ProductHomeAdapter(
 
                     binding.imgAddToCart.setOnClickListener {
                         onCartClick(product)
+                    }
+
+                    if (product.isAddedToCart) {
+                        imgAddToCart.setTint(R.color.light_gray)
+                    } else {
+                        imgAddToCart.setTint(R.color.black)
                     }
                 }
                 companyAdapter.submitList(product.company)

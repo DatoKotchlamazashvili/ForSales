@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductFavouriteBinding
-import com.example.tbcexercises.domain.model.FavouriteProduct
+import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 import com.example.tbcexercises.utils.extension.loadImg
 import com.example.tbcexercises.utils.extension.setTint
 

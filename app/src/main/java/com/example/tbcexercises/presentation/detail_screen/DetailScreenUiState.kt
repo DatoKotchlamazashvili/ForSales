@@ -1,6 +1,6 @@
 package com.example.tbcexercises.presentation.detail_screen
 
-import com.example.tbcexercises.domain.model.DetailProduct
+import com.example.tbcexercises.domain.model.detail.DetailProduct
 
 data class DetailScreenUiState(
     val isLoading: Boolean = false,
