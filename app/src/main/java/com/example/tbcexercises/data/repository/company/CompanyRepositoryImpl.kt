@@ -1,7 +1,6 @@
 package com.example.tbcexercises.data.repository.company
 
-import android.util.Log
-import com.example.tbcexercises.data.mappers.toCompany
+import com.example.tbcexercises.data.mappers.company.toCompany
 import com.example.tbcexercises.data.remote.service.CompanyService
 import com.example.tbcexercises.domain.model.Company
 import com.example.tbcexercises.domain.repository.company.CompanyRepository
@@ -24,7 +23,6 @@ class CompanyRepositoryImpl @Inject constructor(private val companyService: Comp
                 }
 
                 is Resource.Error -> {
-                    Log.d("error", response.message)
                     Resource.Error(response.message)
                 }
 

@@ -1,8 +1,8 @@
-package com.example.tbcexercises.data.repository.cart
+package com.example.tbcexercises.data.repository.product
 
 
 import com.example.tbcexercises.data.local.daos.CartProductDao
-import com.example.tbcexercises.data.mappers.toCartProduct
+import com.example.tbcexercises.data.mappers.cart.toCartProduct
 import com.example.tbcexercises.data.remote.service.CartProductService
 import com.example.tbcexercises.domain.model.CartProduct
 import com.example.tbcexercises.domain.repository.product.CartProductRepository

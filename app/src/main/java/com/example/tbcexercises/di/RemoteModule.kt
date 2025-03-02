@@ -4,8 +4,9 @@ import com.example.tbcexercises.BuildConfig
 import com.example.tbcexercises.data.remote.service.CartProductService
 import com.example.tbcexercises.data.remote.service.CategoryService
 import com.example.tbcexercises.data.remote.service.CompanyService
+import com.example.tbcexercises.data.remote.service.DetailProductService
 import com.example.tbcexercises.data.remote.service.FavouriteProductService
-import com.example.tbcexercises.data.remote.service.ProductService
+import com.example.tbcexercises.data.remote.service.HomeProductService
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -55,8 +56,8 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideProductService(retrofit: Retrofit): ProductService {
-        return retrofit.create(ProductService::class.java)
+    fun provideProductService(retrofit: Retrofit): HomeProductService {
+        return retrofit.create(HomeProductService::class.java)
     }
 
     @Provides
@@ -84,6 +85,13 @@ object RemoteModule {
     }
 
     @Provides
+    @Singleton
+    fun provideDetailProductService(retrofit: Retrofit): DetailProductService {
+        return retrofit.create(DetailProductService::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
 }

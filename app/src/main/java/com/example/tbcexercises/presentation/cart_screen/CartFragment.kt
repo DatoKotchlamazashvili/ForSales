@@ -1,5 +1,6 @@
 package com.example.tbcexercises.presentation.cart_screen
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tbcexercises.databinding.FragmentCartBinding
@@ -40,10 +41,27 @@ class CartFragment : BaseFragment<FragmentCartBinding>(FragmentCartBinding::infl
 
 
     private fun updateUI(state: CartScreenUiState) {
-        cartProductAdapter.submitList(state.cartProducts)
+        binding.apply {
+            rvCartProducts.isVisible =
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty()
+            rvCompanies.isVisible =
+                !state.isLoading && state.error == null && state.companies.isNotEmpty() && state.cartProducts.isNotEmpty()
+            imgEmptyCart.isVisible =
+                !state.isLoading && state.error == null && state.cartProducts.isEmpty()
+            txtTotal.isVisible =
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty()
+            txtTotalPrice.isVisible =
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty()
 
+            txtEmptyCart.isVisible =
+                !state.isLoading && state.error == null && state.cartProducts.isEmpty()
+
+            progressBar.isVisible = state.isLoading
+
+            txtTotalPrice.text = state.totalPrice.toString()
+        }
+        cartProductAdapter.submitList(state.cartProducts)
         companyListAdapter.submitList(state.companies)
-        binding.txtTotalPrice.text = state.totalPrice.toString()
         state.error?.let {
             toast(it)
         }

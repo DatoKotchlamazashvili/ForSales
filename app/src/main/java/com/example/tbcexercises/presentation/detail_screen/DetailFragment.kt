@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.example.tbcexercises.presentation.detail_screen.company_prices_adapte
 import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.extension.collectLastState
 import com.example.tbcexercises.utils.extension.loadImg
+import com.example.tbcexercises.utils.extension.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +24,6 @@ class DetailFragment : DialogFragment() {
     private val viewModel: DetailViewModel by viewModels()
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
-
 
     private val companyPricesListAdapter by lazy {
         CompanyPricesListAdapter()
@@ -50,35 +51,40 @@ class DetailFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerView()
+        observeUiState()
+
+        viewModel.getProduct(args.productID)
+    }
+
+    private fun setupRecyclerView() {
         binding.rvCompanyPrices.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = companyPricesListAdapter
         }
-        collectLastState(viewModel.detailProductState) { resource ->
-            when (resource) {
-                is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
+    }
 
-                is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
+    private fun observeUiState() {
+        collectLastState(viewModel.uiState) { state ->
+            updateUI(state)
+        }
+    }
 
-                    if (resource.data.isNotEmpty()) {
-                        val product = resource.data.first()
-                        binding.txtProductName.text = product.productName
-                        binding.imgProduct.loadImg(product.productImgUrl)
-                        companyPricesListAdapter.submitList(resource.data)
-                    }
-                }
+    private fun updateUI(state: DetailScreenUiState) {
+        binding.apply {
+            progressBar.isVisible = state.isLoading
 
-                is Resource.Error -> {
-                    binding.progressBar.visibility = View.GONE
+            state.error?.let {
+                toast(it)
+            }
 
-                }
+            if (!state.isLoading && state.error == null && state.products.isNotEmpty()) {
+                val product = state.products.first()
+                txtProductName.text = product.productName
+                imgProduct.loadImg(product.productImgUrl)
+                companyPricesListAdapter.submitList(state.products)
             }
         }
-        Log.d("productId", args.productID.toString())
-        viewModel.getProduct(args.productID)
     }
 
     override fun onDestroyView() {

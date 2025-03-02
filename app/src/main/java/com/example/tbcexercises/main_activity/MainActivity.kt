@@ -33,7 +33,6 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
 
 
@@ -165,10 +164,6 @@ class MainActivity : AppCompatActivity() {
         val config = Configuration()
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration)
     }
 
     override fun onDestroy() {

@@ -1,6 +1,6 @@
-package com.example.tbcexercises.data.mappers
+package com.example.tbcexercises.data.mappers.cart
 
-import com.example.tbcexercises.data.remote.response.CartProductResponse
+import com.example.tbcexercises.data.remote.response.cart.CartProductResponse
 import com.example.tbcexercises.domain.model.CartProduct
 
 

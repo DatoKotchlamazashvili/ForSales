@@ -1,13 +1,10 @@
 package com.example.tbcexercises.data.remote.service
 
 import com.example.tbcexercises.data.remote.response.home.HomePaginatedResponse
-import com.example.tbcexercises.data.remote.response.DetailProductResponse
-import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ProductService {
+interface HomeProductService {
 
     @GET("products/lowest_priced")
     suspend fun getProducts(
@@ -17,8 +14,6 @@ interface ProductService {
         @Query("category") category: String?
     ): HomePaginatedResponse
 
-    @GET("products/{id}")
-    suspend fun getProductById(@Path("id") id: Int): Response<List<DetailProductResponse>>
 
 
 }

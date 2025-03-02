@@ -2,7 +2,7 @@ package com.example.tbcexercises.data.repository.product
 
 
 import com.example.tbcexercises.data.local.daos.FavouriteProductDao
-import com.example.tbcexercises.data.mappers.toFavouriteProduct
+import com.example.tbcexercises.data.mappers.favourite.toFavouriteProduct
 import com.example.tbcexercises.data.remote.service.FavouriteProductService
 import com.example.tbcexercises.domain.model.FavouriteProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository

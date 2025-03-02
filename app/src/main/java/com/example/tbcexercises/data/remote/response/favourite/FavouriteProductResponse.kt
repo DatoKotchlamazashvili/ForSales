@@ -1,12 +1,12 @@
-package com.example.tbcexercises.data.remote.response
+package com.example.tbcexercises.data.remote.response.favourite
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CartProductResponse(
+data class FavouriteProductResponse(
     val productId: Int,
     val productName: String,
     val productImgUrl: String,
     val company: String,
-    val productPrice: Double? = null
+    val productPrice: Double
 )

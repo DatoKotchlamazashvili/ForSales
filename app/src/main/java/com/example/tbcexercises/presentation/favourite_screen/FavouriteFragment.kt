@@ -1,6 +1,7 @@
 package com.example.tbcexercises.presentation.favourite_screen
 
 
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -22,44 +23,39 @@ class FavouriteFragment :
     private val viewModel: FavouriteViewModel by viewModels()
 
     private val favouriteProductAdapter by lazy {
-        FavouriteProductAdapter()
+        FavouriteProductAdapter(onClickToAddCart = {
+            viewModel.addToCart(it)
+        })
     }
 
     override fun start() {
+        viewModel.observeCartAndFavourites()
 
-        viewModel.getFavouriteProducts()
         setUpAdapter()
-        collectLastState(viewModel.favouriteProducts) { state ->
-            when (state) {
-                is Resource.Error -> {
-                    showLoadingScreen(false)
-                }
-
-                Resource.Loading -> {
-                    showLoadingScreen(true)
-
-                }
-
-                is Resource.Success -> {
-                    showLoadingScreen(false)
-                    favouriteProductAdapter.submitList(state.data.toList())
-
-                }
-
-                null -> {
-                }
-            }
-
+        collectLastState(viewModel.uiState) { state ->
+            updateUI(state)
         }
     }
 
-    private fun showLoadingScreen(isVisible: Boolean) {
+    private fun updateUI(state: FavouriteScreenUiState) {
         binding.apply {
-            rvProducts.isVisible = !isVisible
-            progressBar.isVisible = isVisible
-            txtError.isVisible = !isVisible
-        }
+            progressBar.isVisible = state.isLoading
+            rvProducts.isVisible =
+                !state.isLoading && state.error == null && state.favouriteProducts.isNotEmpty()
+            txtError.isVisible = state.error != null
 
+            imgEmptyBox.isVisible =
+                !state.isLoading && state.error == null && state.favouriteProducts.isEmpty()
+            txtEmptyBox.isVisible =
+                !state.isLoading && state.error == null && state.favouriteProducts.isEmpty()
+            state.error?.let {
+                txtError.text = state.error
+            }
+
+            if (!state.isLoading && state.error == null && state.favouriteProducts.isNotEmpty()) {
+                favouriteProductAdapter.submitList(state.favouriteProducts)
+            }
+        }
     }
 
     private fun setUpAdapter() {

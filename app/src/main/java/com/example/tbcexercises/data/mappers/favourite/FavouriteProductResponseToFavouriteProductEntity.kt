@@ -1,7 +1,7 @@
-package com.example.tbcexercises.data.mappers
+package com.example.tbcexercises.data.mappers.favourite
 
 import com.example.tbcexercises.data.local.entity.FavouriteProductEntity
-import com.example.tbcexercises.data.remote.response.FavouriteProductResponse
+import com.example.tbcexercises.data.remote.response.favourite.FavouriteProductResponse
 
 
 fun FavouriteProductResponse.toFavouriteProductEntity(): FavouriteProductEntity {

@@ -33,5 +33,7 @@
     <string name="search">Search</string>
     <string name="search_here">Search here…</string>
     <string name="total">Total :</string>
+    <string name="you_don_t_have_favourites_add_them_from_home_screen">You don\'t have favourites add them from home screen</string>
+    <string name="there_is_no_product_in_a_cart_add_them_from_home_screen">There is no product in a cart add them from home screen</string>
 
 </resources>

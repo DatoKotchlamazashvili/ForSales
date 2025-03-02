@@ -1,8 +1,9 @@
 package com.example.tbcexercises.data.local.daos
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Upsert
 import com.example.tbcexercises.data.local.entity.CartProductEntity
-import com.example.tbcexercises.utils.network_helper.Resource
 import kotlinx.coroutines.flow.Flow
 
 @Dao

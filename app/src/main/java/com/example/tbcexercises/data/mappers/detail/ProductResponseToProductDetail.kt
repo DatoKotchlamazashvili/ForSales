@@ -1,6 +1,6 @@
-package com.example.tbcexercises.data.mappers
+package com.example.tbcexercises.data.mappers.detail
 
-import com.example.tbcexercises.data.remote.response.DetailProductResponse
+import com.example.tbcexercises.data.remote.response.detail.DetailProductResponse
 import com.example.tbcexercises.domain.model.DetailProduct
 
 

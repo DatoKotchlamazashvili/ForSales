@@ -18,7 +18,6 @@ import com.example.tbcexercises.presentation.home_screen.product_list_adapter.Pr
 import com.example.tbcexercises.presentation.home_screen.product_load_adapter.ProductLoadStateAdapter
 import com.example.tbcexercises.utils.extension.collectLastState
 import com.example.tbcexercises.utils.extension.toast
-import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -45,15 +44,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setUpProductsRecycleView()
         setupSearchView()
         setUpCategoryRecycleView()
+
         collectLastState(viewModel.productFlow) {
             productHomeAdapter.submitData(it)
+        }
+
+        collectLastState(viewModel.uiState) { state ->
+            updateCategoryUI(state)
+        }
+    }
+
+    private fun updateCategoryUI(state: HomeScreenUiState) {
+        binding.apply {
+            categoryProgressBar.isVisible = state.isLoading
+
+            state.categoryError?.let {
+                toast(message = it)
+            }
+
+            if (!state.isLoading && state.categoryError == null) {
+                categoryAdapter.submitList(state.categories)
+            }
         }
     }
 
     override fun listeners() {
         binding.swipeRefresh.setOnRefreshListener {
             productHomeAdapter.refresh()
-
+            viewModel.getCategories()
             binding.swipeRefresh.isRefreshing = false
         }
 
@@ -99,27 +117,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
-
-        collectLastState(viewModel.categories) { state ->
-            when (state) {
-                is Resource.Error -> {
-                    toast(message = state.message)
-                    binding.categoryProgressBar.isVisible = false
-                }
-
-                Resource.Loading -> {
-                    binding.categoryProgressBar.isVisible = true
-                }
-
-                is Resource.Success -> {
-                    categoryAdapter.submitList(state.data.toList())
-                    binding.categoryProgressBar.isVisible = false
-
-                }
-
-                null -> {}
-            }
-        }
     }
 
     private fun onClickProduct(id: Int) {
@@ -147,5 +144,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         })
     }
-
 }

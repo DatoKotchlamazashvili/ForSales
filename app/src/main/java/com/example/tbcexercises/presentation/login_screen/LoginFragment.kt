@@ -1,13 +1,12 @@
 package com.example.tbcexercises.presentation.login_screen
 
 
-import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.FragmentLoginBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
-import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.extension.collectLastState
 import com.example.tbcexercises.utils.extension.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +17,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private val viewModel: LoginViewModel by viewModels()
 
     override fun start() {
-        observeViewModel()
+        observeUiState()
         registerListeners()
     }
 
@@ -36,38 +35,41 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
-    private fun observeViewModel() {
-        collectLastState(viewModel.signInState) { resource ->
-            when (resource) {
-                is Resource.Loading -> showLoadingScreen(true)
-                is Resource.Success -> {
-                    showLoadingScreen(false)
-                    navigateToHomeScreen()
-                }
+    private fun observeUiState() {
+        collectLastState(viewModel.uiState) { state ->
+            updateUI(state)
+        }
+    }
 
-                is Resource.Error -> {
-                    showLoadingScreen(false)
-                    toast(resource.message)
-                }
+    private fun updateUI(state: LoginScreenUiState) {
+        showLoadingScreen(state.isLoading)
 
-                null -> {}
-            }
+        state.error?.let { errorMessage ->
+            toast(errorMessage)
         }
 
+        if (!state.isLoading && state.user != null) {
+            navigateToHomeScreen()
+        }
+
+        if (state.email.isNotEmpty() && binding.etEmail.text.toString() != state.email) {
+            binding.etEmail.setText(state.email)
+        }
+
+        if (state.password.isNotEmpty() && binding.etPassword.text.toString() != state.password) {
+            binding.etPassword.setText(state.password)
+        }
     }
 
     private fun showLoadingScreen(isLoading: Boolean) {
-        val viewVisibility = if (!isLoading) View.VISIBLE else View.GONE
-
         binding.apply {
-            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-
-            etEmail.visibility = viewVisibility
-            btnLogin.visibility = viewVisibility
-            txtRememberMe.visibility = viewVisibility
-            cbRememberMe.visibility = viewVisibility
-            textInputLayout.visibility = viewVisibility
-            txtRegister.visibility = viewVisibility
+            progressBar.isVisible = isLoading
+            etEmail.isVisible = !isLoading
+            btnLogin.isVisible = !isLoading
+            txtRememberMe.isVisible = !isLoading
+            cbRememberMe.isVisible = !isLoading
+            textInputLayout.isVisible = !isLoading
+            txtRegister.isVisible = !isLoading
         }
     }
 
@@ -77,13 +79,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private fun registerListeners() {
         parentFragmentManager.setFragmentResultListener("authData", this) { _, bundle ->
-            val email = bundle.getString("email")
-            val password = bundle.getString("password")
+            val email = bundle.getString("email") ?: ""
+            val password = bundle.getString("password") ?: ""
 
-            binding.apply {
-                etEmail.setText(email)
-                etPassword.setText(password)
-            }
+            viewModel.updateCredentials(email, password)
         }
     }
 }

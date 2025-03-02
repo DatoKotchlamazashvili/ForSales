@@ -3,12 +3,12 @@ package com.example.tbcexercises.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.tbcexercises.data.remote.response.home.HomeResponse
-import com.example.tbcexercises.data.remote.service.ProductService
+import com.example.tbcexercises.data.remote.service.HomeProductService
 import retrofit2.HttpException
 import java.io.IOException
 
 class HomeProductPagingSource(
-    private val apiService: ProductService,
+    private val apiService: HomeProductService,
     private val searchQuery: String?,
     private val category: String?
 ) : PagingSource<Int, HomeResponse>() {

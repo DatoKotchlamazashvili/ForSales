@@ -8,8 +8,9 @@ import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.ItemProductFavouriteBinding
 import com.example.tbcexercises.domain.model.FavouriteProduct
 import com.example.tbcexercises.utils.extension.loadImg
+import com.example.tbcexercises.utils.extension.setTint
 
-class FavouriteProductAdapter :
+class FavouriteProductAdapter(val onClickToAddCart: (FavouriteProduct) -> Unit) :
     ListAdapter<FavouriteProduct, FavouriteProductAdapter.FavouriteProductViewHolder>(
         FavouriteProductDiffUtil
     ) {
@@ -37,8 +38,17 @@ class FavouriteProductAdapter :
                     R.string.money_format,
                     favouriteProduct.productPrice.toString()
                 )
+                imgAddToCart.setOnClickListener {
+                    onClickToAddCart(favouriteProduct)
+                }
 
                 imgProduct.loadImg(favouriteProduct.productImgUrl)
+
+                if (favouriteProduct.isAddedToCart) {
+                    imgAddToCart.setTint(R.color.light_gray)
+                } else {
+                    imgAddToCart.setTint(R.color.black)
+                }
             }
         }
     }

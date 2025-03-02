@@ -1,4 +1,4 @@
-package com.example.tbcexercises.data.remote.response
+package com.example.tbcexercises.data.remote.response.category
 
 import kotlinx.serialization.Serializable
 

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,35 +21,70 @@ class RegisterViewModel @Inject constructor(
     private val signUpRepository: SignUpRepository
 ) : ViewModel() {
 
-    private val _signUpState = MutableStateFlow<Resource<FirebaseUser>?>(null)
-    val signUpState: StateFlow<Resource<FirebaseUser>?> = _signUpState
+    private val _uiState = MutableStateFlow(RegisterScreenUiState())
+    val uiState: StateFlow<RegisterScreenUiState> = _uiState
 
-    private val _validationEvent = MutableSharedFlow<RegisterUiEvent>()
-    val validationEvent = _validationEvent.asSharedFlow()
+    fun signup(name: String, email: String, password: String,repeatPassword: String) {
+        val validationError = validateInput(name, email, password,repeatPassword)
 
-    fun signup(name: String, email: String, password: String) {
-        val errorResId = validateInput(name, email, password)
-        if (errorResId != null) {
-            viewModelScope.launch {
-                _validationEvent.emit(RegisterUiEvent.Error(errorResId))
+        if (validationError != null) {
+            _uiState.update { currentState ->
+                currentState.copy(validationError = validationError)
             }
             return
         }
 
         viewModelScope.launch {
             signUpRepository.signup(name, email, password)
-                .collect { _signUpState.value = it }
+                .collect { resource ->
+                    when (resource) {
+                        is Resource.Loading -> {
+                            _uiState.update { currentState ->
+                                currentState.copy(
+                                    isLoading = true,
+                                    error = null,
+                                    validationError = null
+                                )
+                            }
+                        }
+                        is Resource.Success -> {
+                            _uiState.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    user = resource.data,
+                                    error = null,
+                                    validationError = null
+                                )
+                            }
+                        }
+                        is Resource.Error -> {
+                            _uiState.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    error = resource.message,
+                                    validationError = null
+                                )
+                            }
+                        }
+                    }
+                }
         }
     }
 
-    private fun validateInput(name: String, email: String, password: String): Int? {
+    private fun validateInput(name: String, email: String, password: String,repeatPassword:String): Int? {
         return when {
             name.isBlank() -> R.string.error_empty_name
             email.isBlank() -> R.string.error_empty_email
+            password != repeatPassword ->R.string.error_password_mismatch
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> R.string.error_invalid_email
             password.length < 6 -> R.string.error_weak_password
             else -> null
         }
     }
 
+    fun clearValidationError() {
+        _uiState.update { currentState ->
+            currentState.copy(validationError = null)
+        }
+    }
 }

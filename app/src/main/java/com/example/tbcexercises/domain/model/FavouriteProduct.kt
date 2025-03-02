@@ -7,5 +7,6 @@ data class FavouriteProduct(
     val productName: String,
     val productImgUrl: String,
     val company: String,
-    val productPrice: Double
+    val productPrice: Double,
+    val isAddedToCart : Boolean = false
 )

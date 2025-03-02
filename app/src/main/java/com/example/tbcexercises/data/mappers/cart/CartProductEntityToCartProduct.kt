@@ -1,4 +1,4 @@
-package com.example.tbcexercises.data.mappers
+package com.example.tbcexercises.data.mappers.cart
 
 import com.example.tbcexercises.data.local.entity.CartProductEntity
 import com.example.tbcexercises.domain.model.CartProduct
