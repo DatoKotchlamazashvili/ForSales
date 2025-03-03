@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.tbcexercises.data.connectivity.ConnectivityObserver
@@ -27,7 +26,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -77,29 +75,28 @@ class HomeViewModel @Inject constructor(
         networkConnection
     ) { state, favouriteProducts, cartProducts, isConnected ->
         Log.d("isConnected", isConnected.toString())
-        if (!isConnected && cartProducts.isEmpty()) {
-            flowOf(PagingData.empty())
-        } else {
-            Pager(
-                config = PagingConfig(
-                    pageSize = 20,
-                    enablePlaceholders = false
-                ),
-                pagingSourceFactory = {
-                    productRepository.getProductsPagerSource(
-                        state.selectedCategory,
-                        state.searchQuery
-                    )
-                }
-            ).flow.map { pagingData ->
-                pagingData.map { product ->
-                    product.toDomainHomeProduct().copy(
-                        isFavourite = product.productId in favouriteProducts,
-                        isAddedToCart = product.productId in cartProducts
-                    )
-                }
+        Log.d("cartProuct", cartProducts.toString())
+
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                productRepository.getProductsPagerSource(
+                    state.selectedCategory,
+                    state.searchQuery
+                )
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { product ->
+                product.toDomainHomeProduct().copy(
+                    isFavourite = product.productId in favouriteProducts,
+                    isAddedToCart = product.productId in cartProducts
+                )
             }
         }
+
     }.flatMapLatest { it }
         .cachedIn(viewModelScope)
 

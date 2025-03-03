@@ -67,9 +67,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>(FragmentCartBinding::infl
             progressBar.isVisible = state.isLoading
 
             txtError.isVisible = !state.isOnline
+            imgNoInternetConnection.isVisible = !state.isOnline
+
             txtTotalPrice.text = state.totalPrice.toString()
         }
         if (state.isOnline && state.cartProducts.isEmpty() && state.companies.isEmpty()) {
+            viewModel.updateCachedData()
             viewModel.getCompanies()
         }
         cartProductAdapter.submitList(state.cartProducts)

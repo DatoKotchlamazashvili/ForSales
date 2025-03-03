@@ -65,6 +65,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             Log.d("state", state.toString())
             txtError.isVisible = !state.isOnline && productHomeAdapter.itemCount == 0
+            imgNoInternetConnection.isVisible = !state.isOnline && productHomeAdapter.itemCount == 0
+
             searchView.isVisible = state.isOnline
             state.error?.let {
                 toast(message = getString(it))

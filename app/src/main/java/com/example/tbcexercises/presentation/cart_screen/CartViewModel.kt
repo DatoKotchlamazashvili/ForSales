@@ -87,7 +87,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    private fun updateCachedData() {
+    fun updateCachedData() {
         viewModelScope.launch(Dispatchers.IO) {
             cartProductRepository.saveCartProducts()
         }
@@ -110,7 +110,8 @@ class CartViewModel @Inject constructor(
                                 state.copy(
                                     cartProducts = products,
                                     totalPrice = products.sumOf { it.totalPrice }.toFloat(),
-                                    isLoading = false
+                                    isLoading = false,
+                                    error = null
                                 )
                             }
                         }
