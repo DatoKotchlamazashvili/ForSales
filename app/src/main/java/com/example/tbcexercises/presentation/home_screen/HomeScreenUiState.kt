@@ -7,5 +7,6 @@ data class HomeScreenUiState(
     val categories: List<Category> = emptyList(),
     val error: Int? = null,
     val searchQuery: String? = null,
-    val selectedCategory: String? = null
+    val selectedCategory: String? = null,
+    val isOnline: Boolean = false
 )

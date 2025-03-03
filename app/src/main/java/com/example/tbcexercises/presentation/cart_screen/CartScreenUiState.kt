@@ -9,5 +9,6 @@ data class CartScreenUiState(
     val selectedCompanyName: String? = null,
     val totalPrice: Float = 0f,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val isOnline : Boolean = false
 )

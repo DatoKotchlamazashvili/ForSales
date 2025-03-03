@@ -3,6 +3,7 @@ package com.example.tbcexercises.presentation.cart_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tbcexercises.data.connectivity.ConnectivityObserver
 import com.example.tbcexercises.domain.model.cart.CartProduct
 import com.example.tbcexercises.domain.repository.company.CompanyRepository
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
@@ -20,20 +21,24 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val cartProductRepository: CartProductRepository,
-    private val companyRepository: CompanyRepository
+    private val companyRepository: CompanyRepository,
+    connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CartScreenUiState())
     val uiState: StateFlow<CartScreenUiState> = _uiState
 
+    private val networkConnection = connectivityObserver.isConnected
+
     private var currentProductsJob: Job? = null
 
     init {
+        updateNetworkState()
         updateCachedData()
         getCompanies()
     }
 
-    private fun getCompanies() {
+    fun getCompanies() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
@@ -68,6 +73,17 @@ class CartViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun updateNetworkState() {
+        viewModelScope.launch(Dispatchers.IO) {
+            networkConnection.collectLatest { internet ->
+                _uiState.update {
+                    it.copy(isOnline = internet)
+                }
+            }
+
         }
     }
 

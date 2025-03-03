@@ -11,7 +11,6 @@ import com.example.tbcexercises.presentation.mappers.toCartProduct
 import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -58,7 +57,7 @@ class FavouriteViewModel @Inject constructor(
         }
     }
 
-    fun observeCartAndFavourites() {
+    private fun observeCartAndFavourites() {
         viewModelScope.launch {
             combine(
                 favouriteProductRepository.getAllFavouriteProducts()

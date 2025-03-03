@@ -11,6 +11,9 @@
     <string name="error_empty_email">ემაილის ველი ცარიელი არ შეიძლება იყოს</string>
     <string name="error_invalid_email">არასწორი ემაილი</string>
     <string name="error_weak_password">პაროლის სიგრძე მინიმუმ 6 უნდა იყოს</string>
+    <string name="english">English</string>
+    <string name="georgian">ქართული</string>
+
 
     <string name="register">დარეგისტრირდი</string>
     <string name="email">იმეილი</string>
@@ -30,5 +33,8 @@
     <string name="undo">დააბრუნე</string>
     <string name="search">მოძებნე</string>
     <string name="search_here">რას ეძებ…</string>
+    <string name="total">მთლიანი :</string>
+    <string name="you_don_t_have_favourites_add_them_from_home_screen">დაამატე პროდუქტი ფავორიტებში </string>
+    <string name="there_is_no_product_in_a_cart_add_them_from_home_screen">დაამატატე პროდუქტი კალათაში</string>
 
 </resources>

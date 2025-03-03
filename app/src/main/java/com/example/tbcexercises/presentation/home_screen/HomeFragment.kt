@@ -1,5 +1,6 @@
 package com.example.tbcexercises.presentation.home_screen
 
+import android.util.Log
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -11,6 +12,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.FragmentHomeBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
 import com.example.tbcexercises.presentation.home_screen.category_list_adapter.CategoryListAdapter
@@ -53,16 +55,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         collectLastState(viewModel.uiState) { state ->
             updateCategoryUI(state)
         }
+
+        binding.txtError.text = getString(R.string.you_don_t_have_internet_connection)
     }
 
     private fun updateCategoryUI(state: HomeScreenUiState) {
         binding.apply {
-            categoryProgressBar.isVisible = state.isLoading
+            categoryProgressBar.isVisible = state.isLoading && state.isOnline
 
+            Log.d("state", state.toString())
+            txtError.isVisible = !state.isOnline && productHomeAdapter.itemCount == 0
+            searchView.isVisible = state.isOnline
             state.error?.let {
                 toast(message = getString(it))
             }
-
+            rvCategories.isVisible = state.isOnline
+            if (state.isOnline && state.categories.isEmpty()) {
+                viewModel.getCategories()
+            }
             if (!state.isLoading && state.error == null) {
                 categoryAdapter.submitList(state.categories)
             }
@@ -75,7 +85,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             viewModel.getCategories()
             binding.swipeRefresh.isRefreshing = false
         }
-
         productHomeAdapter.addLoadStateListener { loadState ->
             val refreshState = loadState.mediator?.refresh ?: loadState.source.refresh
 

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">TbcExercises</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="retry">Retry</string>
     <string name="timeout">Timeout</string>
     <string name="cart">Cart</string>
@@ -35,5 +34,6 @@
     <string name="total">Total :</string>
     <string name="you_don_t_have_favourites_add_them_from_home_screen">You don\'t have favourites add them from home screen</string>
     <string name="there_is_no_product_in_a_cart_add_them_from_home_screen">There is no product in a cart add them from home screen</string>
+    <string name="you_don_t_have_internet_connection">You don\'t have internet connection</string>
 
 </resources>

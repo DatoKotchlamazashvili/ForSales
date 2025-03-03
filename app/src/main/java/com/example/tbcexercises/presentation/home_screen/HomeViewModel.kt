@@ -1,11 +1,14 @@
 package com.example.tbcexercises.presentation.home_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.tbcexercises.data.connectivity.ConnectivityObserver
 import com.example.tbcexercises.data.mappers.home.toDomainHomeProduct
 import com.example.tbcexercises.domain.model.home.HomeProduct
 import com.example.tbcexercises.domain.repository.category.CategoryRepository
@@ -24,6 +27,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -35,14 +39,20 @@ class HomeViewModel @Inject constructor(
     private val productRepository: HomeProductRepository,
     private val favouriteProductRepository: FavouriteProductRepository,
     private val categoryRepository: CategoryRepository,
-    private val cartProductRepository: CartProductRepository
+    private val cartProductRepository: CartProductRepository,
+    connectivityObserver: ConnectivityObserver
+
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeScreenUiState())
     val uiState: StateFlow<HomeScreenUiState> = _uiState
 
+    private val networkConnection = connectivityObserver.isConnected
+
+
     init {
         getCategories()
+        updateNetworkState()
     }
 
     private val favouriteIdsFlow = favouriteProductRepository
@@ -63,29 +73,45 @@ class HomeViewModel @Inject constructor(
     val productFlow = combine(
         uiState,
         favouriteIdsFlow,
-        cartProductIdsFlow
-    ) { state, favouriteProducts, cartProducts ->
-        Pager(
-            config = PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                productRepository.getProductsPagerSource(
-                    state.selectedCategory,
-                    state.searchQuery
-                )
-            }
-        ).flow.map { pagingData ->
-            pagingData.map { product ->
-                product.toDomainHomeProduct().copy(
-                    isFavourite = product.productId in favouriteProducts,
-                    isAddedToCart = product.productId in cartProducts
-                )
+        cartProductIdsFlow,
+        networkConnection
+    ) { state, favouriteProducts, cartProducts, isConnected ->
+        Log.d("isConnected", isConnected.toString())
+        if (!isConnected && cartProducts.isEmpty()) {
+            flowOf(PagingData.empty())
+        } else {
+            Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    enablePlaceholders = false
+                ),
+                pagingSourceFactory = {
+                    productRepository.getProductsPagerSource(
+                        state.selectedCategory,
+                        state.searchQuery
+                    )
+                }
+            ).flow.map { pagingData ->
+                pagingData.map { product ->
+                    product.toDomainHomeProduct().copy(
+                        isFavourite = product.productId in favouriteProducts,
+                        isAddedToCart = product.productId in cartProducts
+                    )
+                }
             }
         }
     }.flatMapLatest { it }
         .cachedIn(viewModelScope)
+
+    private fun updateNetworkState() {
+        viewModelScope.launch(Dispatchers.IO) {
+            networkConnection.collectLatest { internet ->
+                _uiState.update {
+                    it.copy(isOnline = internet)
+                }
+            }
+        }
+    }
 
     fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -121,6 +147,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+
     }
 
     fun setFavouriteStrategy(product: HomeProduct) {

@@ -20,7 +20,7 @@ interface FavouriteProductDao {
     @Delete
     suspend fun deleteFavouriteProduct(product: FavouriteProductEntity)
 
-    @Query("SELECT * FROM favourite_product_entity")
+    @Query("SELECT * FROM favourite_product_entity order by productId")
     fun getAllFavouriteProducts(): Flow<List<FavouriteProductEntity>>
 
     @Query("SELECT productId FROM favourite_product_entity")

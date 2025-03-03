@@ -37,6 +37,7 @@ class FavouriteFragment :
 
     private fun updateUI(state: FavouriteScreenUiState) {
         binding.apply {
+            Log.d("favouriteState", state.toString())
             progressBar.isVisible = state.isLoading
             rvProducts.isVisible =
                 !state.isLoading && state.error == null && state.favouriteProducts.isNotEmpty()
@@ -50,7 +51,7 @@ class FavouriteFragment :
                 txtError.text = state.error
             }
 
-            if (!state.isLoading && state.error == null && state.favouriteProducts.isNotEmpty()) {
+            if (!state.isLoading && state.error == null) {
                 favouriteProductAdapter.submitList(state.favouriteProducts.toList())
             }
         }

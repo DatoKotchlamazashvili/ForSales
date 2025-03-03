@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface CartProductDao {
 
 
-    @Query("SELECT * FROM cart_product_entity where company = :companyName")
+    @Query("SELECT * FROM cart_product_entity where company = :companyName order by productId")
     fun getAllCartProducts(companyName: String): Flow<List<CartProductEntity>>
 
     @Query("SELECT productId FROM cart_product_entity")
