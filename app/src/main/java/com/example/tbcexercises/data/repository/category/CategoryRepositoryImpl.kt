@@ -1,6 +1,6 @@
 package com.example.tbcexercises.data.repository.category
 
-import com.example.tbcexercises.data.mappers.cateogory.toCategory
+import com.example.tbcexercises.data.mappers.cateogory.toDomainCategory
 import com.example.tbcexercises.data.remote.service.CategoryService
 import com.example.tbcexercises.domain.model.home.Category
 import com.example.tbcexercises.domain.repository.category.CategoryRepository
@@ -16,7 +16,7 @@ class CategoryRepositoryImpl @Inject constructor(
     override fun getCategories(): Flow<Resource<List<Category>>> {
         return handleNetworkRequest { categoryService.getCategories() }.map { response ->
             when (response) {
-                is Resource.Success -> Resource.Success(response.data.map { it.toCategory() })
+                is Resource.Success -> Resource.Success(response.data.map { it.toDomainCategory() })
                 is Resource.Error -> Resource.Error(response.message)
                 is Resource.Loading -> Resource.Loading
             }

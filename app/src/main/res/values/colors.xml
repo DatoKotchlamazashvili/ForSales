@@ -24,4 +24,5 @@
     <color name="cart_company_unselected_background">#F5F5F5</color>
     <color name="cart_company_unselected_border">#BDBDBD</color>
     <color name="cart_company_shadow">#33000000</color>
+    <color name="dark_white">#F8F8F8</color>
 </resources>

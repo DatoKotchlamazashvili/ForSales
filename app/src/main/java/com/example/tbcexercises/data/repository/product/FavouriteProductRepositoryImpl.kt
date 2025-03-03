@@ -2,7 +2,7 @@ package com.example.tbcexercises.data.repository.product
 
 
 import com.example.tbcexercises.data.local.daos.FavouriteProductDao
-import com.example.tbcexercises.data.mappers.favourite.toFavouriteProduct
+import com.example.tbcexercises.data.mappers.favourite.toDomainFavouriteProduct
 import com.example.tbcexercises.data.remote.service.FavouriteProductService
 import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
@@ -36,7 +36,7 @@ class FavouriteProductRepositoryImpl @Inject constructor(
         emit(Resource.Loading)
         try {
             favouriteProductDao.getAllFavouriteProducts().collect { products ->
-                emit(Resource.Success(products.map { it.toFavouriteProduct() }))
+                emit(Resource.Success(products.map { it.toDomainFavouriteProduct() }))
             }
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: ""))
@@ -53,7 +53,7 @@ class FavouriteProductRepositoryImpl @Inject constructor(
             when (result) {
                 is Resource.Error -> Resource.Error(result.message)
                 Resource.Loading -> Resource.Loading
-                is Resource.Success -> Resource.Success(result.data.map { it.toFavouriteProduct() })
+                is Resource.Success -> Resource.Success(result.data.map { it.toDomainFavouriteProduct() })
             }
         }
     }

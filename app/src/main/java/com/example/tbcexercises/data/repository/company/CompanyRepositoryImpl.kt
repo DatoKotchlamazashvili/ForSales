@@ -1,6 +1,6 @@
 package com.example.tbcexercises.data.repository.company
 
-import com.example.tbcexercises.data.mappers.company.toCompany
+import com.example.tbcexercises.data.mappers.company.toDomainCompany
 import com.example.tbcexercises.data.remote.service.CompanyService
 import com.example.tbcexercises.domain.model.cart.Company
 import com.example.tbcexercises.domain.repository.company.CompanyRepository
@@ -17,7 +17,7 @@ class CompanyRepositoryImpl @Inject constructor(private val companyService: Comp
             when (response) {
                 is Resource.Success -> {
                     val companies = response.data.mapIndexed { index, company ->
-                        company.toCompany(isClicked = index == 0)
+                        company.toDomainCompany(isClicked = index == 0)
                     }
                     Resource.Success(companies)
                 }

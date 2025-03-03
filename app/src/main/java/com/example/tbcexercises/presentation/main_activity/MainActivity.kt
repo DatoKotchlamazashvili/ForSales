@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applySavedLocale()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
@@ -44,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        applySavedLocale()
         setupNavigation()
         observeLanguageChanges()
         setupLanguageMenu()
@@ -53,7 +54,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupNavigation() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fvcNavHostFragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fvcNavHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
@@ -85,13 +87,23 @@ class MainActivity : AppCompatActivity() {
                     appBarTitle = getString(R.string.login),
                     languageIconIsVisible = true
                 )
+
                 R.id.registerFragment -> configureViewsForDestination(
                     bottomNav = false,
                     appBarTitle = getString(R.string.register),
                     languageIconIsVisible = true
                 )
-                R.id.launcherFragment -> configureViewsForDestination(bottomNav = false, appBar = false)
-                R.id.profileFragment -> configureViewsForDestination(bottomNav = true, languageIconIsVisible = true)
+
+                R.id.launcherFragment -> configureViewsForDestination(
+                    bottomNav = false,
+                    appBar = false
+                )
+
+                R.id.profileFragment -> configureViewsForDestination(
+                    bottomNav = true,
+                    languageIconIsVisible = true
+                )
+
                 else -> configureViewsForDestination(bottomNav = true)
             }
             binding.bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
@@ -139,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                 val selectedLanguage = languages[item.itemId].name
                 Log.d("languageSelected", selectedLanguage)
                 if (resources.configuration.locales[0].language != selectedLanguage) {
-                    viewModel.setSession(selectedLanguage, null)
+                    viewModel.setLanguage(selectedLanguage)
                 }
                 true
             }
@@ -151,7 +163,7 @@ class MainActivity : AppCompatActivity() {
         val currentLanguage = resources.configuration.locales[0].language
         if (currentLanguage != language) {
             applyLanguageConfiguration(language)
-            viewModel.setSession(language, null)
+            viewModel.setLanguage(language)
             recreate()
         }
     }

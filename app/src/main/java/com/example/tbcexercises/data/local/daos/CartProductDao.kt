@@ -21,7 +21,7 @@ interface CartProductDao {
     suspend fun incrementCartProductQuantity(productId: Int)
 
 
-    @Query("UPDATE cart_product_entity SET productQuantity = productQuantity - 1 WHERE productId = :productId")
+    @Query("UPDATE cart_product_entity SET productQuantity = productQuantity - 1 WHERE productId = :productId AND productQuantity>1")
     suspend fun decrementCartProductQuantity(productId: Int)
 
 

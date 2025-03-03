@@ -27,9 +27,7 @@ class HomeProductPagingSource(
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (response.data.isEmpty()) null else page + 1
             )
-        } catch (e: IOException) {
-            LoadResult.Error(e)
-        } catch (e: HttpException) {
+        } catch (e: Throwable) {
             LoadResult.Error(e)
         }
     }

@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.tbcexercises.data.mappers.home.toHomeProduct
+import com.example.tbcexercises.data.mappers.home.toDomainHomeProduct
 import com.example.tbcexercises.domain.model.home.HomeProduct
 import com.example.tbcexercises.domain.repository.category.CategoryRepository
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
@@ -78,7 +78,7 @@ class HomeViewModel @Inject constructor(
             }
         ).flow.map { pagingData ->
             pagingData.map { product ->
-                product.toHomeProduct().copy(
+                product.toDomainHomeProduct().copy(
                     isFavourite = product.productId in favouriteProducts,
                     isAddedToCart = product.productId in cartProducts
                 )

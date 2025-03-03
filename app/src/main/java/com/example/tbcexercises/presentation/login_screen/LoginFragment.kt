@@ -19,9 +19,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     override fun start() {
         observeUiState()
         registerListeners()
+        listeners()
     }
 
-    override fun listeners() {
+    private fun listeners() {
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()

@@ -13,7 +13,8 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgCategory"
         android:layout_width="24dp"
-        android:layout_height="24dp" />
+        android:layout_height="24dp"
+        android:scaleType="centerCrop" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtCategory"
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
+        android:fontFamily="@font/sfprodisplaymedium"
         android:textColor="@color/black"
         android:textSize="15sp" />
 

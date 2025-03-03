@@ -4,6 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.example.tbcexercises.domain.repository.user.UserPreferencesRepository
+import com.example.tbcexercises.utils.Constants.DEFAULT_APP_LANGUAGE
+import com.example.tbcexercises.utils.Constants.DEFAULT_REMEMBER_ME
 import com.example.tbcexercises.utils.Constants.REMEMBER_LANGUAGE
 import com.example.tbcexercises.utils.Constants.USER_LANGUAGE
 import kotlinx.coroutines.flow.Flow
@@ -15,27 +17,30 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) :
     UserPreferencesRepository {
-    override suspend fun setSession(language: String?, rememberMe: Boolean?) {
-        dataStore.edit { preferences ->
-            language?.let {
-                preferences[USER_LANGUAGE] = it
-            }
 
-            rememberMe?.let {
-                preferences[REMEMBER_LANGUAGE] = it
-            }
+
+    override suspend fun setLanguage(language: String) {
+        dataStore.edit { preferences ->
+            preferences[USER_LANGUAGE] = language
+
+        }
+    }
+
+    override suspend fun setRememberMe(rememberMe: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[REMEMBER_LANGUAGE] = rememberMe
         }
     }
 
     override fun getLanguageFlow(): Flow<String> {
         return dataStore.data.map { preferences ->
-            preferences[USER_LANGUAGE] ?: "en"
+            preferences[USER_LANGUAGE] ?: DEFAULT_APP_LANGUAGE
         }
     }
 
     override fun getRememberMe(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            preferences[REMEMBER_LANGUAGE] ?: false
+            preferences[REMEMBER_LANGUAGE] ?: DEFAULT_REMEMBER_ME
         }
     }
 }

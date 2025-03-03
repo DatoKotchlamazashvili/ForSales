@@ -9,6 +9,9 @@ object Constants {
     val USER_LANGUAGE = stringPreferencesKey("user_language")
     val REMEMBER_LANGUAGE = booleanPreferencesKey("remember_me")
 
+    const val DEFAULT_APP_LANGUAGE = "en"
+    const val DEFAULT_REMEMBER_ME = false
+
     val languages = listOf(
         Language("en", R.drawable.ic_flag_english),
         Language("ka", R.drawable.iic_flag_georgia)

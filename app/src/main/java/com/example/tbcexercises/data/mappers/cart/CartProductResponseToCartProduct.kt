@@ -4,7 +4,7 @@ import com.example.tbcexercises.data.remote.response.cart.CartProductResponse
 import com.example.tbcexercises.domain.model.cart.CartProduct
 
 
-fun CartProductResponse.toCartProduct(): CartProduct {
+fun CartProductResponse.toDomainCartProduct(): CartProduct {
     return CartProduct(
         productId = this.productId,
         productName = this.productName,

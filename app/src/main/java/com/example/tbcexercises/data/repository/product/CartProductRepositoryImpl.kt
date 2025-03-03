@@ -2,7 +2,7 @@ package com.example.tbcexercises.data.repository.product
 
 
 import com.example.tbcexercises.data.local.daos.CartProductDao
-import com.example.tbcexercises.data.mappers.cart.toCartProduct
+import com.example.tbcexercises.data.mappers.cart.toDomainCartProduct
 import com.example.tbcexercises.data.remote.service.CartProductService
 import com.example.tbcexercises.domain.model.cart.CartProduct
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
@@ -43,7 +43,7 @@ class CartProductRepositoryImpl @Inject constructor(
         emit(Resource.Loading)
         try {
             cartProductDao.getAllCartProducts(company).collect { products ->
-                emit(Resource.Success(products.map { it.toCartProduct() }))
+                emit(Resource.Success(products.map { it.toDomainCartProduct() }))
             }
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: ""))
@@ -57,10 +57,10 @@ class CartProductRepositoryImpl @Inject constructor(
 
     override fun getCartProductsFromServer(ids: String): Flow<Resource<List<CartProduct>>> {
         return handleNetworkRequest { cartProductService.getCartProductsByIds(ids) }.map { result ->
-            when (result){
+            when (result) {
                 is Resource.Error -> Resource.Error(result.message)
                 Resource.Loading -> Resource.Loading
-                is Resource.Success -> Resource.Success(result.data.map { it.toCartProduct() })
+                is Resource.Success -> Resource.Success(result.data.map { it.toDomainCartProduct() })
             }
         }
     }
@@ -74,12 +74,11 @@ class CartProductRepositoryImpl @Inject constructor(
                     is Resource.Success -> {
 
                         upsertCartProducts(resource.data.map {
-                            it.toCartProductEntity().toCartProduct()
+                            it.toCartProductEntity().toDomainCartProduct()
                         })
                     }
 
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                    else -> Unit
                 }
             }
         }

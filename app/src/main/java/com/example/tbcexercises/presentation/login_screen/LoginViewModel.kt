@@ -32,7 +32,7 @@ class LoginViewModel @Inject constructor(
                 currentState.copy(isLoading = true, error = null)
             }
 
-            userPreferencesRepository.setSession(language = null, rememberMe = rememberMe)
+            userPreferencesRepository.setRememberMe(rememberMe = rememberMe)
 
             signInRepository.login(email, password)
                 .collectLatest { resource ->

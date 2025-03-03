@@ -4,7 +4,7 @@ import com.example.tbcexercises.data.remote.response.detail.DetailProductRespons
 import com.example.tbcexercises.domain.model.detail.DetailProduct
 
 
-fun DetailProductResponse.toProductDetail(): DetailProduct {
+fun DetailProductResponse.toDomainProductDetail(): DetailProduct {
     return DetailProduct(
         productId = this.productId,
         company = this.company,

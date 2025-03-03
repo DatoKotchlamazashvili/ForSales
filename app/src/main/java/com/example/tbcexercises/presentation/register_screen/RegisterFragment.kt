@@ -19,15 +19,16 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
     override fun start() {
         observeUiState()
+        listeners()
     }
 
-    override fun listeners() {
+    private fun listeners() {
         binding.btnRegister.setOnClickListener {
             val name = binding.etUserName.text.toString()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
             val repeatPassword = binding.etPasswordRepeat.text.toString()
-            viewModel.signup(name, email, password,repeatPassword)
+            viewModel.signup(name, email, password, repeatPassword)
 
         }
     }

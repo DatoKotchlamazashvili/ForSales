@@ -4,7 +4,7 @@ import com.example.tbcexercises.data.remote.response.category.CategoryResponse
 import com.example.tbcexercises.domain.model.home.Category
 
 
-fun CategoryResponse.toCategory(): Category {
+fun CategoryResponse.toDomainCategory(): Category {
     return Category(
         id = this.id,
         categoryImgUrl = this.categoryImgUrl,

@@ -20,7 +20,7 @@ class ProfileViewModel @Inject constructor(
 
     suspend fun signOut() {
         withContext(NonCancellable) {
-            userPreferencesRepository.setSession(language = null, rememberMe = false)
+            userPreferencesRepository.setRememberMe(rememberMe = false)
             signOutRepository.logout()
         }
     }

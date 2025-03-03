@@ -4,8 +4,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserPreferencesRepository {
 
-    suspend fun setSession(language: String?, rememberMe: Boolean?)
 
+    suspend fun setLanguage(language: String)
+
+    suspend fun setRememberMe(rememberMe: Boolean)
 
     fun getLanguageFlow(): Flow<String>
 

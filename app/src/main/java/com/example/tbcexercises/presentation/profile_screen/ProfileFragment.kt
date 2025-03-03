@@ -18,9 +18,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     override fun start() {
         binding.txtEmail.text = viewModel.user.email
         binding.txtUsername.text = viewModel.user.displayName
+        listeners()
     }
 
-    override fun listeners() {
+    private fun listeners() {
         binding.btnLogout.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {

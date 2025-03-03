@@ -52,6 +52,9 @@ class CartFragment : BaseFragment<FragmentCartBinding>(FragmentCartBinding::infl
                 !state.isLoading && state.error == null && state.cartProducts.isNotEmpty()
             txtTotalPrice.isVisible =
                 !state.isLoading && state.error == null && state.cartProducts.isNotEmpty()
+            totalBackground.isVisible =
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty()
+
 
             txtEmptyCart.isVisible =
                 !state.isLoading && state.error == null && state.cartProducts.isEmpty()

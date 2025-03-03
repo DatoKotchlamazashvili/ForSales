@@ -41,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     override fun start() {
+        listeners()
         setUpProductsRecycleView()
         setupSearchView()
         setUpCategoryRecycleView()
@@ -68,7 +69,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
-    override fun listeners() {
+    private fun listeners() {
         binding.swipeRefresh.setOnRefreshListener {
             productHomeAdapter.refresh()
             viewModel.getCategories()

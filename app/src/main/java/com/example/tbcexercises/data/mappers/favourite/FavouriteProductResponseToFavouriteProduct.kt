@@ -4,7 +4,7 @@ import com.example.tbcexercises.data.remote.response.favourite.FavouriteProductR
 import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 
 
-fun FavouriteProductResponse.toFavouriteProduct(): FavouriteProduct {
+fun FavouriteProductResponse.toDomainFavouriteProduct(): FavouriteProduct {
     return FavouriteProduct(
         productId = this.productId,
         productImgUrl = this.productImgUrl,

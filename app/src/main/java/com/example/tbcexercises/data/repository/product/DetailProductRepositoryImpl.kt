@@ -1,6 +1,6 @@
 package com.example.tbcexercises.data.repository.product
 
-import com.example.tbcexercises.data.mappers.detail.toProductDetail
+import com.example.tbcexercises.data.mappers.detail.toDomainProductDetail
 import com.example.tbcexercises.data.remote.service.DetailProductService
 import com.example.tbcexercises.domain.model.detail.DetailProduct
 import com.example.tbcexercises.domain.repository.product.DetailProductRepository
@@ -15,7 +15,7 @@ class DetailProductRepositoryImpl @Inject constructor(private val detailProductS
     override fun getProductById(id: Int): Flow<Resource<List<DetailProduct>>> {
         return handleNetworkRequest { detailProductService.getProductById(id) }.map { resource ->
             when (resource) {
-                is Resource.Success -> Resource.Success(resource.data.map { it.toProductDetail() })
+                is Resource.Success -> Resource.Success(resource.data.map { it.toDomainProductDetail() })
                 is Resource.Error -> Resource.Error(resource.message)
                 is Resource.Loading -> Resource.Loading
             }
