@@ -26,5 +26,6 @@ interface FavouriteProductDao {
     @Query("SELECT productId FROM favourite_product_entity")
     fun getAllFavouriteProductIds(): Flow<List<Int>>
 
-
+    @Query("SELECT count(*) FRom favourite_product_entity")
+    fun getFavouriteProductCount(): Flow<Int>
 }

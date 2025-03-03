@@ -67,9 +67,14 @@ class FavouriteProductRepositoryImpl @Inject constructor(
                     is Resource.Success -> {
                         insertFavouriteProducts(resource.data)
                     }
+
                     else -> {}
                 }
             }
         }
+    }
+
+    override fun getFavouriteProductCount(): Flow<Int> {
+        return favouriteProductDao.getFavouriteProductCount()
     }
 }

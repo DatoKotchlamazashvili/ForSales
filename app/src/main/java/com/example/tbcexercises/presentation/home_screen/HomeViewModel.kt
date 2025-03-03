@@ -1,12 +1,12 @@
 package com.example.tbcexercises.presentation.home_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.tbcexercises.R
 import com.example.tbcexercises.data.connectivity.ConnectivityObserver
 import com.example.tbcexercises.data.mappers.home.toDomainHomeProduct
 import com.example.tbcexercises.domain.model.home.HomeProduct
@@ -16,6 +16,8 @@ import com.example.tbcexercises.domain.repository.product.FavouriteProductReposi
 import com.example.tbcexercises.domain.repository.product.HomeProductRepository
 import com.example.tbcexercises.presentation.mappers.toCartProduct
 import com.example.tbcexercises.presentation.mappers.toFavouriteProduct
+import com.example.tbcexercises.utils.Constants.MAX_CART_PRODUCT_COUNT
+import com.example.tbcexercises.utils.Constants.MAX_FAVOURITE_PRODUCT
 import com.example.tbcexercises.utils.network_helper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +27,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -49,8 +52,8 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        getCategories()
         updateNetworkState()
+        getCategories()
     }
 
     private val favouriteIdsFlow = favouriteProductRepository
@@ -68,37 +71,36 @@ class HomeViewModel @Inject constructor(
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)
+    private val pagerFlow = _uiState
+        .map { state ->
+            Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    enablePlaceholders = false
+                ),
+                pagingSourceFactory = {
+                    productRepository.getProductsPagerSource(
+                        state.selectedCategory,
+                        state.searchQuery
+                    )
+                }
+            ).flow
+        }.flatMapLatest { it }
+        .cachedIn(viewModelScope)
+
+
     val productFlow = combine(
-        uiState,
+        pagerFlow,
         favouriteIdsFlow,
         cartProductIdsFlow,
-        networkConnection
-    ) { state, favouriteProducts, cartProducts, isConnected ->
-        Log.d("isConnected", isConnected.toString())
-        Log.d("cartProuct", cartProducts.toString())
-
-        Pager(
-            config = PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                productRepository.getProductsPagerSource(
-                    state.selectedCategory,
-                    state.searchQuery
-                )
-            }
-        ).flow.map { pagingData ->
-            pagingData.map { product ->
-                product.toDomainHomeProduct().copy(
-                    isFavourite = product.productId in favouriteProducts,
-                    isAddedToCart = product.productId in cartProducts
-                )
-            }
+    ) { pagingData, favouriteProducts, cartProducts ->
+        pagingData.map { product ->
+            product.toDomainHomeProduct().copy(
+                isFavourite = product.productId in favouriteProducts,
+                isAddedToCart = product.productId in cartProducts
+            )
         }
-
-    }.flatMapLatest { it }
-        .cachedIn(viewModelScope)
+    }
 
     private fun updateNetworkState() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -149,16 +151,20 @@ class HomeViewModel @Inject constructor(
 
     fun setFavouriteStrategy(product: HomeProduct) {
         viewModelScope.launch {
-            val isFavourite = favouriteIdsFlow.value.contains(product.productId)
-
-            if (isFavourite) {
+            _uiState.update { it.copy(error = null) }
+            if (product.isFavourite) {
                 favouriteProductRepository.deleteFavouriteProduct(
                     product.toFavouriteProduct()
                 )
             } else {
-                favouriteProductRepository.insertFavouriteProduct(
-                    product.toFavouriteProduct()
-                )
+                val count = favouriteProductRepository.getFavouriteProductCount().first()
+                if (count < MAX_FAVOURITE_PRODUCT) {
+                    favouriteProductRepository.insertFavouriteProduct(
+                        product.toFavouriteProduct()
+                    )
+                } else {
+                    _uiState.update { it.copy(error = R.string.max_favourite_product_count) }
+                }
             }
         }
     }
@@ -194,10 +200,20 @@ class HomeViewModel @Inject constructor(
     }
 
     fun insertCartProduct(homeProduct: HomeProduct) {
-        if (!homeProduct.isAddedToCart) {
-            viewModelScope.launch(Dispatchers.IO) {
-                cartProductRepository.upsertCartProduct(homeProduct.toCartProduct())
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.update { it.copy(error = null) }
+            if (!homeProduct.isAddedToCart) {
+                val cartProductCount = cartProductRepository.getCartProductCount().first()
+                if (cartProductCount < MAX_CART_PRODUCT_COUNT) {
+                    cartProductRepository.upsertCartProduct(homeProduct.toCartProduct())
+                } else {
+                    _uiState.update { it.copy(error = R.string.max_cart_product_count) }
+                }
+            } else {
+                cartProductRepository.deleteCartProduct(homeProduct.toCartProduct())
             }
         }
+
+
     }
 }

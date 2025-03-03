@@ -15,4 +15,6 @@ interface FavouriteProductRepository {
     fun getFavouriteProductsFromServer(ids: String): Flow<Resource<List<FavouriteProduct>>>
 
     suspend fun saveFavouriteProducts()
+
+    fun getFavouriteProductCount(): Flow<Int>
 }

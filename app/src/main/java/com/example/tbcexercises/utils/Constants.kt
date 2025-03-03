@@ -11,7 +11,9 @@ object Constants {
 
     const val DEFAULT_APP_LANGUAGE = "en"
     const val DEFAULT_REMEMBER_ME = false
+    const val MAX_FAVOURITE_PRODUCT = 15
 
+    const val MAX_CART_PRODUCT_COUNT = 6
     val languages = listOf(
         Language("en", R.drawable.ic_flag_english),
         Language("ka", R.drawable.iic_flag_georgia)

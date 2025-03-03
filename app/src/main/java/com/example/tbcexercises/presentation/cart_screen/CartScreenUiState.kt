@@ -10,5 +10,5 @@ data class CartScreenUiState(
     val totalPrice: Float = 0f,
     val isLoading: Boolean = false,
     val error: String? = null,
-    val isOnline : Boolean = false
+    val isOnline: Boolean? = null
 )

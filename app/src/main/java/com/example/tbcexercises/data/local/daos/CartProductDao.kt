@@ -34,4 +34,6 @@ interface CartProductDao {
     @Upsert
     suspend fun upsertCartProducts(product: List<CartProductEntity>)
 
+    @Query("SELECT count(distinct productId) FROM cart_product_entity")
+    fun getCartProductCount(): Flow<Int>
 }

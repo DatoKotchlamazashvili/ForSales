@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,7 +34,9 @@ class CartViewModel @Inject constructor(
     private var currentProductsJob: Job? = null
 
     init {
+
         updateNetworkState()
+
         updateCachedData()
         getCompanies()
     }
@@ -164,7 +167,6 @@ class CartViewModel @Inject constructor(
                 selectedCompanyName = companyName
             )
         }
-
         getCartProducts(companyName)
     }
 }

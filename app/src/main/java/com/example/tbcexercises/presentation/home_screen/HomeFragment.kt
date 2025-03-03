@@ -60,25 +60,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun updateCategoryUI(state: HomeScreenUiState) {
+        val isOnline = state.isOnline ?: false
         binding.apply {
-            categoryProgressBar.isVisible = state.isLoading && state.isOnline
+            Log.d("homestate", state.toString())
+            categoryProgressBar.isVisible = state.isLoading && isOnline
 
-            Log.d("state", state.toString())
-            txtError.isVisible = !state.isOnline && productHomeAdapter.itemCount == 0
-            imgNoInternetConnection.isVisible = !state.isOnline && productHomeAdapter.itemCount == 0
+            txtError.isVisible =
+                if (state.isOnline == null) false else !isOnline && productHomeAdapter.itemCount == 0
+            imgNoInternetConnection.isVisible =
+                if (state.isOnline == null) false else !isOnline && productHomeAdapter.itemCount == 0
 
-            searchView.isVisible = state.isOnline
-            state.error?.let {
-                toast(message = getString(it))
-            }
-            rvCategories.isVisible = state.isOnline
-            if (state.isOnline && state.categories.isEmpty()) {
-                viewModel.getCategories()
-            }
-            if (!state.isLoading && state.error == null) {
-                categoryAdapter.submitList(state.categories)
-            }
+            searchView.isVisible = isOnline
+
+            rvCategories.isVisible = isOnline
         }
+        state.error?.let {
+            toast(message = getString(it))
+        }
+        if (isOnline && state.categories.isEmpty()) {
+            viewModel.getCategories()
+        }
+        if (!state.isLoading && state.error == null) {
+            categoryAdapter.submitList(state.categories)
+        }
+
     }
 
     private fun listeners() {

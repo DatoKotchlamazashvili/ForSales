@@ -10,7 +10,6 @@ import com.example.tbcexercises.presentation.base.BaseFragment
 import com.example.tbcexercises.presentation.cart_screen.cart_product_adapter.CartProductListAdapter
 import com.example.tbcexercises.presentation.cart_screen.companies_adapter.CompanyListAdapter
 import com.example.tbcexercises.utils.extension.collectLastState
-import com.example.tbcexercises.utils.extension.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,20 +44,21 @@ class CartFragment : BaseFragment<FragmentCartBinding>(FragmentCartBinding::infl
 
 
     private fun updateUI(state: CartScreenUiState) {
+        val isOnline = state.isOnline ?: false
+        Log.d("cartScreenState",state.toString())
         binding.apply {
-            Log.d("cartState", state.toString())
             rvCartProducts.isVisible =
-                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && state.isOnline
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && isOnline
             rvCompanies.isVisible =
-                !state.isLoading && state.error == null && state.companies.isNotEmpty() && state.cartProducts.isNotEmpty() && state.isOnline
+                !state.isLoading && state.error == null && state.companies.isNotEmpty() && state.cartProducts.isNotEmpty() && isOnline
             imgEmptyCart.isVisible =
-                !state.isLoading && state.error == null && state.cartProducts.isEmpty() && state.isOnline
+                !state.isLoading && state.error == null && state.cartProducts.isEmpty() && isOnline
             txtTotal.isVisible =
-                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && state.isOnline
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && isOnline
             txtTotalPrice.isVisible =
-                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && state.isOnline
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && isOnline
             totalBackground.isVisible =
-                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && state.isOnline
+                !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && isOnline
 
 
             txtEmptyCart.isVisible =
@@ -66,12 +66,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>(FragmentCartBinding::infl
 
             progressBar.isVisible = state.isLoading
 
-            txtError.isVisible = !state.isOnline
-            imgNoInternetConnection.isVisible = !state.isOnline
+            txtError.isVisible = if (state.isOnline == null) false else !isOnline
+            imgNoInternetConnection.isVisible = if (state.isOnline == null) false else !isOnline
 
             txtTotalPrice.text = state.totalPrice.toString()
         }
-        if (state.isOnline && state.cartProducts.isEmpty() && state.companies.isEmpty()) {
+        if (isOnline && state.cartProducts.isEmpty() && state.companies.isEmpty()) {
             viewModel.updateCachedData()
             viewModel.getCompanies()
         }

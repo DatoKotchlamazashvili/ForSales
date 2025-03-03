@@ -8,5 +8,5 @@ data class HomeScreenUiState(
     val error: Int? = null,
     val searchQuery: String? = null,
     val selectedCategory: String? = null,
-    val isOnline: Boolean = false
+    val isOnline: Boolean? = null
 )

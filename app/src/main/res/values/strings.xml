@@ -35,5 +35,6 @@
     <string name="you_don_t_have_favourites_add_them_from_home_screen">You don\'t have favourites add them from home screen</string>
     <string name="there_is_no_product_in_a_cart_add_them_from_home_screen">There is no product in a cart add them from home screen</string>
     <string name="you_don_t_have_internet_connection">You don\'t have internet connection</string>
-
+    <string name="max_favourite_product_count">You can only have up to 20 Favourite Products</string>
+    <string name="max_cart_product_count">You can only have up to 6 product in cart</string>
 </resources>

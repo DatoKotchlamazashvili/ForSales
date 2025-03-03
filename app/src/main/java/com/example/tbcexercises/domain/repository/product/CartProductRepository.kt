@@ -22,4 +22,6 @@ interface CartProductRepository {
     fun getCartProductsFromServer(ids: String): Flow<Resource<List<CartProduct>>>
 
     suspend fun saveCartProducts()
+
+    fun getCartProductCount(): Flow<Int>
 }

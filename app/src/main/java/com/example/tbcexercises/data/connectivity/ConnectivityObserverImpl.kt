@@ -16,9 +16,14 @@ class ConnectivityObserverImpl @Inject constructor(
 ): ConnectivityObserver {
 
     private val connectivityManager = context.getSystemService<ConnectivityManager>()!!
-
     override val isConnected: Flow<Boolean>
         get() = callbackFlow {
+            val initial = connectivityManager.activeNetwork?.let { network ->
+                connectivityManager.getNetworkCapabilities(network)
+                    ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            } ?: false
+            trySend(initial)
+
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onCapabilitiesChanged(
                     network: Network,

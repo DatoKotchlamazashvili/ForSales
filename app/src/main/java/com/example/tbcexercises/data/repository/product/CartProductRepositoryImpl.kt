@@ -83,4 +83,8 @@ class CartProductRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override fun getCartProductCount(): Flow<Int> {
+        return cartProductDao.getCartProductCount()
+    }
 }
