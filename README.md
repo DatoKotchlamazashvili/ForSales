@@ -11,6 +11,16 @@ This application is a product management system that allows users to:
   
 ## Features
 
+#Authentication Flow 
+
+-simple ui easy to use
+
+<div style="display: flex; gap: 10px;">
+  <img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/login_screen.png?raw=true" alt="Login Screen" width="200"/>  
+  <img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/register_screen.png?raw=true" alt="Detail Screen" width="200"/>
+</div>
+
+
 ### Home Screen
 - Display all available product items with lowest  price
 - you can Add new products to the favoruites and cart as well
