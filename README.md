@@ -1,99 +1,44 @@
-# TBC Academy Midterm Project
+# ForSales
 
-This repository contains the midterm project for TBC Academy, focused on creating a restaurant management system with a graphical user interface.
+This repository contains the midterm project for TBC Academy, focused on creating a product management system with a graphical user interface.
 
 
 ## Project Description
 
-This application is a restaurant management system that allows users to:
-- View and manage the restaurant menu
-- Process customer orders
-- Track order status
-- Calculate bills
-- Generate reports
-
+This application is a product management system that allows users to:
+- View and manage the products
+- make user spend less money on groceries
+  
 ## Features
 
-### Menu Management
-- Display all available menu items with prices
-- Add new items to the menu
-- Remove or modify existing items
-
-### Order Processing
-- Create new customer orders
-- Add items to orders with quantities
-- Apply discounts or promotions
-
-### Billing System
-- Calculate final bills with tax
-- Process different payment methods
-- Generate receipts
-
-### Reporting
-- Track daily sales
-- Generate sales reports by category or time period
-- Monitor inventory levels
+### Home Screen
+- Display all available product items with lowest  price
+- you can Add new products to the favoruites and cart as well
+- Remove or modify existing products from favorutes and cart
+- see detailed information about the product by clicking it
+<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/home_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>  
+<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/detail_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
 
 
-## Screenshots
+### Favourites Screen
+- you can acces this product in offline mode
+- add or remove products in cart screen
+- easy access to your favourite products
+<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/favourites_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
 
-### Main Interface
-![Main Interface](https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/GUI.png?raw=true)
-
-### Menu Management
-![Menu Management](https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/Restaurant.png?raw=true)
-
-### Cart Screen
-![Order Processing](https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/cart_screen.png?raw=true)
-
+### cart screen 
+- Calculate total  price of product you want buy
+- getting information about where it is most efficient to buy
+- you can add and remove products
 <img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/cart_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
 
-## Installation
+### Profile
+- you can change interface language(english or georgian currently)
+- see your profile info
+- you can log out
+<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/profile_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
 
-1. Clone the repository:
-```bash
-git clone https://github.com/DatoKochla18/TbcProjects.git
-cd TbcProjects/midterm_project
-```
 
-2. Install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Run the application:
-```bash
-python src/main.py
-```
-
-## Usage
-
-1. Start the application using the instructions above
-2. Use the navigation menu to access different features
-3. For menu management, go to the "Menu" tab
-4. To process orders, use the "Orders" tab
-5. Access reporting features through the "Reports" section
-
-## Development
-
-### Prerequisites
-- Python 3.8 or higher
-- PyQt5 for GUI components
-- SQLite for database functionality
-
-### Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Contact
-
-Dato Kochla - [GitHub Profile](https://github.com/DatoKochla18)
-
-Project Link: [https://github.com/DatoKochla18/TbcProjects/tree/midterm_project](https://github.com/DatoKochla18/TbcProjects/tree/midterm_project)
 
 ## Acknowledgements
 - TBC Academy for project requirements and guidance
-- All contributors who have participated in this project
