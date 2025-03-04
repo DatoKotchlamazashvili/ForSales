@@ -16,9 +16,10 @@ This application is a product management system that allows users to:
 - you can Add new products to the favoruites and cart as well
 - Remove or modify existing products from favorutes and cart
 - see detailed information about the product by clicking it
-<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/home_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>  
-<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/detail_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
-
+<div style="display: flex; gap: 10px;">
+  <img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/home_screen.png?raw=true" alt="Home Screen" width="200"/>  
+  <img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/detail_screen.png?raw=true" alt="Detail Screen" width="200"/>
+</div>
 
 ### Favourites Screen
 - you can acces this product in offline mode
