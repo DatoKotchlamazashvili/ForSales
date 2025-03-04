@@ -43,8 +43,10 @@ This application is a restaurant management system that allows users to:
 ### Menu Management
 ![Menu Management](https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/Restaurant.png?raw=true)
 
-### Order Processing
+### Cart Screen
 ![Order Processing](https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/cart_screen.png?raw=true)
+
+<img src="https://github.com/DatoKochla18/TbcProjects/blob/midterm_project/midterm_project_photos/cart_screen.png?raw=true" alt="Cart Screen" width="200" heigth = "200"/>
 
 ## Installation
 
