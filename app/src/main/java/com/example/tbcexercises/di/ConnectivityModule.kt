@@ -1,7 +1,7 @@
 package com.example.tbcexercises.di
 
-import com.example.tbcexercises.data.connectivity.ConnectivityObserver
-import com.example.tbcexercises.data.connectivity.ConnectivityObserverImpl
+import com.example.tbcexercises.data.manager.ConnectivityManagerImpl
+import com.example.tbcexercises.domain.manager.ConnectivityManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ abstract class ConnectivityModule {
 
     @Binds
     @Singleton
-    abstract fun bindConnectivityObserver(
-        impl: ConnectivityObserverImpl
-    ): ConnectivityObserver
+    abstract fun bindConnectivityManager(
+        impl: ConnectivityManagerImpl
+    ): ConnectivityManager
 }

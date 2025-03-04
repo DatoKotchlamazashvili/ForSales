@@ -1,7 +1,6 @@
 package com.example.tbcexercises.presentation.favourite_screen
 
 
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,7 +10,6 @@ import com.example.tbcexercises.R
 import com.example.tbcexercises.databinding.FragmentFavouriteBinding
 import com.example.tbcexercises.presentation.base.BaseFragment
 import com.example.tbcexercises.presentation.favourite_screen.favorute_product_adapter.FavouriteProductAdapter
-import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.extension.collectLastState
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +35,6 @@ class FavouriteFragment :
 
     private fun updateUI(state: FavouriteScreenUiState) {
         binding.apply {
-            Log.d("favouriteState", state.toString())
             progressBar.isVisible = state.isLoading
             rvProducts.isVisible =
                 !state.isLoading && state.error == null && state.favouriteProducts.isNotEmpty()

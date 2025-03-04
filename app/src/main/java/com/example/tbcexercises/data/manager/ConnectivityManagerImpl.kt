@@ -1,7 +1,6 @@
-package com.example.tbcexercises.data.connectivity
+package com.example.tbcexercises.data.manager
 
 import android.content.Context
-import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import androidx.core.content.getSystemService
@@ -11,11 +10,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
-class ConnectivityObserverImpl @Inject constructor(
-@ApplicationContext    private  val context: Context
-): ConnectivityObserver {
+class ConnectivityManagerImpl @Inject constructor(
+    @ApplicationContext private val context: Context
+) : com.example.tbcexercises.domain.manager.ConnectivityManager {
 
-    private val connectivityManager = context.getSystemService<ConnectivityManager>()!!
+    private val connectivityManager = context.getSystemService<android.net.ConnectivityManager>()!!
     override val isConnected: Flow<Boolean>
         get() = callbackFlow {
             val initial = connectivityManager.activeNetwork?.let { network ->
@@ -24,7 +23,7 @@ class ConnectivityObserverImpl @Inject constructor(
             } ?: false
             trySend(initial)
 
-            val callback = object : ConnectivityManager.NetworkCallback() {
+            val callback = object : android.net.ConnectivityManager.NetworkCallback() {
                 override fun onCapabilitiesChanged(
                     network: Network,
                     networkCapabilities: NetworkCapabilities

@@ -44,11 +44,14 @@ class CompanyListAdapter(val onCompanyClick: (Company) -> Unit) :
                         root.context,
                         R.drawable.item_company_cart_selected_background
                     )
+                    txtCompany.setTextColor(root.context.getColor(R.color.darkWhite))
                 } else {
                     root.background = ContextCompat.getDrawable(
                         root.context,
                         R.drawable.item_company_cart_unselected_background
                     )
+                    txtCompany.setTextColor(root.context.getColor(R.color.black))
+
                 }
             }
         }

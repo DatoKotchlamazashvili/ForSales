@@ -1,7 +1,6 @@
 package com.example.tbcexercises.presentation.detail_screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tbcexercises.databinding.FragmentDetailBinding
 import com.example.tbcexercises.presentation.detail_screen.company_prices_adapter.CompanyPricesListAdapter
-import com.example.tbcexercises.utils.network_helper.Resource
 import com.example.tbcexercises.utils.extension.collectLastState
 import com.example.tbcexercises.utils.extension.loadImg
 import com.example.tbcexercises.utils.extension.toast

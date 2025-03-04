@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.tbcexercises.R
-import com.example.tbcexercises.data.connectivity.ConnectivityObserver
+import com.example.tbcexercises.domain.manager.ConnectivityManager
 import com.example.tbcexercises.data.mappers.home.toDomainHomeProduct
 import com.example.tbcexercises.domain.model.home.HomeProduct
 import com.example.tbcexercises.domain.repository.category.CategoryRepository
@@ -41,14 +41,14 @@ class HomeViewModel @Inject constructor(
     private val favouriteProductRepository: FavouriteProductRepository,
     private val categoryRepository: CategoryRepository,
     private val cartProductRepository: CartProductRepository,
-    connectivityObserver: ConnectivityObserver
+    connectivityManager: ConnectivityManager
 
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeScreenUiState())
     val uiState: StateFlow<HomeScreenUiState> = _uiState
 
-    private val networkConnection = connectivityObserver.isConnected
+    private val networkConnection = connectivityManager.isConnected
 
 
     init {

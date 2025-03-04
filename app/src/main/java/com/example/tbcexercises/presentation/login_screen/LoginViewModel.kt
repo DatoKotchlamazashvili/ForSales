@@ -2,6 +2,7 @@ package com.example.tbcexercises.presentation.login_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tbcexercises.R
 import com.example.tbcexercises.domain.repository.auth.SignInRepository
 import com.example.tbcexercises.domain.repository.user.UserPreferencesRepository
 import com.example.tbcexercises.utils.network_helper.Resource
@@ -24,7 +25,7 @@ class LoginViewModel @Inject constructor(
 
     fun login(email: String, password: String, rememberMe: Boolean) {
         if (email.isEmpty() || password.isEmpty()) {
-            return
+            _uiState.update { it.copy(error = R.string.field_shoud_not_be_empty) }
         }
 
         viewModelScope.launch {

@@ -3,7 +3,7 @@ package com.example.tbcexercises.presentation.favourite_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.data.connectivity.ConnectivityObserver
+import com.example.tbcexercises.domain.manager.ConnectivityManager
 import com.example.tbcexercises.domain.model.favourite.FavouriteProduct
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
 import com.example.tbcexercises.domain.repository.product.FavouriteProductRepository
@@ -27,14 +27,14 @@ import javax.inject.Inject
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val favouriteProductRepository: FavouriteProductRepository,
-    connectivityObserver: ConnectivityObserver,
+    connectivityManager: ConnectivityManager,
     private val cartProductRepository: CartProductRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FavouriteScreenUiState())
     val uiState: StateFlow<FavouriteScreenUiState> = _uiState
 
-    private val isConnected = connectivityObserver.isConnected
+    private val isConnected = connectivityManager.isConnected
 
     private val cartProductIdsFlow = cartProductRepository.getAllCartProductIds()
         .stateIn(
@@ -87,7 +87,6 @@ class FavouriteViewModel @Inject constructor(
                         val updatedProducts = favouriteProductsResource.data.map { product ->
                             product.copy(isAddedToCart = product.productId in cartProductIds)
                         }
-                        Log.d("products", "$updatedProducts")
                         _uiState.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
@@ -111,7 +110,6 @@ class FavouriteViewModel @Inject constructor(
     }
 
     fun deleteFavouriteProduct(favouriteProduct: FavouriteProduct) {
-        Log.d("deleteCalled", "deleteCalled")
         viewModelScope.launch {
             favouriteProductRepository.deleteFavouriteProduct(favouriteProduct)
         }

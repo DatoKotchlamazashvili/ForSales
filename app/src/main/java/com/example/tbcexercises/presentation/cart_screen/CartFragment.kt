@@ -45,7 +45,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(FragmentCartBinding::infl
 
     private fun updateUI(state: CartScreenUiState) {
         val isOnline = state.isOnline ?: false
-        Log.d("cartScreenState",state.toString())
         binding.apply {
             rvCartProducts.isVisible =
                 !state.isLoading && state.error == null && state.cartProducts.isNotEmpty() && isOnline

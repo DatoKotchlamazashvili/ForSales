@@ -43,4 +43,5 @@
     <string name="error_wrong_password">Incorrect password</string>
     <string name="error_user_not_found">No account found with this email and password</string>
     <string name="user_not_found">User not found</string>
+    <string name="field_shoud_not_be_empty">Field should not be empty</string>
 </resources>

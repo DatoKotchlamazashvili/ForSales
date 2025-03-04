@@ -3,7 +3,7 @@ package com.example.tbcexercises.presentation.cart_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tbcexercises.data.connectivity.ConnectivityObserver
+import com.example.tbcexercises.domain.manager.ConnectivityManager
 import com.example.tbcexercises.domain.model.cart.CartProduct
 import com.example.tbcexercises.domain.repository.company.CompanyRepository
 import com.example.tbcexercises.domain.repository.product.CartProductRepository
@@ -14,7 +14,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,13 +22,13 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(
     private val cartProductRepository: CartProductRepository,
     private val companyRepository: CompanyRepository,
-    connectivityObserver: ConnectivityObserver
+    connectivityManager: ConnectivityManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CartScreenUiState())
     val uiState: StateFlow<CartScreenUiState> = _uiState
 
-    private val networkConnection = connectivityObserver.isConnected
+    private val networkConnection = connectivityManager.isConnected
 
     private var currentProductsJob: Job? = null
 
@@ -107,7 +106,6 @@ class CartViewModel @Inject constructor(
                     when (result) {
                         is Resource.Success -> {
                             val products = result.data
-                            Log.d("products for $companyName", products.toString())
 
                             _uiState.update { state ->
                                 state.copy(
