@@ -46,5 +46,6 @@
     <string name="error_user_not_found">ასეთი ელ.ფოსტით და პაროლი არ არსებობს პროფაილი</string>
     <string name="user_not_found">პროფილი ვერ იქნა ნაპოვნი</string>
     <string name="field_shoud_not_be_empty">გთხოვთ შეავსოთ მონაცემები</string>
+    <string name="feature_is_only_avaliable_when_online">ამ ფუნქციონალის გამოყენება მხოლოდ ონლაინ შეგიძლიათ</string>
 
 </resources>

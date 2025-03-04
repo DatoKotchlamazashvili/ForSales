@@ -44,4 +44,5 @@
     <string name="error_user_not_found">No account found with this email and password</string>
     <string name="user_not_found">User not found</string>
     <string name="field_shoud_not_be_empty">Field should not be empty</string>
+    <string name="feature_is_only_avaliable_when_online">Feature is only avaliable when online</string>
 </resources>

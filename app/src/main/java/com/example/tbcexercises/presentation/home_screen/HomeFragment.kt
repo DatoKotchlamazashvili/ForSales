@@ -31,10 +31,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private val productHomeAdapter by lazy {
         ProductHomeAdapter(onClick = {
-            onClickProduct(it)
-        }, onFavouriteClick = { viewModel.setFavouriteStrategy(it) },
-            onCartClick = { viewModel.insertCartProduct(it) })
+            if (viewModel.uiState.value.isOnline == true) {
+                onClickProduct(it)
+            } else {
+                toast(getString(R.string.feature_is_only_avaliable_when_online))
+            }
+        }, onFavouriteClick = {
+            if (viewModel.uiState.value.isOnline == true) {
+                viewModel.setFavouriteStrategy(it)
+            } else {
+                toast(getString(R.string.feature_is_only_avaliable_when_online))
+            }
+        },
+            onCartClick = {
+                if (viewModel.uiState.value.isOnline == true) {
+                    viewModel.insertCartProduct(it)
+                } else {
+                    toast(getString(R.string.feature_is_only_avaliable_when_online))
+                }
+            })
     }
+
 
     private val categoryAdapter by lazy {
         CategoryListAdapter(onClick = {
@@ -62,7 +79,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun updateCategoryUI(state: HomeScreenUiState) {
         val isOnline = state.isOnline ?: false
         binding.apply {
-            Log.d("homestate", state.toString())
             categoryProgressBar.isVisible = state.isLoading && isOnline
 
             txtError.isVisible =
@@ -159,4 +175,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         })
     }
+
 }

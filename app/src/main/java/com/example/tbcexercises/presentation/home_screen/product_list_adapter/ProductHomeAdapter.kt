@@ -2,6 +2,7 @@ package com.example.tbcexercises.presentation.home_screen.product_list_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +16,7 @@ import com.example.tbcexercises.utils.extension.setTint
 class ProductHomeAdapter(
     val onClick: (Int) -> Unit,
     val onFavouriteClick: (HomeProduct) -> Unit,
-    val onCartClick: (HomeProduct) -> Unit
-
+    val onCartClick: (HomeProduct) -> Unit,
 ) :
     PagingDataAdapter<HomeProduct, ProductHomeAdapter.ProductHomeViewHolder>(ProductHomeDiffUtil) {
 
@@ -82,6 +82,8 @@ class ProductHomeAdapter(
                         imgAddToCart.setTint(R.color.black)
                     }
                 }
+
+
                 companyAdapter.submitList(product.company)
             }
         }
