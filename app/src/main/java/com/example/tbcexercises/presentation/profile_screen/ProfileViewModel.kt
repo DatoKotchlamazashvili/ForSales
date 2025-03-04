@@ -16,7 +16,7 @@ class ProfileViewModel @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-    val user = userRepository.getUser()
+    val user = userRepository.getUser()!!
 
     suspend fun signOut() {
         withContext(NonCancellable) {

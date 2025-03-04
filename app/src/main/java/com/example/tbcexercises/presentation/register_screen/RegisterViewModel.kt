@@ -6,12 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.tbcexercises.R
 import com.example.tbcexercises.domain.repository.auth.SignUpRepository
 import com.example.tbcexercises.utils.network_helper.Resource
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,7 +39,6 @@ class RegisterViewModel @Inject constructor(
                             _uiState.update { currentState ->
                                 currentState.copy(
                                     isLoading = true,
-                                    error = null,
                                     validationError = null
                                 )
                             }
@@ -52,7 +48,6 @@ class RegisterViewModel @Inject constructor(
                                 currentState.copy(
                                     isLoading = false,
                                     user = resource.data,
-                                    error = null,
                                     validationError = null
                                 )
                             }
@@ -61,8 +56,11 @@ class RegisterViewModel @Inject constructor(
                             _uiState.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    error = resource.message,
-                                    validationError = null
+                                    validationError = try {
+                                        resource.message.toInt()
+                                    } catch (e: Exception) {
+                                        null
+                                    }
                                 )
                             }
                         }

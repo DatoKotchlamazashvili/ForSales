@@ -46,7 +46,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         showLoadingScreen(state.isLoading)
 
         state.error?.let { errorMessage ->
-            toast(errorMessage)
+            toast(getString(errorMessage))
+            viewModel.clearValidationError()
         }
 
         if (!state.isLoading && state.user != null) {

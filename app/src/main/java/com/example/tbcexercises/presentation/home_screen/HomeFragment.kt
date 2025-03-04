@@ -93,11 +93,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             binding.swipeRefresh.isRefreshing = false
         }
         productHomeAdapter.addLoadStateListener { loadState ->
-            val refreshState = loadState.mediator?.refresh ?: loadState.source.refresh
-
+            val refreshState = loadState.source.refresh
             val isInitialLoading =
                 refreshState is LoadState.Loading && productHomeAdapter.itemCount == 0
-
             binding.apply {
                 progressBar.isVisible = isInitialLoading
                 rvProducts.isVisible =

@@ -4,5 +4,5 @@ import com.google.firebase.auth.FirebaseUser
 
 interface UserRepository {
 
-    fun getUser() : FirebaseUser
+    fun getUser() : FirebaseUser?
 }

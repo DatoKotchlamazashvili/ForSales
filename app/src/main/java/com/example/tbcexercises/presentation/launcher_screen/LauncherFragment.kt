@@ -19,7 +19,7 @@ class LauncherFragment : BaseFragment<FragmentLauncherBinding>(FragmentLauncherB
         viewLifecycleOwner.lifecycleScope.launch {
             delay(1000L)
             collectLastState(viewModel.rememberMeFlow) { rememberMe ->
-                if (rememberMe) {
+                if (rememberMe && viewModel.user != null) {
                     findNavController().navigate(
                         LauncherFragmentDirections.actionLauncherFragmentToHomeFragment()
                     )

@@ -47,10 +47,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             viewModel.clearValidationError()
         }
 
-        state.error?.let { errorMessage ->
-            toast(errorMessage)
-        }
-
         if (!state.isLoading && state.user != null) {
             navigateToLoginScreen()
         }

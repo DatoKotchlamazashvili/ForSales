@@ -42,6 +42,7 @@ class LoginViewModel @Inject constructor(
                                 currentState.copy(isLoading = true, error = null)
                             }
                         }
+
                         is Resource.Success -> {
                             _uiState.update { currentState ->
                                 currentState.copy(
@@ -51,11 +52,16 @@ class LoginViewModel @Inject constructor(
                                 )
                             }
                         }
+
                         is Resource.Error -> {
                             _uiState.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    error = resource.message
+                                    error = try {
+                                        resource.message.toInt()
+                                    } catch (e: Exception) {
+                                        null
+                                    }
                                 )
                             }
                         }
@@ -67,6 +73,12 @@ class LoginViewModel @Inject constructor(
     fun updateCredentials(email: String, password: String) {
         _uiState.update { currentState ->
             currentState.copy(email = email, password = password)
+        }
+    }
+
+    fun clearValidationError() {
+        _uiState.update { currentState ->
+            currentState.copy(error = null)
         }
     }
 }

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(private val firebaseAuth: FirebaseAuth) :
     UserRepository {
-    override fun getUser(): FirebaseUser {
-        return firebaseAuth.currentUser!!
+    override fun getUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
     }
 }
