@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TbcExercises</string>
+    <string name="retry">ხელახლა ცდა</string>
+    <string name="timeout">დრო გავიდა</string>
+    <string name="cart">კალათა</string>
+    <string name="home">სახლი</string>
+    <string name="favourites">ფავორიტები</string>
+
+    <string name="error_empty_name">სახელის ველი ცარიელი არ შეიძლება იყოს</string>
+    <string name="error_empty_email">ემაილის ველი ცარიელი არ შეიძლება იყოს</string>
+    <string name="error_invalid_email">არასწორი ემაილი</string>
+    <string name="error_weak_password">პაროლის სიგრძე მინიმუმ 6 უნდა იყოს</string>
+    <string name="english">English</string>
+    <string name="georgian">ქართული</string>
+
+
+    <string name="register">დარეგისტრირდი</string>
+    <string name="email">იმეილი</string>
+    <string name="password">პაროლი</string>
+    <string name="repeat_password">გაიმეორეთ პაროლი</string>
+    <string name="username">სახელი</string>
+    <string name="don_t_have_account_sign_up">არ გქვთ ანგარში? <u>დარეგისტრირდით</u> </string>
+    <string name="login">დალოგინდი</string>
+    <string name="remember_me">დაიმახსოვრე</string>
+    <string name="error_password_mismatch">პაროლები უნდა იყოს ერთნაირი</string>
+    <string name="app_nickname">ForSales</string>
+    <string name="save_money">დაზოგე ფული</string>
+    <string name="logout">გამოდი</string>
+    <string name="account">პროფილი</string>
+    <string name="money_format">₾  %1$s</string>
+    <string name="successfully_deleted_item">წარმატებით  წაიშალა პროდუქტი</string>
+    <string name="undo">დააბრუნე</string>
+    <string name="search">მოძებნე</string>
+    <string name="search_here">რას ეძებ…</string>
+    <string name="total">მთლიანი :</string>
+    <string name="you_don_t_have_favourites_add_them_from_home_screen">დაამატე პროდუქტი ფავორიტებში </string>
+    <string name="there_is_no_product_in_a_cart_add_them_from_home_screen">დაამატატე პროდუქტი კალათაში</string>
+    <string name="you_don_t_have_internet_connection">თქვენ არ გაქვთ ინტერნეტთან კავშირი</string>
+    <string name="max_favourite_product_count">მაქსიმუმ 15 პროდუქტის შენახვა შეგიძლიათ ფავორიტად</string>
+    <string name="max_cart_product_count">კალათი მაქსისუმ 25 პროდუქტი შეგიძლია გქონდეთ</string>
+    <string name="email_is_already_used">ელ.ფოსტა უკვე გამოყენებულია</string>
+    <string name="unknown_error">არადაზუსტებული პრობლემა</string>
+    <string name="sign_up_failed">რეგისტრაცია ვერ განხორციელდა</string>
+    <string name="error_wrong_password">არასწორი პაროლი</string>
+    <string name="error_user_not_found">ასეთი ელ.ფოსტით და პაროლი არ არსებობს პროფაილი</string>
+    <string name="user_not_found">პროფილი ვერ იქნა ნაპოვნი</string>
+    <string name="field_shoud_not_be_empty">გთხოვთ შეავსოთ მონაცემები</string>
+    <string name="feature_is_only_avaliable_when_online">ამ ფუნქციონალის გამოყენება მხოლოდ ონლაინ შეგიძლიათ</string>
+
+</resources>
