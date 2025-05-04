@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# ForSales
-=======
 # ForSales
 
 This repository contains the midterm project for TBC Academy, focused on creating a product management system with a graphical user interface.
@@ -63,4 +60,3 @@ the project is modeled using MVVM pattern with made in china clean architecture
 
 ## Acknowledgements
 - TBC Academy for project requirements and guidance
->>>>>>> midterm_project
